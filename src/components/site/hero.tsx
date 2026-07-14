@@ -5,7 +5,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowRight, Phone } from "lucide-react";
 import { siteConfig } from "@/lib/site-config";
-import { TripPlannerDialog } from "@/components/site/trip-planner";
+import { usePlanner } from "@/lib/planner-store";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -88,7 +88,7 @@ export function Hero() {
   const sectionRef = React.useRef<HTMLDivElement>(null);
   const imgRefs = React.useRef<(HTMLImageElement | null)[]>([]);
   const beatRefs = React.useRef<(HTMLDivElement | null)[]>([]);
-  const [plannerOpen, setPlannerOpen] = React.useState(false);
+  const { openPlanner } = usePlanner();
 
   React.useEffect(() => {
     const section = sectionRef.current;
@@ -241,7 +241,7 @@ export function Hero() {
         {/* ===== Persistent CTA buttons (always visible on all screens) ===== */}
         <div className="absolute bottom-10 left-1/2 z-20 flex w-[92%] max-w-md -translate-x-1/2 flex-col items-center gap-2.5 sm:w-auto sm:max-w-none sm:flex-row sm:gap-3">
           <button
-            onClick={() => setPlannerOpen(true)}
+            onClick={openPlanner}
             className="shimmer-sweep group inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-brand px-6 text-sm font-semibold text-white shadow-glow-blue transition-transform hover:scale-[1.03] sm:h-13 sm:w-auto sm:px-7"
           >
             Plan my trip
@@ -256,9 +256,6 @@ export function Hero() {
           </a>
         </div>
       </div>
-
-      {/* ===== 6-step trip planning questionnaire ===== */}
-      <TripPlannerDialog open={plannerOpen} onOpenChange={setPlannerOpen} />
     </section>
   );
 }

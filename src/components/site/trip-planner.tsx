@@ -17,11 +17,13 @@ import {
   Users,
   Wallet,
   Sparkles,
+  MessageCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { services, siteConfig } from "@/lib/site-config";
+import { usePlanner } from "@/lib/planner-store";
 
 /* 6-step progressive trip-planning questionnaire.
    Steps: 1) Service  2) Destination  3) Dates  4) Travellers
@@ -59,13 +61,8 @@ const travellerOptions = [
 
 const TOTAL_STEPS = 6;
 
-export function TripPlannerDialog({
-  open,
-  onOpenChange,
-}: {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-}) {
+export function TripPlannerDialog() {
+  const { open, closePlanner } = usePlanner();
   const [step, setStep] = React.useState(0);
   const [loading, setLoading] = React.useState(false);
   const [done, setDone] = React.useState(false);
@@ -99,6 +96,16 @@ export function TripPlannerDialog({
     }
   }, [open]);
 
+  // Auto-fade the dialog after the thank-you message shows (3.5s)
+  React.useEffect(() => {
+    if (done) {
+      const t = setTimeout(() => {
+        closePlanner();
+      }, 3500);
+      return () => clearTimeout(t);
+    }
+  }, [done, closePlanner]);
+
   const canProceed = React.useMemo(() => {
     switch (step) {
       case 0:
@@ -122,12 +129,38 @@ export function TripPlannerDialog({
     if (!canProceed) return;
     setLoading(true);
     try {
-      const res = await fetch("/api/trip-plan", {
+      // Save to DB (non-blocking — don't block the WhatsApp redirect)
+      fetch("/api/trip-plan", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
-      });
-      if (!res.ok) throw new Error("Request failed");
+      }).catch(() => {});
+
+      // Build a WhatsApp message with all collected details
+      const serviceTitle =
+        serviceOptions.find((o) => o.slug === form.service)?.title ??
+        form.service;
+      const budgetLabel =
+        budgetOptions.find((b) => b.value === form.budget)?.label ?? form.budget;
+
+      const msg = [
+        "*New Trip Enquiry — Buy The Way Journeys*",
+        "",
+        `*Service:* ${serviceTitle}`,
+        `*Destination:* ${form.destination}`,
+        `*Travel dates:* ${form.dates}`,
+        `*Travellers:* ${form.travellers}`,
+        `*Budget:* ${budgetLabel}`,
+        `*Phone:* ${form.phone}`,
+      ];
+      if (form.notes) msg.push(`*Notes:* ${form.notes}`);
+      msg.push("", "— Sent via buythewayjourneys.com");
+
+      const waUrl = `https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent(msg.join("\n"))}`;
+
+      // Open WhatsApp in a new tab
+      window.open(waUrl, "_blank");
+
       setDone(true);
     } catch {
       toast.error("Something went wrong. Please call us directly.");
@@ -156,7 +189,7 @@ export function TripPlannerDialog({
           {/* Backdrop */}
           <div
             className="absolute inset-0 bg-ink/80 backdrop-blur-sm"
-            onClick={() => onOpenChange(false)}
+            onClick={() => closePlanner()}
           />
 
           {/* Dialog */}
@@ -180,7 +213,7 @@ export function TripPlannerDialog({
                 </p>
               </div>
               <button
-                onClick={() => onOpenChange(false)}
+                onClick={() => closePlanner()}
                 className="flex size-9 items-center justify-center rounded-full bg-white text-ink/60 shadow-premium transition-colors hover:bg-accent hover:text-ink"
                 aria-label="Close"
               >
@@ -207,42 +240,28 @@ export function TripPlannerDialog({
                     key="done"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="text-center"
+                    exit={{ opacity: 0 }}
+                    className="px-2 text-center sm:px-4"
                   >
-                    <div className="mx-auto flex size-16 items-center justify-center rounded-full bg-leaf/15 text-leaf">
-                      <PartyPopper className="size-8" />
+                    <div className="mx-auto flex size-14 items-center justify-center rounded-full bg-leaf/15 text-leaf">
+                      <PartyPopper className="size-7" />
                     </div>
-                    <h3 className="mt-5 font-display text-2xl font-semibold text-ink">
-                      Thank you! We'll be in touch.
+                    <h3 className="mt-4 font-display text-xl font-semibold text-ink sm:text-2xl">
+                      Thank you! Check WhatsApp.
                     </h3>
-                    <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-muted-foreground">
-                      Your trip request for{" "}
+                    <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-muted-foreground">
+                      We've opened WhatsApp with your trip details for{" "}
                       <span className="font-semibold text-ink">
                         {selectedService?.title}
-                      </span>{" "}
-                      has been received. Our experienced travel experts will call
-                      you on{" "}
-                      <span className="font-semibold text-ink">{form.phone}</span>{" "}
-                      within 24 hours to craft your perfect plan.
+                      </span>
+                      . Just hit send and our team will take it from there!
                     </p>
-                    <div className="mt-6 rounded-2xl bg-brand-wash p-4 text-left">
-                      <p className="text-xs font-semibold uppercase tracking-wider text-brand">
-                        Prefer to talk now?
-                      </p>
-                      <a
-                        href={`tel:${siteConfig.phoneTel}`}
-                        className="mt-1 flex items-center gap-2 text-sm font-semibold text-ink hover:text-brand"
-                      >
-                        <Phone className="size-4 text-brand" />
-                        {siteConfig.phone}
-                      </a>
+                    <div className="mt-5 flex items-center justify-center gap-2 rounded-xl bg-brand-wash px-4 py-2.5 text-sm">
+                      <MessageCircle className="size-4 text-leaf" />
+                      <span className="font-semibold text-ink">
+                        {siteConfig.whatsappDisplay}
+                      </span>
                     </div>
-                    <Button
-                      onClick={() => onOpenChange(false)}
-                      className="mt-6 h-12 w-full rounded-xl bg-brand text-sm font-semibold shadow-glow-blue"
-                    >
-                      Done
-                    </Button>
                   </motion.div>
                 ) : (
                   <motion.div

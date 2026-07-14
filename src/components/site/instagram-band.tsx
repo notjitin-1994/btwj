@@ -1,11 +1,11 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
 import { motion } from "framer-motion";
 import { Instagram, ArrowUpRight, Heart, MessageCircle } from "lucide-react";
 import { Reveal } from "@/components/site/motion-helpers";
 import { siteConfig } from "@/lib/site-config";
+import { usePlanner } from "@/lib/planner-store";
 
 /**
  * Instagram section.
@@ -20,6 +20,7 @@ import { siteConfig } from "@/lib/site-config";
  */
 
 export function InstagramFollowBand() {
+  const { openPlanner } = usePlanner();
   // 6 skeleton tiles in a 3×2 grid
   const tiles = Array.from({ length: 6 }, (_, i) => i);
 
@@ -69,12 +70,12 @@ export function InstagramFollowBand() {
                 Follow {siteConfig.instagramHandle}
                 <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </a>
-              <Link
-                href="/contact"
+              <button
+                onClick={openPlanner}
                 className="inline-flex h-12 items-center gap-2 rounded-full border border-brand/25 bg-white px-6 text-sm font-semibold text-brand transition-colors hover:bg-brand/5"
               >
                 Plan my trip
-              </Link>
+              </button>
             </div>
           </div>
 

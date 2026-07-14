@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowUpRight, MapPin } from "lucide-react";
 import { siteImages } from "@/lib/images";
+import { usePlanner } from "@/lib/planner-store";
 
 /**
  * Image-background section with contrast-adjusted text.
@@ -114,6 +115,7 @@ export function InspirationBgSection() {
  * Falls back gracefully (poster image shows while loading / if blocked).
  */
 export function VideoBgSection() {
+  const { openPlanner } = usePlanner();
   return (
     <section className="relative h-[70vh] min-h-[480px] overflow-hidden">
       {/* Video background */}
@@ -171,13 +173,13 @@ export function VideoBgSection() {
           transition={{ duration: 0.7, delay: 0.18 }}
           className="mt-7"
         >
-          <Link
-            href="/contact"
+          <button
+            onClick={openPlanner}
             className="shimmer-sweep group inline-flex h-12 items-center gap-2 rounded-full bg-white px-7 text-sm font-semibold text-brand transition-transform hover:scale-[1.03]"
           >
             Plan my trip
             <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </Link>
+          </button>
         </motion.div>
       </div>
     </section>
