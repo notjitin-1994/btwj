@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, Phone, ChevronDown, ArrowUpRight } from "lucide-react";
+import { Menu, Phone, ChevronDown, ArrowUpRight, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -30,6 +30,9 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Transparent at the top of every page (over dark hero), solid white when scrolled
+  const transparent = !scrolled;
+
   const isActive = (href: string) => {
     if (href === "/") return pathname === "/";
     return pathname === href || pathname.startsWith(href + "/");
@@ -48,11 +51,13 @@ export function Navbar() {
       >
         <div
           className={cn(
-            "mx-auto flex max-w-7xl items-center justify-between gap-4 rounded-2xl border border-border bg-white px-3 transition-all duration-300 sm:px-5",
-            scrolled ? "shadow-premium h-16" : "h-[4.75rem]"
+            "mx-auto flex max-w-7xl items-center justify-between gap-4 rounded-2xl px-3 transition-all duration-300 sm:px-5",
+            scrolled
+              ? "border border-border bg-white shadow-premium h-16"
+              : "bg-transparent h-[4.75rem]"
           )}
         >
-          {/* Logo */}
+          {/* Logo — adapts to background: white over dark hero, colored over white */}
           <Link
             href="/"
             className="group flex items-center gap-2.5"
@@ -65,7 +70,10 @@ export function Navbar() {
                 width={150}
                 height={44}
                 priority
-                className="h-10 w-auto object-contain"
+                className={cn(
+                  "h-10 w-auto object-contain transition-[filter] duration-300",
+                  transparent && "brightness-0 invert"
+                )}
               />
             </div>
           </Link>
@@ -84,7 +92,11 @@ export function Navbar() {
                     className={cn(
                       "flex items-center gap-1 rounded-full px-4 py-2 text-sm font-medium transition-colors",
                       isActive(item.href)
-                        ? "text-brand"
+                        ? transparent
+                          ? "text-white"
+                          : "text-brand"
+                        : transparent
+                        ? "text-white/85 hover:text-white"
                         : "text-ink/70 hover:text-brand"
                     )}
                     aria-expanded={servicesOpen}
@@ -121,7 +133,7 @@ export function Navbar() {
                               href={child.href}
                               className="group flex items-start gap-3 rounded-xl px-3 py-2.5 transition-colors hover:bg-brand/5"
                             >
-                              <span className="mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-lg bg-gradient-brand text-white shadow-glow">
+                              <span className="mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-lg bg-brand text-white shadow-glow">
                                 <ArrowUpRight className="size-4" />
                               </span>
                               <span className="flex-1">
@@ -146,7 +158,11 @@ export function Navbar() {
                   className={cn(
                     "relative rounded-full px-4 py-2 text-sm font-medium transition-colors",
                     isActive(item.href)
-                      ? "text-brand"
+                      ? transparent
+                        ? "text-white"
+                        : "text-brand"
+                      : transparent
+                      ? "text-white/85 hover:text-white"
                       : "text-ink/70 hover:text-brand"
                   )}
                 >
@@ -154,7 +170,7 @@ export function Navbar() {
                   {isActive(item.href) && (
                     <motion.span
                       layoutId="nav-active"
-                      className="absolute inset-x-3 -bottom-0.5 h-0.5 rounded-full bg-gradient-brand"
+                      className="absolute inset-x-3 -bottom-0.5 h-0.5 rounded-full bg-brand"
                       transition={{ type: "spring", stiffness: 380, damping: 30 }}
                     />
                   )}
@@ -168,7 +184,7 @@ export function Navbar() {
             <Button
               asChild
               size="sm"
-              className="shimmer-sweep hidden h-10 rounded-full bg-gradient-brand px-4 text-sm font-semibold text-white shadow-glow-blue transition-transform hover:scale-[1.03] sm:inline-flex"
+              className="shimmer-sweep hidden h-10 rounded-full bg-brand px-4 text-sm font-semibold text-white shadow-glow-blue transition-transform hover:scale-[1.03] sm:inline-flex"
             >
               <a href={`tel:${siteConfig.phone}`} className="gap-2">
                 <Phone className="size-4" />
@@ -182,15 +198,21 @@ export function Navbar() {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="lg:hidden h-10 w-10 rounded-full glass"
+                  className={cn(
+                    "lg:hidden h-10 w-10 rounded-full transition-colors",
+                    transparent
+                      ? "text-white hover:bg-white/10"
+                      : "text-ink hover:bg-accent"
+                  )}
                   aria-label="Open menu"
                 >
-                  <Menu className="size-5 text-ink" />
+                  <Menu className="size-5" />
                 </Button>
               </SheetTrigger>
               <SheetContent
                 side="right"
-                className="w-[86%] max-w-sm border-l-0 bg-white p-0"
+                hideClose
+                className="w-full max-w-none border-l-0 bg-white p-0"
               >
                 <SheetTitle className="sr-only">Navigation menu</SheetTitle>
                 <div className="flex h-full flex-col">
@@ -203,9 +225,13 @@ export function Navbar() {
                       className="h-9 w-auto object-contain"
                     />
                     <SheetClose asChild>
-                      <Button variant="ghost" size="icon" className="rounded-full">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="rounded-full bg-brand/10 text-brand hover:bg-brand hover:text-white"
+                      >
                         <span className="sr-only">Close</span>
-                        <ChevronDown className="size-5 rotate-90" />
+                        <X className="size-5" />
                       </Button>
                     </SheetClose>
                   </div>
@@ -250,7 +276,7 @@ export function Navbar() {
                   <div className="border-t border-border p-4">
                     <Button
                       asChild
-                      className="h-12 w-full rounded-xl bg-gradient-brand text-sm font-semibold shadow-glow"
+                      className="h-12 w-full rounded-xl bg-brand text-sm font-semibold shadow-glow-blue"
                     >
                       <a href={`tel:${siteConfig.phone}`} className="gap-2">
                         <Phone className="size-4" />
