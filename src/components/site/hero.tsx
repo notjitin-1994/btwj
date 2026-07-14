@@ -10,26 +10,22 @@ import { usePlanner } from "@/lib/planner-store";
 gsap.registerPlugin(ScrollTrigger);
 
 /* ============================================================
-   Photorealistic journey frames (AI-generated, saved to /public/journey)
-   The full round-trip: home → airport → airplane → car → destination →
-   fun → car back → airport back → home.
+   241 video frames extracted to /public/journey-frames/f-001.webp … f-241.webp
+   The hero displays these as hard cuts (no crossfade) driven by scroll.
    ============================================================ */
-const journeyFrames = [
-  { src: "/journey/01-home.png", stage: "Departure" },
-  { src: "/journey/02-airport.png", stage: "Check-in" },
-  { src: "/journey/03-airplane.png", stage: "In flight" },
-  { src: "/journey/04-car-drive.png", stage: "On the road" },
-  { src: "/journey/05-destination.png", stage: "Arrival" },
-  { src: "/journey/06-fun.png", stage: "Experiences" },
-  { src: "/journey/07-car-back.png", stage: "Heading back" },
-  { src: "/journey/08-airport-back.png", stage: "Homeward" },
-  { src: "/journey/09-home-back.png", stage: "Welcome home" },
-];
+const TOTAL_FRAMES = 241;
+const frameSrc = (i: number) =>
+  `/journey-frames/f-${String(i + 1).padStart(3, "0")}.webp`;
+
+/* Preload frames in batches to avoid loading 241 images at once.
+   We only need a subset visible at any scroll position, but we preload
+   progressively for smooth hard cuts. */
+const PRELOAD_BATCH = 30;
 
 /* ============================================================
-   Scrollytelling text beats — one per frame.
-   Core content from the reference site, sequenced as a journey.
-   Each beat fades IN at its segment start and OUT before the next.
+   Scrollytelling text beats — revampled with varied animation styles.
+   Each beat has a unique reveal: direction (left/right/up/down/scale),
+   speed, and color treatment. Core content from the reference site.
    ============================================================ */
 const beats = [
   {
@@ -37,184 +33,247 @@ const beats = [
     title: "Customized Travel Plans",
     sub: "— Designed just for you!",
     text: "Your journey begins at your doorstep. Exceptional travel experiences tailored to your needs — dream vacations, spiritual journeys, and seamless events, all in one place.",
-    cta: true,
+    // Animation: slide up + fade, title in brand blue
+    anim: { dir: "up", dur: 0.8, titleColor: "#ffffff" },
   },
   {
     eyebrow: "Step 01 — Departure",
     title: "Where every journey begins",
     text: "Pack your bags and leave the rest to us. From the moment you step out, your stress-free adventure is already underway.",
+    // Animation: slide from left + fade, title in leaf green
+    anim: { dir: "left", dur: 0.6, titleColor: "#4caf50" },
   },
   {
     eyebrow: "Step 02 — Check-in",
     title: "Smooth sailing from the start",
     text: "We handle your bookings, itinerary and check-ins. Experienced travel experts making travel stress-free and exciting.",
+    // Animation: scale up + fade, title in teal
+    anim: { dir: "scale", dur: 0.7, titleColor: "#0088a9" },
   },
   {
     eyebrow: "Step 03 — In flight",
     title: "Up in the clouds",
     text: "Sit back, relax, and let the journey unfold. Flights, transfers and accommodation — every detail, arranged for you.",
+    // Animation: slide from right + fade, title white with blue glow
+    anim: { dir: "right", dur: 0.65, titleColor: "#ffffff" },
   },
   {
-    eyebrow: "Step 04 — On the road",
-    title: "The road ahead",
-    text: "Scenic routes and comfortable transfers. Whether local gems or international wonders, the adventure is in the journey too.",
-  },
-  {
-    eyebrow: "Step 05 — Arrival",
+    eyebrow: "Step 04 — Arrival",
     title: "Arrive in style",
     text: "Top-rated hotels and luxury resorts at the best prices. Your perfect getaway, exactly as you imagined it.",
+    // Animation: slide down + fade, title in leaf green
+    anim: { dir: "down", dur: 0.75, titleColor: "#4caf50" },
   },
   {
-    eyebrow: "Step 06 — Experiences",
+    eyebrow: "Step 05 — Experiences",
     title: "Make memories that last",
     text: "Adventure, relaxation, culture — experiences designed just for you. Discover and book the perfect tour for you.",
+    // Animation: rotate + scale + fade, title in brand blue
+    anim: { dir: "rotate", dur: 0.9, titleColor: "#005b96" },
   },
   {
-    eyebrow: "Step 07 — Heading back",
-    title: "Until next time",
-    text: "Cherished moments and new stories. The journey home begins, with memories to last a lifetime.",
-  },
-  {
-    eyebrow: "Step 08 — Welcome home",
+    eyebrow: "Step 06 — Welcome home",
     title: "A journey well-travelled",
     text: "Back where it began. Let's plan your next unforgettable adventure — we've got you covered, every step of the way.",
-    cta: true,
+    // Animation: slide up + fade, title white
+    anim: { dir: "up", dur: 0.8, titleColor: "#ffffff" },
   },
 ];
 
-const TOTAL = journeyFrames.length; // 9
+const TOTAL_BEATS = beats.length;
 
 export function Hero() {
   const sectionRef = React.useRef<HTMLDivElement>(null);
-  const imgRefs = React.useRef<(HTMLImageElement | null)[]>([]);
+  const frameRef = React.useRef<HTMLImageElement>(null);
   const beatRefs = React.useRef<(HTMLDivElement | null)[]>([]);
+  const loadedFramesRef = React.useRef<Set<number>>(new Set([0]));
   const { openPlanner } = usePlanner();
+
+  // Preload frames progressively
+  React.useEffect(() => {
+    let batchIdx = 0;
+    const preloadNext = () => {
+      const start = batchIdx * PRELOAD_BATCH;
+      const end = Math.min(start + PRELOAD_BATCH, TOTAL_FRAMES);
+      for (let i = start; i < end; i++) {
+        if (!loadedFramesRef.current.has(i)) {
+          const img = new Image();
+          img.src = frameSrc(i);
+          loadedFramesRef.current.add(i);
+        }
+      }
+      batchIdx++;
+    };
+    // Preload first 2 batches immediately, rest after a delay
+    preloadNext();
+    preloadNext();
+    const t = setTimeout(preloadNext, 1000);
+    const interval = setInterval(preloadNext, 2000);
+    return () => {
+      clearTimeout(t);
+      clearInterval(interval);
+    };
+  }, []);
 
   React.useEffect(() => {
     const section = sectionRef.current;
-    if (!section) return;
+    const frameImg = frameRef.current;
+    if (!section || !frameImg) return;
 
-    // Preload all journey images so crossfades are instant
-    journeyFrames.forEach((f) => {
-      const img = new Image();
-      img.src = f.src;
-    });
-
-    // smoothstep: 0 at edge, 1 at center, smooth S-curve between
-    function smoothstep(edge0: number, edge1: number, x: number): number {
-      const t = Math.max(0, Math.min(1, (x - edge0) / (edge1 - edge0)));
-      return t * t * (3 - 2 * t);
-    }
-
-    // Compute opacity for frame `i` at scroll progress `p` (0..1).
-    // Each frame `i` is centered at c_i = (i + 0.5) / TOTAL.
-    // Its opacity is 1 at c_i and falls off to 0 at the adjacent frame centers,
-    // using smoothstep. This guarantees adjacent frames' opacities sum to ~1
-    // at every boundary (direct image-to-image crossfade, no grey gap).
-    // First frame holds at 1 until the first boundary; last frame holds at 1
-    // after the last boundary (no fade-out at the very end).
-    function opacityFor(i: number, p: number, total: number): number {
-      const center = (i + 0.5) / total; // this frame's peak position
-      const segSize = 1 / total;
-
-      // Distance from this frame's center, in units of one segment
-      const d = (p - center) / segSize; // 0 at center, ±0.5 at adjacent centers
-
-      // Within half a segment of center → fully or partially visible
-      if (Math.abs(d) >= 0.5) {
-        // First frame: clamp to 1 before its segment (start of page)
-        if (i === 0 && p < center) return 1;
-        // Last frame: clamp to 1 after its segment (end of hero)
-        if (i === total - 1 && p > center) return 1;
-        return 0;
-      }
-
-      // At center → 1; at ±0.5 (adjacent boundary) → 0; smoothstep between
-      // opacity = 1 - smoothstep(0, 0.5, |d|)  → 1 at d=0, 0 at d=0.5
-      const op = 1 - smoothstep(0, 0.5, Math.abs(d));
-
-      // First frame: hold at 1 until center (no fade-in at page start)
-      if (i === 0 && p <= center) return 1;
-      // Last frame: hold at 1 after center (no fade-out at end)
-      if (i === total - 1 && p >= center) return 1;
-
-      return op;
-    }
-
-    // Single ScrollTrigger that updates everything in one onUpdate
+    // --- Hard-cut frame switching driven by scroll ---
+    // The hero section is TOTAL_BEATS * 100vh tall. As the user scrolls,
+    // we map scroll progress to a frame index (0..TOTAL_FRAMES-1) and
+    // swap the img src directly (hard cut, no crossfade).
+    let currentFrame = 0;
     const st = ScrollTrigger.create({
       trigger: section,
       start: "top top",
       end: "bottom bottom",
-      scrub: 0.5,
+      scrub: 0.3,
       onUpdate: (self) => {
         const p = self.progress;
-
-        // Update image opacities + subtle Ken Burns scale
-        journeyFrames.forEach((_, i) => {
-          const img = imgRefs.current[i];
-          if (!img) return;
-          const op = opacityFor(i, p, TOTAL);
-          img.style.opacity = String(op);
-          // Ken Burns: scale 1.08 → 1.15 across its visible window
-          const segStart = i / TOTAL;
-          const segEnd = (i + 1) / TOTAL;
-          const localP = Math.max(0, Math.min(1, (p - segStart) / (segEnd - segStart)));
-          const scale = 1.08 + localP * 0.07;
-          img.style.transform = `scale(${scale})`;
-        });
-
-        // Update text beat opacities (same crossfade logic, but text fades
-        // out slightly earlier so there's no overlap of two text blocks)
-        beats.forEach((_, i) => {
-          const el = beatRefs.current[i];
-          if (!el) return;
-          const op = opacityFor(i, p, TOTAL);
-          el.style.opacity = String(op);
-          // Subtle vertical drift: rise as it fades out
-          const center = (i + 0.5) / TOTAL;
-          const segSize = 1 / TOTAL;
-          const d = (p - center) / segSize;
-          const y = Math.max(-0.5, Math.min(0.5, d)) * 24; // drift up to -12px
-          el.style.transform = `translateY(${y}px)`;
-        });
+        const frameIdx = Math.min(
+          TOTAL_FRAMES - 1,
+          Math.floor(p * TOTAL_FRAMES)
+        );
+        if (frameIdx !== currentFrame) {
+          currentFrame = frameIdx;
+          frameImg.src = frameSrc(frameIdx);
+          // Preload nearby frames
+          for (let i = Math.max(0, frameIdx - 5); i < Math.min(TOTAL_FRAMES, frameIdx + 10); i++) {
+            if (!loadedFramesRef.current.has(i)) {
+              const img = new Image();
+              img.src = frameSrc(i);
+              loadedFramesRef.current.add(i);
+            }
+          }
+        }
       },
     });
 
-    return () => { st.kill(); };
+    // --- Text beat reveal animations ---
+    // Each beat gets a unique animation: varied direction, speed, and color.
+    // Old text animates out (fade + move) as the next animates in.
+    const beatAnims: gsap.core.Tween[] = [];
+
+    beats.forEach((beat, i) => {
+      const el = beatRefs.current[i];
+      if (!el) return;
+
+      const segStart = i / TOTAL_BEATS;
+      const segEnd = (i + 1) / TOTAL_BEATS;
+      const dir = beat.anim.dir;
+      const dur = beat.anim.dur;
+
+      // Initial state based on direction
+      const initial: gsap.TweenVars = { opacity: 0 };
+      const enterFrom: gsap.TweenVars = {};
+      const exitTo: gsap.TweenVars = { opacity: 0 };
+
+      switch (dir) {
+        case "up":
+          enterFrom.y = 60;
+          exitTo.y = -60;
+          break;
+        case "down":
+          enterFrom.y = -60;
+          exitTo.y = 60;
+          break;
+        case "left":
+          enterFrom.x = 80;
+          exitTo.x = -80;
+          break;
+        case "right":
+          enterFrom.x = -80;
+          exitTo.x = 80;
+          break;
+        case "scale":
+          enterFrom.scale = 0.7;
+          exitTo.scale = 1.3;
+          break;
+        case "rotate":
+          enterFrom.rotation = -8;
+          enterFrom.scale = 0.8;
+          exitTo.rotation = 8;
+          exitTo.scale = 1.2;
+          break;
+      }
+
+      // Set initial state — first beat starts visible, rest hidden
+      if (i === 0) {
+        gsap.set(el, { opacity: 1, x: 0, y: 0, scale: 1, rotation: 0 });
+      } else {
+        gsap.set(el, { ...initial, ...enterFrom });
+      }
+
+      // Enter animation: fade + move in during first 30% of segment
+      // (skip for first beat since it's already visible)
+      if (i > 0) {
+        const enterTween = gsap.to(el, {
+          opacity: 1,
+          x: 0,
+          y: 0,
+          scale: 1,
+          rotation: 0,
+          duration: dur,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: section,
+            start: `top+=${segStart * 100}% top`,
+            end: `top+=${segStart * 100 + (segEnd - segStart) * 30}% top`,
+            scrub: 0.5,
+          },
+        });
+        beatAnims.push(enterTween);
+      }
+
+      // Exit animation: fade + move out during last 30% of segment
+      if (i < TOTAL_BEATS - 1) {
+        const exitTween = gsap.to(el, {
+          ...exitTo,
+          duration: dur * 0.8,
+          ease: "power2.in",
+          scrollTrigger: {
+            trigger: section,
+            start: `top+=${segStart * 100 + (segEnd - segStart) * 70}% top`,
+            end: `top+=${segEnd * 100}% top`,
+            scrub: 0.5,
+          },
+        });
+        beatAnims.push(exitTween);
+      }
+    });
+
+    return () => {
+      st.kill();
+      beatAnims.forEach((t) => t.kill());
+    };
   }, []);
 
   return (
     <section
       ref={sectionRef}
-      className="relative w-full"
-      style={{ height: `${TOTAL * 100}dvh` }}
+      className="relative w-full bg-ink"
+      style={{ height: `${TOTAL_BEATS * 100}dvh` }}
     >
       <div
         className="sticky top-0 w-full overflow-hidden bg-ink"
         style={{ height: "100dvh" }}
       >
-        {/* ===== Photorealistic journey images (direct crossfading) ===== */}
-        {/* Solid bg-ink on container ensures the dark overlay never shows as a
-            grey frame during crossfade — images blend directly into each other. */}
+        {/* ===== Hard-cut video frames (no crossfade) ===== */}
         <div className="absolute inset-0 bg-ink">
-          {journeyFrames.map((frame, i) => (
-            <img
-              key={i}
-              ref={(el) => { imgRefs.current[i] = el; }}
-              src={frame.src}
-              alt={frame.stage}
-              className="absolute inset-0 h-full w-full object-cover will-change-transform"
-              style={{ opacity: i === 0 ? 1 : 0 }}
-            />
-          ))}
+          <img
+            ref={frameRef}
+            src={frameSrc(0)}
+            alt="Travel journey"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
         </div>
 
         {/* Solid dark overlay for guaranteed text contrast */}
         <div className="absolute inset-0 bg-ink/55" />
-        <div aria-hidden className="bg-grid-brand absolute inset-0 opacity-20" />
 
-        {/* ===== Scrollytelling text beats (centered, crossfading, no CTA here) ===== */}
+        {/* ===== Scrollytelling text beats with varied animations ===== */}
         <div className="relative z-10 mx-auto flex h-full max-w-5xl flex-col items-center justify-center px-6 sm:px-8 lg:px-12">
           {beats.map((beat, i) => (
             <div
@@ -226,7 +285,10 @@ export function Hero() {
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-leaf">
                 {beat.eyebrow}
               </p>
-              <h1 className="mt-4 font-display text-4xl font-semibold leading-[1.1] tracking-tight text-white sm:text-5xl md:text-6xl">
+              <h1
+                className="mt-4 font-display text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl md:text-6xl"
+                style={{ color: beat.anim.titleColor }}
+              >
                 {beat.title}
                 {beat.sub && (
                   <span className="mt-2 block text-2xl font-normal text-white/80 sm:text-3xl md:text-4xl">
@@ -241,7 +303,7 @@ export function Hero() {
           ))}
         </div>
 
-        {/* ===== Persistent CTA buttons (always visible on all screens) ===== */}
+        {/* ===== Persistent CTA buttons (always visible) ===== */}
         <div className="absolute bottom-10 left-1/2 z-20 flex w-[92%] max-w-md -translate-x-1/2 flex-col items-center gap-2.5 sm:w-auto sm:max-w-none sm:flex-row sm:gap-3">
           <button
             onClick={openPlanner}
