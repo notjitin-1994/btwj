@@ -178,11 +178,32 @@ export function Footer() {
           <p className="text-xs text-muted-foreground">
             © {siteConfig.copyrightYear} {siteConfig.name}. All rights reserved.
           </p>
-          <div className="flex items-center gap-4 text-xs text-muted-foreground">
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs text-muted-foreground">
             <span className="inline-flex items-center gap-1.5">
               <Compass className="size-3.5 text-leaf" />
               Crafted for travellers, by travellers
             </span>
+            {/* Powered by GlitchZero Labs — brand-styled with signal orange accent */}
+            <a
+              href="https://www.glitchzerolabs.com"
+              target="_blank"
+              rel="noreferrer"
+              className="group inline-flex items-center gap-1.5 transition-opacity hover:opacity-80"
+            >
+              <span className="text-muted-foreground">Powered by</span>
+              <span
+                className="font-semibold tracking-tight"
+                style={{ color: "#FF4F00" }}
+              >
+                GlitchZero
+              </span>
+              <span
+                className="font-mono text-[10px] font-medium uppercase tracking-wider"
+                style={{ color: "#8e8e93" }}
+              >
+                Labs
+              </span>
+            </a>
           </div>
         </div>
       </div>
