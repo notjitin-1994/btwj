@@ -168,13 +168,13 @@ export const stats = [
     description: "A decade of crafting journeys travellers cherish.",
   },
   {
-    value: "500+",
-    label: "Best Tour Selection",
+    value: "Best",
+    label: "Tour Selection",
     description: "Discover and book the perfect tour for you!!",
   },
   {
-    value: "100%",
-    label: "Best Price Guarantee",
+    value: "Best",
+    label: "Price Guarantee",
     description: "We have got the best deals for you!!",
   },
 ];

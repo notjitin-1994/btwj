@@ -8,12 +8,6 @@ import { Counter } from "@/components/site/brand-extras";
 import { stats, siteConfig } from "@/lib/site-config";
 
 const statIcons = [Award, Compass, BadgePercent];
-// numeric value + suffix parsed from stats[].value for animated counter
-const statNumeric = [
-  { num: 10, suffix: "+" },
-  { num: 500, suffix: "+" },
-  { num: 100, suffix: "%" },
-];
 
 export function AboutSection() {
   return (
@@ -127,7 +121,11 @@ export function AboutSection() {
                       </span>
                       <p className="relative mt-3 font-display text-3xl font-bold">
                         <span className="text-gradient-blue-green">
-                          <Counter value={statNumeric[i].num} suffix={statNumeric[i].suffix} />
+                          {s.value === "10+" ? (
+                            <Counter value={10} suffix="+" />
+                          ) : (
+                            s.value
+                          )}
                         </span>
                       </p>
                       <p className="relative mt-0.5 text-sm font-semibold text-ink">
@@ -168,8 +166,8 @@ export function AboutSection() {
                     ))}
                   </div>
                   <p className="text-xs text-muted-foreground">
-                    Loved by <span className="font-semibold text-ink">500+</span>{" "}
-                    happy travellers
+                    Backed by <span className="font-semibold text-ink">10+ years</span>{" "}
+                    of travel expertise
                   </p>
                 </div>
               </div>

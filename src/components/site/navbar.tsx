@@ -48,26 +48,24 @@ export function Navbar() {
       >
         <div
           className={cn(
-            "mx-auto flex max-w-7xl items-center justify-between gap-4 rounded-2xl px-3 transition-all duration-300 sm:px-5",
-            scrolled
-              ? "glass shadow-premium h-16"
-              : "glass h-[4.75rem]"
+            "mx-auto flex max-w-7xl items-center justify-between gap-4 rounded-2xl border border-border bg-white px-3 transition-all duration-300 sm:px-5",
+            scrolled ? "shadow-premium h-16" : "h-[4.75rem]"
           )}
         >
-          {/* Logo — on a solid white chip so it stays legible over any background */}
+          {/* Logo */}
           <Link
             href="/"
             className="group flex items-center gap-2.5"
             aria-label={siteConfig.name}
           >
-            <div className="flex h-12 items-center rounded-xl bg-white px-2.5 shadow-premium ring-1 ring-ink/5 transition-transform duration-300 group-hover:scale-[1.03]">
+            <div className="relative h-10 w-auto shrink-0 transition-transform duration-300 group-hover:scale-[1.04]">
               <Image
                 src={siteConfig.logo}
                 alt="Buy The Way Journeys logo"
-                width={140}
-                height={40}
+                width={150}
+                height={44}
                 priority
-                className="h-9 w-auto object-contain"
+                className="h-10 w-auto object-contain"
               />
             </div>
           </Link>

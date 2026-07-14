@@ -6,14 +6,14 @@ import { Star, Sparkles, Plane, Globe2, ShieldCheck } from "lucide-react";
 
 /* ===== Magic UI style marquee trust band ===== */
 const marqueeItems = [
-  { icon: Globe2, label: "500+ Destinations" },
-  { icon: Star, label: "4.9★ Traveller Rating" },
   { icon: ShieldCheck, label: "Best Price Guarantee" },
   { icon: Plane, label: "Inbound & Outbound Tours" },
   { icon: Sparkles, label: "Tailor-made Itineraries" },
-  { icon: ShieldCheck, label: "10+ Years of Trust" },
-  { icon: Globe2, label: "Dubai · Maldives · Makkah" },
-  { icon: Star, label: "24/7 Travel Support" },
+  { icon: ShieldCheck, label: "10+ Years of Experience" },
+  { icon: Globe2, label: "Tour Packages" },
+  { icon: Star, label: "Hotel & Resort Bookings" },
+  { icon: Sparkles, label: "Customized Umrah Packages" },
+  { icon: Globe2, label: "Event Management" },
 ];
 
 export function MarqueeBand() {
@@ -106,13 +106,13 @@ export function BrandAccentBand() {
       desc: "A decade of crafting journeys travellers cherish.",
     },
     {
-      k: "500+",
-      label: "Best Tour Selection",
+      k: "Best",
+      label: "Tour Selection",
       desc: "Discover and book the perfect tour for you!!",
     },
     {
-      k: "100%",
-      label: "Best Price Guarantee",
+      k: "Best",
+      label: "Price Guarantee",
       desc: "We have got the best deals for you!!",
     },
   ];
