@@ -11,8 +11,12 @@ gsap.registerPlugin(ScrollTrigger);
 
 /* ============================================================
    241 video frames at /public/journey-frames/f-001.webp … f-241.webp
-   Hero displays hard cuts driven by scroll — optimized for zero lag
-   on desktop and touch via double-buffered preloaded images.
+
+   Industry-standard frame-by-frame scroll video using HTML5 Canvas:
+   - All frames are pre-decoded into ImageBitmap objects (GPU-accelerated)
+   - Canvas drawImage is near-instant (no img.src decode lag)
+   - Zero flicker: the canvas always shows the last drawn frame
+   - Smooth 60fps: drawing to canvas is a single GPU operation
    ============================================================ */
 const TOTAL_FRAMES = 241;
 const frameSrc = (i: number) =>
@@ -71,30 +75,47 @@ const TOTAL_BEATS = beats.length;
 
 export function Hero() {
   const sectionRef = React.useRef<HTMLDivElement>(null);
-  const frameRef = React.useRef<HTMLImageElement>(null);
+  const canvasRef = React.useRef<HTMLCanvasElement>(null);
   const beatRefs = React.useRef<(HTMLDivElement | null)[]>([]);
   const { openPlanner } = usePlanner();
 
-  // --- Preload all frames progressively so they're cached & decoded ---
+  // --- Preload all frames as ImageBitmap (GPU-decoded, instant draw) ---
+  const bitmapsRef = React.useRef<(ImageBitmap | null)[]>([]);
+  const [loadedCount, setLoadedCount] = React.useState(0);
+
   React.useEffect(() => {
     let cancelled = false;
-    const BATCH = 8;
-    let idx = 0;
 
+    const preloadFrame = async (i: number) => {
+      if (cancelled || bitmapsRef.current[i]) return;
+      try {
+        const res = await fetch(frameSrc(i));
+        const blob = await res.blob();
+        const bitmap = await createImageBitmap(blob);
+        if (!cancelled) {
+          bitmapsRef.current[i] = bitmap;
+          setLoadedCount((c) => c + 1);
+        }
+      } catch {
+        // Fallback: skip failed frames
+      }
+    };
+
+    // Preload in batches of 4 to avoid overwhelming the network
+    const BATCH = 4;
+    let idx = 0;
     const preloadBatch = () => {
       if (cancelled) return;
       const end = Math.min(idx + BATCH, TOTAL_FRAMES);
       for (let i = idx; i < end; i++) {
-        const img = new Image();
-        img.decoding = "async";
-        img.src = frameSrc(i);
+        preloadFrame(i);
       }
       idx = end;
       if (idx < TOTAL_FRAMES) {
         if ("requestIdleCallback" in window) {
-          (window as any).requestIdleCallback(preloadBatch, { timeout: 2000 });
+          (window as any).requestIdleCallback(preloadBatch, { timeout: 1500 });
         } else {
-          setTimeout(preloadBatch, 80);
+          setTimeout(preloadBatch, 60);
         }
       }
     };
@@ -103,40 +124,86 @@ export function Hero() {
     return () => { cancelled = true; };
   }, []);
 
-  // --- Scroll-driven animation ---
+  // --- Canvas drawing + scroll-driven frame switching ---
   React.useEffect(() => {
     const section = sectionRef.current;
-    const frameImg = frameRef.current;
-    if (!section || !frameImg) return;
+    const canvas = canvasRef.current;
+    if (!section || !canvas) return;
 
-    // --- Hard-cut frame switching — single img, direct src swap, NO transition ---
-    // Every frame is displayed: no throttling, no skipping. Each of the 241
-    // frames maps to a discrete scroll position and is shown immediately.
-    let currentFrame = 0;
+    const ctx = canvas.getContext("2d", { alpha: false });
+    if (!ctx) return;
 
-    const applyFrame = (frameIdx: number) => {
-      if (frameIdx === currentFrame) return;
-      currentFrame = frameIdx;
-      // Direct src swap — no opacity, no transition, pure hard cut.
-      frameImg.src = frameSrc(frameIdx);
+    // Size canvas to device pixels for crisp rendering
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.scale(dpr, dpr);
+      // Redraw current frame after resize
+      drawCurrent();
     };
 
+    let currentFrame = 0;
+
+    // Draw a frame to the canvas — covers full area with object-fit: cover behavior
+    const drawFrame = (idx: number) => {
+      const bitmap = bitmapsRef.current[idx];
+      if (!bitmap) return; // not loaded yet — keep showing last frame (no flicker)
+
+      const cw = canvas.width / (window.devicePixelRatio || 1);
+      const ch = canvas.height / (window.devicePixelRatio || 1);
+      const iw = bitmap.width;
+      const ih = bitmap.height;
+
+      // object-fit: cover — scale to fill, crop overflow
+      const scale = Math.max(cw / iw, ch / ih);
+      const dw = iw * scale;
+      const dh = ih * scale;
+      const dx = (cw - dw) / 2;
+      const dy = (ch - dh) / 2;
+
+      ctx.fillStyle = "#0a2540"; // bg-ink fallback
+      ctx.fillRect(0, 0, cw, ch);
+      ctx.drawImage(bitmap, dx, dy, dw, dh);
+    };
+
+    const drawCurrent = () => drawFrame(currentFrame);
+
+    resize();
+    window.addEventListener("resize", resize);
+
+    // --- Scroll-driven frame switching ---
+    // Map scroll progress to frame index and draw immediately.
+    // Canvas drawImage is near-instant (no decode lag) so every frame
+    // shows smoothly with zero flicker.
     const st = ScrollTrigger.create({
       trigger: section,
       start: "top top",
       end: "bottom bottom",
-      scrub: 0.2,
+      scrub: 0.3,
       onUpdate: (self) => {
         const frameIdx = Math.min(
           TOTAL_FRAMES - 1,
           Math.max(0, Math.floor(self.progress * TOTAL_FRAMES))
         );
-        applyFrame(frameIdx);
+        if (frameIdx !== currentFrame) {
+          currentFrame = frameIdx;
+          drawFrame(frameIdx);
+        }
       },
     });
 
+    // Redraw periodically as frames load (so we show the best available frame)
+    const loadInterval = setInterval(() => {
+      if (loadedCount >= TOTAL_FRAMES) {
+        clearInterval(loadInterval);
+        return;
+      }
+      drawCurrent();
+    }, 200);
+
     // --- Text beat reveal animations ---
-    // Consolidated: use a single onUpdate for all beats to reduce ScrollTrigger count
     const beatAnims: gsap.core.Tween[] = [];
 
     beats.forEach((beat, i) => {
@@ -154,85 +221,61 @@ export function Hero() {
 
       switch (dir) {
         case "up":
-          enterFrom.y = 60;
-          exitTo.y = -60;
-          break;
+          enterFrom.y = 60; exitTo.y = -60; break;
         case "down":
-          enterFrom.y = -60;
-          exitTo.y = 60;
-          break;
+          enterFrom.y = -60; exitTo.y = 60; break;
         case "left":
-          enterFrom.x = 80;
-          exitTo.x = -80;
-          break;
+          enterFrom.x = 80; exitTo.x = -80; break;
         case "right":
-          enterFrom.x = -80;
-          exitTo.x = 80;
-          break;
+          enterFrom.x = -80; exitTo.x = 80; break;
         case "scale":
-          enterFrom.scale = 0.7;
-          exitTo.scale = 1.3;
-          break;
+          enterFrom.scale = 0.7; exitTo.scale = 1.3; break;
         case "rotate":
-          enterFrom.rotation = -8;
-          enterFrom.scale = 0.8;
-          exitTo.rotation = 8;
-          exitTo.scale = 1.2;
-          break;
+          enterFrom.rotation = -8; enterFrom.scale = 0.8;
+          exitTo.rotation = 8; exitTo.scale = 1.2; break;
       }
 
-      // First beat starts visible
       if (i === 0) {
         gsap.set(el, { opacity: 1, x: 0, y: 0, scale: 1, rotation: 0 });
       } else {
         gsap.set(el, { ...initial, ...enterFrom });
       }
 
-      // Enter animation (skip first beat)
       if (i > 0) {
-        const enterTween = gsap.to(el, {
-          opacity: 1,
-          x: 0,
-          y: 0,
-          scale: 1,
-          rotation: 0,
-          duration: dur,
-          ease: "power3.out",
+        beatAnims.push(gsap.to(el, {
+          opacity: 1, x: 0, y: 0, scale: 1, rotation: 0,
+          duration: dur, ease: "power3.out",
           scrollTrigger: {
             trigger: section,
             start: `top+=${segStart * 100}% top`,
             end: `top+=${segStart * 100 + (segEnd - segStart) * 30}% top`,
             scrub: 0.3,
           },
-        });
-        beatAnims.push(enterTween);
+        }));
       }
 
-      // Exit animation
       if (i < TOTAL_BEATS - 1) {
-        const exitTween = gsap.to(el, {
-          ...exitTo,
-          duration: dur * 0.8,
-          ease: "power2.in",
+        beatAnims.push(gsap.to(el, {
+          ...exitTo, duration: dur * 0.8, ease: "power2.in",
           scrollTrigger: {
             trigger: section,
             start: `top+=${segStart * 100 + (segEnd - segStart) * 70}% top`,
             end: `top+=${segEnd * 100}% top`,
             scrub: 0.3,
           },
-        });
-        beatAnims.push(exitTween);
+        }));
       }
     });
 
-    // Refresh ScrollTrigger after setup
     ScrollTrigger.refresh();
 
     return () => {
       st.kill();
       beatAnims.forEach((t) => t.kill());
+      window.removeEventListener("resize", resize);
+      clearInterval(loadInterval);
     };
-  }, []);
+  }, [loadedCount]);
 
   return (
     <section
@@ -244,16 +287,12 @@ export function Hero() {
         className="sticky top-0 w-full overflow-hidden bg-ink"
         style={{ height: "100dvh" }}
       >
-        {/* ===== Video frames — single img, hard cuts, NO transition ===== */}
-        <div className="absolute inset-0 bg-ink">
-          <img
-            ref={frameRef}
-            src={frameSrc(0)}
-            alt="Travel journey"
-            decoding="async"
-            className="absolute inset-0 h-full w-full object-cover"
-          />
-        </div>
+        {/* ===== Canvas — frame-by-frame scroll video (zero flicker) ===== */}
+        <canvas
+          ref={canvasRef}
+          className="absolute inset-0 h-full w-full"
+          style={{ display: "block" }}
+        />
 
         {/* Solid dark overlay for guaranteed text contrast */}
         <div className="absolute inset-0 bg-ink/55" />
