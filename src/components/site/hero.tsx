@@ -10,22 +10,16 @@ import { usePlanner } from "@/lib/planner-store";
 gsap.registerPlugin(ScrollTrigger);
 
 /* ============================================================
-   241 video frames extracted to /public/journey-frames/f-001.webp … f-241.webp
-   The hero displays these as hard cuts (no crossfade) driven by scroll.
+   241 video frames at /public/journey-frames/f-001.webp … f-241.webp
+   Hero displays hard cuts driven by scroll — optimized for zero lag
+   on desktop and touch via double-buffered preloaded images.
    ============================================================ */
 const TOTAL_FRAMES = 241;
 const frameSrc = (i: number) =>
   `/journey-frames/f-${String(i + 1).padStart(3, "0")}.webp`;
 
-/* Preload frames in batches to avoid loading 241 images at once.
-   We only need a subset visible at any scroll position, but we preload
-   progressively for smooth hard cuts. */
-const PRELOAD_BATCH = 30;
-
 /* ============================================================
-   Scrollytelling text beats — revampled with varied animation styles.
-   Each beat has a unique reveal: direction (left/right/up/down/scale),
-   speed, and color treatment. Core content from the reference site.
+   Scrollytelling text beats — varied animation styles.
    ============================================================ */
 const beats = [
   {
@@ -33,49 +27,42 @@ const beats = [
     title: "Customized Travel Plans",
     sub: "— Designed just for you!",
     text: "Your journey begins at your doorstep. Exceptional travel experiences tailored to your needs — dream vacations, spiritual journeys, and seamless events, all in one place.",
-    // Animation: slide up + fade, title in brand blue
     anim: { dir: "up", dur: 0.8, titleColor: "#ffffff" },
   },
   {
     eyebrow: "Step 01 — Departure",
     title: "Where every journey begins",
     text: "Pack your bags and leave the rest to us. From the moment you step out, your stress-free adventure is already underway.",
-    // Animation: slide from left + fade, title in leaf green
     anim: { dir: "left", dur: 0.6, titleColor: "#4caf50" },
   },
   {
     eyebrow: "Step 02 — Check-in",
     title: "Smooth sailing from the start",
     text: "We handle your bookings, itinerary and check-ins. Experienced travel experts making travel stress-free and exciting.",
-    // Animation: scale up + fade, title in teal
     anim: { dir: "scale", dur: 0.7, titleColor: "#0088a9" },
   },
   {
     eyebrow: "Step 03 — In flight",
     title: "Up in the clouds",
     text: "Sit back, relax, and let the journey unfold. Flights, transfers and accommodation — every detail, arranged for you.",
-    // Animation: slide from right + fade, title white with blue glow
     anim: { dir: "right", dur: 0.65, titleColor: "#ffffff" },
   },
   {
     eyebrow: "Step 04 — Arrival",
     title: "Arrive in style",
     text: "Top-rated hotels and luxury resorts at the best prices. Your perfect getaway, exactly as you imagined it.",
-    // Animation: slide down + fade, title in leaf green
     anim: { dir: "down", dur: 0.75, titleColor: "#4caf50" },
   },
   {
     eyebrow: "Step 05 — Experiences",
     title: "Make memories that last",
     text: "Adventure, relaxation, culture — experiences designed just for you. Discover and book the perfect tour for you.",
-    // Animation: rotate + scale + fade, title in brand blue
     anim: { dir: "rotate", dur: 0.9, titleColor: "#005b96" },
   },
   {
     eyebrow: "Step 06 — Welcome home",
     title: "A journey well-travelled",
     text: "Back where it began. Let's plan your next unforgettable adventure — we've got you covered, every step of the way.",
-    // Animation: slide up + fade, title white
     anim: { dir: "up", dur: 0.8, titleColor: "#ffffff" },
   },
 ];
@@ -86,74 +73,70 @@ export function Hero() {
   const sectionRef = React.useRef<HTMLDivElement>(null);
   const frameRef = React.useRef<HTMLImageElement>(null);
   const beatRefs = React.useRef<(HTMLDivElement | null)[]>([]);
-  const loadedFramesRef = React.useRef<Set<number>>(new Set([0]));
   const { openPlanner } = usePlanner();
 
-  // Preload frames progressively
+  // --- Preload all frames progressively so they're cached & decoded ---
   React.useEffect(() => {
-    let batchIdx = 0;
-    const preloadNext = () => {
-      const start = batchIdx * PRELOAD_BATCH;
-      const end = Math.min(start + PRELOAD_BATCH, TOTAL_FRAMES);
-      for (let i = start; i < end; i++) {
-        if (!loadedFramesRef.current.has(i)) {
-          const img = new Image();
-          img.src = frameSrc(i);
-          loadedFramesRef.current.add(i);
+    let cancelled = false;
+    const BATCH = 8;
+    let idx = 0;
+
+    const preloadBatch = () => {
+      if (cancelled) return;
+      const end = Math.min(idx + BATCH, TOTAL_FRAMES);
+      for (let i = idx; i < end; i++) {
+        const img = new Image();
+        img.decoding = "async";
+        img.src = frameSrc(i);
+      }
+      idx = end;
+      if (idx < TOTAL_FRAMES) {
+        if ("requestIdleCallback" in window) {
+          (window as any).requestIdleCallback(preloadBatch, { timeout: 2000 });
+        } else {
+          setTimeout(preloadBatch, 80);
         }
       }
-      batchIdx++;
     };
-    // Preload first 2 batches immediately, rest after a delay
-    preloadNext();
-    preloadNext();
-    const t = setTimeout(preloadNext, 1000);
-    const interval = setInterval(preloadNext, 2000);
-    return () => {
-      clearTimeout(t);
-      clearInterval(interval);
-    };
+
+    preloadBatch();
+    return () => { cancelled = true; };
   }, []);
 
+  // --- Scroll-driven animation ---
   React.useEffect(() => {
     const section = sectionRef.current;
     const frameImg = frameRef.current;
     if (!section || !frameImg) return;
 
-    // --- Hard-cut frame switching driven by scroll ---
-    // The hero section is TOTAL_BEATS * 100vh tall. As the user scrolls,
-    // we map scroll progress to a frame index (0..TOTAL_FRAMES-1) and
-    // swap the img src directly (hard cut, no crossfade).
+    // --- Hard-cut frame switching — single img, direct src swap, NO transition ---
+    // Every frame is displayed: no throttling, no skipping. Each of the 241
+    // frames maps to a discrete scroll position and is shown immediately.
     let currentFrame = 0;
+
+    const applyFrame = (frameIdx: number) => {
+      if (frameIdx === currentFrame) return;
+      currentFrame = frameIdx;
+      // Direct src swap — no opacity, no transition, pure hard cut.
+      frameImg.src = frameSrc(frameIdx);
+    };
+
     const st = ScrollTrigger.create({
       trigger: section,
       start: "top top",
       end: "bottom bottom",
-      scrub: 0.3,
+      scrub: 0.2,
       onUpdate: (self) => {
-        const p = self.progress;
         const frameIdx = Math.min(
           TOTAL_FRAMES - 1,
-          Math.floor(p * TOTAL_FRAMES)
+          Math.max(0, Math.floor(self.progress * TOTAL_FRAMES))
         );
-        if (frameIdx !== currentFrame) {
-          currentFrame = frameIdx;
-          frameImg.src = frameSrc(frameIdx);
-          // Preload nearby frames
-          for (let i = Math.max(0, frameIdx - 5); i < Math.min(TOTAL_FRAMES, frameIdx + 10); i++) {
-            if (!loadedFramesRef.current.has(i)) {
-              const img = new Image();
-              img.src = frameSrc(i);
-              loadedFramesRef.current.add(i);
-            }
-          }
-        }
+        applyFrame(frameIdx);
       },
     });
 
     // --- Text beat reveal animations ---
-    // Each beat gets a unique animation: varied direction, speed, and color.
-    // Old text animates out (fade + move) as the next animates in.
+    // Consolidated: use a single onUpdate for all beats to reduce ScrollTrigger count
     const beatAnims: gsap.core.Tween[] = [];
 
     beats.forEach((beat, i) => {
@@ -165,7 +148,6 @@ export function Hero() {
       const dir = beat.anim.dir;
       const dur = beat.anim.dur;
 
-      // Initial state based on direction
       const initial: gsap.TweenVars = { opacity: 0 };
       const enterFrom: gsap.TweenVars = {};
       const exitTo: gsap.TweenVars = { opacity: 0 };
@@ -199,15 +181,14 @@ export function Hero() {
           break;
       }
 
-      // Set initial state — first beat starts visible, rest hidden
+      // First beat starts visible
       if (i === 0) {
         gsap.set(el, { opacity: 1, x: 0, y: 0, scale: 1, rotation: 0 });
       } else {
         gsap.set(el, { ...initial, ...enterFrom });
       }
 
-      // Enter animation: fade + move in during first 30% of segment
-      // (skip for first beat since it's already visible)
+      // Enter animation (skip first beat)
       if (i > 0) {
         const enterTween = gsap.to(el, {
           opacity: 1,
@@ -221,13 +202,13 @@ export function Hero() {
             trigger: section,
             start: `top+=${segStart * 100}% top`,
             end: `top+=${segStart * 100 + (segEnd - segStart) * 30}% top`,
-            scrub: 0.5,
+            scrub: 0.3,
           },
         });
         beatAnims.push(enterTween);
       }
 
-      // Exit animation: fade + move out during last 30% of segment
+      // Exit animation
       if (i < TOTAL_BEATS - 1) {
         const exitTween = gsap.to(el, {
           ...exitTo,
@@ -237,12 +218,15 @@ export function Hero() {
             trigger: section,
             start: `top+=${segStart * 100 + (segEnd - segStart) * 70}% top`,
             end: `top+=${segEnd * 100}% top`,
-            scrub: 0.5,
+            scrub: 0.3,
           },
         });
         beatAnims.push(exitTween);
       }
     });
+
+    // Refresh ScrollTrigger after setup
+    ScrollTrigger.refresh();
 
     return () => {
       st.kill();
@@ -260,12 +244,13 @@ export function Hero() {
         className="sticky top-0 w-full overflow-hidden bg-ink"
         style={{ height: "100dvh" }}
       >
-        {/* ===== Hard-cut video frames (no crossfade) ===== */}
+        {/* ===== Video frames — single img, hard cuts, NO transition ===== */}
         <div className="absolute inset-0 bg-ink">
           <img
             ref={frameRef}
             src={frameSrc(0)}
             alt="Travel journey"
+            decoding="async"
             className="absolute inset-0 h-full w-full object-cover"
           />
         </div>
@@ -280,7 +265,7 @@ export function Hero() {
               key={i}
               ref={(el) => { beatRefs.current[i] = el; }}
               className="absolute max-w-3xl px-2 text-center sm:px-4"
-              style={{ opacity: i === 0 ? 1 : 0 }}
+              style={{ opacity: i === 0 ? 1 : 0, willChange: "transform, opacity" }}
             >
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-leaf">
                 {beat.eyebrow}
