@@ -10,8 +10,8 @@ export const siteConfig = {
   email: "info@buythewayjourneys.com",
   instagram: "https://www.instagram.com/buytheway_journeys/",
   instagramHandle: "@buytheway_journeys",
-  whatsapp: "919008898642",
-  whatsappDisplay: "+91 90088 98642",
+  whatsapp: "918921595561",
+  whatsappDisplay: "+91 89215 95561",
   address: {
     line1: "B Block, First floor,",
     line2: "Mather Square,",
