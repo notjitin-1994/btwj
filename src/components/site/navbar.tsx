@@ -210,16 +210,18 @@ export function Navbar() {
             >
               <Instagram className="size-5" />
             </a>
-            <Button
-              asChild
-              size="sm"
-              className="shimmer-sweep hidden h-10 rounded-full bg-brand px-4 text-sm font-semibold text-white shadow-glow-blue transition-transform hover:scale-[1.03] sm:inline-flex"
+            <a
+              href={`tel:${siteConfig.phoneTel}`}
+              className={cn(
+                "hidden h-10 items-center gap-2 rounded-full px-3 text-sm font-semibold transition-colors sm:inline-flex",
+                transparent
+                  ? "text-white hover:bg-white/10"
+                  : "text-brand hover:bg-brand/10"
+              )}
             >
-              <a href={`tel:${siteConfig.phoneTel}`} className="gap-2">
-                <Phone className="size-4" />
-                {siteConfig.phone}
-              </a>
-            </Button>
+              <Phone className="size-4" />
+              {siteConfig.phone}
+            </a>
 
             {/* Mobile menu */}
             <Sheet open={openMenu} onOpenChange={setOpenMenu}>

@@ -1,31 +1,57 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import {
+  rateLimit,
+  getClientIp,
+  rateLimitKey,
+  RATE_LIMITS,
+} from "@/lib/rate-limit";
+import {
+  sanitizeText,
+  validatePhone,
+  validateEnum,
+  isSpam,
+} from "@/lib/validation";
+
+const ALLOWED_SERVICES = [
+  "tour-packages",
+  "hotel-resort",
+  "umrah",
+  "event-management",
+  "custom",
+] as const;
+
+const ALLOWED_BUDGETS = ["budget", "mid", "premium", "flexible"] as const;
+
+const ALLOWED_TRAVELLERS = ["1", "2", "3-5", "6+"] as const;
 
 export async function POST(req: Request) {
+  // Rate limit: 10 requests per 10 minutes per IP
+  const ip = getClientIp(req);
+  const rl = rateLimit(rateLimitKey(ip, "trip-plan"), RATE_LIMITS.tripPlan);
+  if (rl) return rl;
+
   try {
     const body = await req.json();
-    const service = typeof body.service === "string" ? body.service.trim() : "";
-    const destination =
-      typeof body.destination === "string" ? body.destination.trim() : "";
-    const dates = typeof body.dates === "string" ? body.dates.trim() : "";
-    const travellers =
-      typeof body.travellers === "string" ? body.travellers.trim() : "";
-    const budget = typeof body.budget === "string" ? body.budget.trim() : "";
-    const phone = typeof body.phone === "string" ? body.phone.trim() : "";
-    const notes =
-      typeof body.notes === "string" && body.notes.trim()
-        ? body.notes.trim()
-        : null;
+    const service = validateEnum(body.service, ALLOWED_SERVICES);
+    const destination = sanitizeText(body.destination, 300);
+    const dates = sanitizeText(body.dates, 200);
+    const travellers = validateEnum(body.travellers, ALLOWED_TRAVELLERS);
+    const budget = validateEnum(body.budget, ALLOWED_BUDGETS);
+    const phone = validatePhone(body.phone);
+    const notes = body.notes ? sanitizeText(body.notes, 2000) : null;
 
     if (!service || !destination || !dates || !travellers || !budget || !phone) {
       return NextResponse.json(
-        { ok: false, error: "Missing required fields." },
+        { ok: false, error: "Missing or invalid required fields." },
         { status: 400 }
       );
     }
-    if (phone.replace(/\D/g, "").length < 10) {
+
+    // Spam check
+    if (isSpam(destination) || (notes && isSpam(notes))) {
       return NextResponse.json(
-        { ok: false, error: "Please enter a valid phone number." },
+        { ok: false, error: "Your request was flagged. Please call us directly." },
         { status: 400 }
       );
     }
