@@ -172,45 +172,46 @@ export function Footer() {
             </ul>
           </div>
         </div>
+      </div>
+      {/* End of max-w-7xl container — dark section below spans full viewport width */}
 
-        {/* Combined bottom bar + GlitchZero attribution on dark background.
-            One line on all devices (desktop & mobile). "Glitch" white, "Zero" orange,
-            Manrope heading font, all text/icons white on dark grey (#1c1c1e). */}
-        <div className="bg-[#1c1c1e] px-2 py-3 sm:px-8 sm:py-4">
-          <div className="mx-auto flex max-w-7xl items-center justify-center gap-1.5 whitespace-nowrap text-center sm:gap-3">
-            <p className="text-[9px] text-white/70 sm:text-xs">
-              © {siteConfig.copyrightYear} {siteConfig.name}. All rights reserved.
-            </p>
-            <span className="hidden text-white/20 sm:inline">·</span>
-            <span className="hidden items-center gap-1 text-[9px] text-white/60 sm:inline-flex sm:text-xs">
-              <Compass className="size-2.5 text-white/60 sm:size-3" />
-              Crafted for travellers, by travellers
+      {/* Combined bottom bar + GlitchZero attribution on dark background.
+          Full viewport width. One line on all devices. "Glitch" white, "Zero" orange,
+          Manrope heading font, all text/icons white on dark grey (#1c1c1e). */}
+      <div className="w-full bg-[#1c1c1e] px-2 py-3 sm:px-8 sm:py-4">
+        <div className="mx-auto flex max-w-7xl items-center justify-center gap-1.5 whitespace-nowrap text-center sm:gap-3">
+          <p className="text-[9px] text-white/70 sm:text-xs">
+            © {siteConfig.copyrightYear} {siteConfig.name}. All rights reserved.
+          </p>
+          <span className="hidden text-white/20 sm:inline">·</span>
+          <span className="hidden items-center gap-1 text-[9px] text-white/60 sm:inline-flex sm:text-xs">
+            <Compass className="size-2.5 text-white/60 sm:size-3" />
+            Crafted for travellers, by travellers
+          </span>
+          <span className="text-white/20">·</span>
+          <a
+            href="https://www.glitchzerolabs.com"
+            target="_blank"
+            rel="noreferrer"
+            className="group inline-flex items-baseline gap-0.5 transition-opacity hover:opacity-90 sm:gap-1"
+            style={{ fontFamily: "var(--font-manrope), Manrope, sans-serif" }}
+          >
+            <span className="text-[9px] font-medium text-white/70 sm:text-xs">
+              Powered by
             </span>
-            <span className="text-white/20">·</span>
-            <a
-              href="https://www.glitchzerolabs.com"
-              target="_blank"
-              rel="noreferrer"
-              className="group inline-flex items-baseline gap-0.5 transition-opacity hover:opacity-90 sm:gap-1"
-              style={{ fontFamily: "var(--font-manrope), Manrope, sans-serif" }}
+            <span className="text-[10px] font-extrabold tracking-tight text-white sm:text-sm">
+              Glitch
+            </span>
+            <span
+              className="text-[10px] font-extrabold tracking-tight sm:text-sm"
+              style={{ color: "#FF4F00" }}
             >
-              <span className="text-[9px] font-medium text-white/70 sm:text-xs">
-                Powered by
-              </span>
-              <span className="text-[10px] font-extrabold tracking-tight text-white sm:text-sm">
-                Glitch
-              </span>
-              <span
-                className="text-[10px] font-extrabold tracking-tight sm:text-sm"
-                style={{ color: "#FF4F00" }}
-              >
-                Zero
-              </span>
-              <span className="text-[8px] font-medium uppercase tracking-wider text-white/50 sm:text-[10px]">
-                Labs
-              </span>
-            </a>
-          </div>
+              Zero
+            </span>
+            <span className="text-[8px] font-medium uppercase tracking-wider text-white/50 sm:text-[10px]">
+              Labs
+            </span>
+          </a>
         </div>
       </div>
     </footer>
