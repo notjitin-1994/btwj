@@ -188,9 +188,12 @@ export function Hero() {
     <section
       ref={sectionRef}
       className="relative w-full"
-      style={{ height: `${TOTAL * 100}vh` }}
+      style={{ height: `${TOTAL * 100}dvh` }}
     >
-      <div className="sticky top-0 h-screen w-full overflow-hidden bg-ink">
+      <div
+        className="sticky top-0 w-full overflow-hidden bg-ink"
+        style={{ height: "100dvh" }}
+      >
         {/* ===== Photorealistic journey images (direct crossfading) ===== */}
         {/* Solid bg-ink on container ensures the dark overlay never shows as a
             grey frame during crossfade — images blend directly into each other. */}

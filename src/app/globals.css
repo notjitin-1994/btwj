@@ -174,6 +174,15 @@
   }
 }
 
+/* ===== Dynamic viewport height (mobile-safe, accounts for browser chrome) ===== */
+/* Fallback for browsers without dvh support: use vh; modern browsers use dvh */
+@supports (height: 100dvh) {
+  .h-dvh { height: 100dvh; }
+  .min-h-dvh { min-height: 100dvh; }
+}
+.h-dvh { height: 100vh; } /* fallback */
+.min-h-dvh { min-height: 100vh; } /* fallback */
+
 /* ===== Brand utility helpers (solid brand accent colors, no gradients) ===== */
 @layer utilities {
   /* Solid brand accent text colors — used on light backgrounds for AA contrast.

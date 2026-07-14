@@ -59,7 +59,7 @@ export default function RootLayout({
       <body
         className={`${plusJakarta.variable} ${playfair.variable} font-sans antialiased bg-background text-foreground`}
       >
-        <div className="flex min-h-screen flex-col">
+        <div className="flex min-h-dvh flex-col">
           <Navbar />
           <main className="flex-1">{children}</main>
           <Footer />
