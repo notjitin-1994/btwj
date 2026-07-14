@@ -53,7 +53,7 @@ export function proxy(_req: NextRequest) {
       "img-src 'self' data: https: blob:",
       "media-src 'self' https:",
       "connect-src 'self' https:",
-      "frame-src 'self' https://www.instagram.com",
+      "frame-src 'self' https://www.instagram.com https://www.google.com https://maps.google.com",
       "object-src 'none'",
       "base-uri 'self'",
       "form-action 'self'",

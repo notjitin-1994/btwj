@@ -110,12 +110,13 @@ export default function ContactPage() {
                 <div className="relative min-h-[320px] bg-muted">
                   <iframe
                     title="Office location map"
-                    src={`https://www.google.com/maps?q=${encodeURIComponent(
+                    src={`https://maps.google.com/maps?q=${encodeURIComponent(
                       siteConfig.address.full
                     )}&output=embed`}
                     className="absolute inset-0 h-full w-full grayscale-[0.2]"
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
+                    allowFullScreen
                   />
                 </div>
               </div>
