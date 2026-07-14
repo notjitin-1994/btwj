@@ -106,42 +106,65 @@ export function Hero() {
     const CROSSFADE = 0.25;
 
     // Compute opacity for frame `i` at scroll progress `p` (0..1).
-    // Frames overlap during crossfade so there's never a grey gap: at any
-    // transition point, the outgoing frame and incoming frame are both
-    // partially visible and their opacities sum to ~1.
-    // The FIRST and LAST frames never fade out — first stays visible from
-    // load until the second frame takes over; last stays visible at the end.
+    // Direct image-to-image crossfade: during a transition between frame A
+    // and frame B, A's opacity goes 1→0 while B's goes 0→1 simultaneously,
+    // so they always sum to ~1 and the dark background never shows through
+    // (no grey frames). First frame stays fully visible until frame 1 takes
+    // over; last frame stays fully visible at the end.
     function opacityFor(i: number, p: number, total: number): number {
       const segSize = 1 / total;
-      const center = (i + 0.5) / total; // center of this frame's segment
-      const halfFade = segSize * (1 + CROSSFADE) / 2; // half-width of visibility
+      // Each frame is the "active" frame during its segment [i/total, (i+1)/total].
+      // Crossfade happens at segment boundaries, centered on the boundary.
+      const segStart = i / total;
+      const segEnd = (i + 1) / total;
+      const fadeWidth = segSize * CROSSFADE; // width of the crossfade zone
 
-      // First frame: fully visible from load (p=0) until next frame's fade-in
-      // completes, then fades out. Never invisible at the very start.
+      // First frame: fully visible at start, fades out across the 0→1 boundary
       if (i === 0) {
-        // Fade out only as frame 1 takes over (around the 0→1 boundary)
-        const fadeOutStart = center; // = 0.5/total
-        const fadeOutEnd = center + halfFade;
-        if (p <= fadeOutStart) return 1;
-        if (p >= fadeOutEnd) return 0;
-        const t = (p - fadeOutStart) / (fadeOutEnd - fadeOutStart);
+        if (p <= segStart) return 1; // before/at start
+        if (p >= segEnd) return 0; // after segment end
+        if (p <= segEnd - fadeWidth) return 1; // hold full opacity
+        // Fade out in the last `fadeWidth` of the segment
+        const t = (p - (segEnd - fadeWidth)) / fadeWidth;
         return 1 - (t * t * (3 - 2 * t)); // smoothstep out
       }
 
-      // Last frame: once it reaches full opacity, it stays (no fade out)
+      // Last frame: fades in across the (total-1)→total boundary, then holds
       if (i === total - 1) {
-        if (p >= center) return 1; // at or past center → full opacity
-        if (p <= center - halfFade) return 0; // before fade range → invisible
-        // Fade in smoothly
-        const t = (p - (center - halfFade)) / (halfFade * 1.4);
+        if (p >= segStart + fadeWidth) return 1; // hold full opacity
+        if (p <= segStart) {
+          // Fading in during the previous segment's tail
+          const t = (p - (segStart - fadeWidth)) / fadeWidth;
+          return Math.max(0, t * t * (3 - 2 * t)); // smoothstep in
+        }
+        const t = (p - segStart) / fadeWidth;
         return t * t * (3 - 2 * t); // smoothstep in
       }
 
-      // Distance from this frame's center, normalized to 0..1 within fade range
-      const dist = Math.abs(p - center) / halfFade;
-      if (dist >= 1) return 0;
-      // Smooth ease-in-out curve for natural crossfade
-      return 1 - (dist * dist * (3 - 2 * dist)); // smoothstep
+      // Middle frames: fade in at segment start, hold, fade out at segment end
+      // Fade in: across first `fadeWidth` of segment (overlaps prev frame's fade out)
+      if (p < segStart) {
+        // In previous segment's tail — fading in
+        const t = (p - (segStart - fadeWidth)) / fadeWidth;
+        return Math.max(0, t * t * (3 - 2 * t));
+      }
+      if (p >= segEnd) {
+        // In next segment's head — fading out
+        const t = (p - segEnd) / fadeWidth;
+        return Math.max(0, 1 - (t * t * (3 - 2 * t)));
+      }
+      // Within this segment
+      if (p < segStart + fadeWidth) {
+        // Fading in at segment start
+        const t = (p - segStart) / fadeWidth;
+        return t * t * (3 - 2 * t);
+      }
+      if (p > segEnd - fadeWidth) {
+        // Fading out at segment end
+        const t = (p - (segEnd - fadeWidth)) / fadeWidth;
+        return 1 - (t * t * (3 - 2 * t));
+      }
+      return 1; // hold full opacity in the middle
     }
 
     // Single ScrollTrigger that updates everything in one onUpdate
@@ -191,9 +214,11 @@ export function Hero() {
       className="relative w-full"
       style={{ height: `${TOTAL * 100}vh` }}
     >
-      <div className="sticky top-0 h-screen w-full overflow-hidden">
-        {/* ===== Photorealistic journey images (crossfading) ===== */}
-        <div className="absolute inset-0">
+      <div className="sticky top-0 h-screen w-full overflow-hidden bg-ink">
+        {/* ===== Photorealistic journey images (direct crossfading) ===== */}
+        {/* Solid bg-ink on container ensures the dark overlay never shows as a
+            grey frame during crossfade — images blend directly into each other. */}
+        <div className="absolute inset-0 bg-ink">
           {journeyFrames.map((frame, i) => (
             <img
               key={i}

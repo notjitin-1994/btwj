@@ -134,11 +134,38 @@
   html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
+    /* Hide scrollbar on desktop & mobile while keeping scroll functional */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+  }
+  html::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
   }
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "ss01", "cv01";
     -webkit-font-smoothing: antialiased;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  body::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+  }
+  /* Hide scrollbars on all scrollable elements site-wide */
+  * {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  *::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+  }
+  body {
     text-rendering: optimizeLegibility;
   }
   ::selection {
