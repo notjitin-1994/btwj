@@ -4,6 +4,7 @@ import { WhyChooseUsSection } from "@/components/site/why-choose-us-section";
 import { CtaParallax } from "@/components/site/cta-parallax";
 import { Reveal, SectionHeading } from "@/components/site/motion-helpers";
 import { benefitCards } from "@/lib/site-config";
+import { siteImages } from "@/lib/images";
 import { DynamicIcon } from "@/components/site/icons";
 import { ShieldCheck, Clock, Heart } from "lucide-react";
 
@@ -31,9 +32,9 @@ const promises = [
     text: "Quick, effortless booking so you spend less time planning and more time exploring.",
   },
   {
-    icon: Star,
+    icon: Heart,
     title: "Loved By Travellers",
-    text: "A 4.9★ track record built over a decade of stress-free, exciting journeys.",
+    text: "A track record built over a decade of stress-free, exciting journeys.",
   },
 ];
 
@@ -51,7 +52,7 @@ export default function WhyChooseUsPage() {
           </>
         }
         description="Whether you're exploring local gems or international wonders, we ensure a seamless and exciting journey."
-        image="https://images.unsplash.com/photo-1530789253388-582c481c54b0?auto=format&fit=crop&w=2000&q=80"
+        image={siteImages.pageHeroes.whyChooseUs}
         crumbs={[{ label: "Why Choose Us" }]}
       />
 

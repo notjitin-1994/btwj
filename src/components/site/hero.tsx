@@ -12,17 +12,14 @@ import {
   ChevronDown,
 } from "lucide-react";
 import { siteConfig } from "@/lib/site-config";
+import { siteImages } from "@/lib/images";
 
 const headlines = [
   "Customized Travel Plans — Designed just for you!",
   "Experienced Travel Experts — Making travel stress-free and exciting!",
 ];
 
-const heroImages = [
-  "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=2000&q=80",
-  "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2000&q=80",
-  "https://images.unsplash.com/photo-1530841377377-3ff06c0ca713?auto=format&fit=crop&w=2000&q=80",
-];
+const heroImages = siteImages.hero;
 
 const quickDestinations = [
   { name: "Dubai", tag: "City & Desert" },

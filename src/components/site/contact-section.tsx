@@ -13,6 +13,7 @@ import {
   MessageSquare,
   Clock,
   ArrowUpRight,
+  Instagram,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -70,13 +71,21 @@ export function ContactSection({ compact = false }: { compact?: boolean }) {
       note: "We reply within 24 hours",
     },
     {
+      icon: Instagram,
+      label: "Follow Us",
+      value: siteConfig.instagramHandle,
+      href: siteConfig.instagram,
+      tint: "bg-leaf text-white shadow-glow-green",
+      note: "Daily travel inspiration",
+    },
+    {
       icon: MapPin,
       label: "Visit Us",
       value: siteConfig.address.full,
       href: `https://maps.google.com/?q=${encodeURIComponent(
         siteConfig.address.full
       )}`,
-      tint: "bg-leaf text-white shadow-glow-green",
+      tint: "bg-brand text-white shadow-glow-blue",
       note: "B Block, Mather Square",
     },
   ];

@@ -9,42 +9,16 @@ import {
   StaggerGroup,
   staggerItem,
 } from "@/components/site/motion-helpers";
+import { siteImages } from "@/lib/images";
 
 const destinations = [
-  {
-    name: "Dubai",
-    country: "United Arab Emirates",
-    image:
-      "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1200&q=80",
-    tag: "City & Desert",
-  },
-  {
-    name: "Maldives",
-    country: "Indian Ocean",
-    image:
-      "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&w=1200&q=80",
-    tag: "Beach & Resorts",
-  },
-  {
-    name: "Makkah",
-    country: "Saudi Arabia",
-    image: "https://sfile.chatglm.cn/images-ppt/e01302c75416.jpg",
-    tag: "Spiritual Umrah",
-  },
-  {
-    name: "Kerala",
-    country: "India",
-    image:
-      "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=1200&q=80",
-    tag: "Backwaters",
-  },
-  {
-    name: "Swiss Alps",
-    country: "Switzerland",
-    image:
-      "https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?auto=format&fit=crop&w=1200&q=80",
-    tag: "Mountains",
-  },
+  { name: "Dubai", country: "United Arab Emirates", image: siteImages.destinations.dubai, tag: "City & Desert" },
+  { name: "Maldives", country: "Indian Ocean", image: siteImages.destinations.maldives, tag: "Beach & Resorts" },
+  { name: "Makkah", country: "Saudi Arabia", image: siteImages.destinations.makkah, tag: "Spiritual Umrah" },
+  { name: "Kerala", country: "India", image: siteImages.destinations.kerala, tag: "Backwaters" },
+  { name: "Swiss Alps", country: "Switzerland", image: siteImages.destinations.swissAlps, tag: "Mountains" },
+  { name: "Santorini", country: "Greece", image: siteImages.destinations.santorini, tag: "Islands" },
+  { name: "Bali", country: "Indonesia", image: siteImages.destinations.bali, tag: "Tropical" },
 ];
 
 export function FeaturedDestinations() {

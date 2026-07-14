@@ -6,6 +6,7 @@ import { ArrowUpRight, Award, Compass, BadgePercent, Quote } from "lucide-react"
 import { Reveal, Float, SectionHeading } from "@/components/site/motion-helpers";
 import { Counter } from "@/components/site/brand-extras";
 import { stats, siteConfig } from "@/lib/site-config";
+import { siteImages } from "@/lib/images";
 
 const statIcons = [Award, Compass, BadgePercent];
 
@@ -22,7 +23,7 @@ export function AboutSection() {
                 <Reveal>
                   <div className="overflow-hidden rounded-3xl shadow-premium-lg">
                     <img
-                      src="https://images.unsplash.com/photo-1530789253388-582c481c54b0?auto=format&fit=crop&w=900&q=80"
+                      src={siteImages.about.main}
                       alt="Travellers exploring a scenic destination"
                       className="aspect-[3/4] w-full object-cover transition-transform duration-700 hover:scale-105"
                     />
@@ -32,7 +33,7 @@ export function AboutSection() {
                   <div className="overflow-hidden rounded-3xl shadow-premium">
                     { }
                     <img
-                      src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=900&q=80"
+                      src={siteImages.about.vacation}
                       alt="A couple on a dream vacation"
                       className="aspect-[4/3] w-full object-cover transition-transform duration-700 hover:scale-105"
                     />
@@ -44,7 +45,7 @@ export function AboutSection() {
                   <div className="overflow-hidden rounded-3xl shadow-premium">
                     { }
                     <img
-                      src="https://images.unsplash.com/photo-1552733407-5d5c46c3bb3b?auto=format&fit=crop&w=900&q=80"
+                      src={siteImages.about.resort}
                       alt="Luxury resort stay"
                       className="aspect-[4/3] w-full object-cover transition-transform duration-700 hover:scale-105"
                     />
@@ -53,7 +54,7 @@ export function AboutSection() {
                 <Reveal delay={0.2}>
                   <div className="overflow-hidden rounded-3xl shadow-premium-lg">
                     <img
-                      src="https://sfile.chatglm.cn/images-ppt/37bcde4a870c.jpg"
+                      src={siteImages.about.spiritual}
                       alt="Spiritual Umrah journey"
                       className="aspect-[3/4] w-full object-cover transition-transform duration-700 hover:scale-105"
                     />
@@ -152,9 +153,7 @@ export function AboutSection() {
                 <div className="flex items-center gap-3">
                   <div className="flex -space-x-2">
                     {[
-                      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=120&q=80",
-                      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&q=80",
-                      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=120&q=80",
+                      ...siteImages.avatars,
                     ].map((src) => (
                        
                       <img

@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, Phone, ChevronDown, ArrowUpRight, X } from "lucide-react";
+import { Menu, Phone, ChevronDown, ArrowUpRight, X, Instagram } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -181,6 +181,18 @@ export function Navbar() {
 
           {/* CTA + mobile toggle */}
           <div className="flex items-center gap-2">
+            <a
+              href={siteConfig.instagram}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Follow us on Instagram"
+              className={cn(
+                "ig-icon-hover hidden h-10 w-10 items-center justify-center rounded-full sm:inline-flex",
+                transparent ? "text-white" : "text-brand"
+              )}
+            >
+              <Instagram className="size-5" />
+            </a>
             <Button
               asChild
               size="sm"
@@ -283,6 +295,15 @@ export function Navbar() {
                         Call {siteConfig.phone}
                       </a>
                     </Button>
+                    <a
+                      href={siteConfig.instagram}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="mt-2 flex h-12 w-full items-center justify-center gap-2 rounded-xl border border-brand/20 bg-brand/5 text-sm font-semibold text-brand transition-colors hover:bg-brand hover:text-white"
+                    >
+                      <Instagram className="size-4" />
+                      Follow {siteConfig.instagramHandle}
+                    </a>
                     <p className="mt-3 text-center text-xs text-muted-foreground">
                       {siteConfig.address.full}
                     </p>

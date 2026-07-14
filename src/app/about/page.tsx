@@ -4,6 +4,7 @@ import { AboutSection } from "@/components/site/about-section";
 import { CtaParallax } from "@/components/site/cta-parallax";
 import { Reveal } from "@/components/site/motion-helpers";
 import { siteConfig, stats } from "@/lib/site-config";
+import { siteImages } from "@/lib/images";
 import { Compass, HeartHandshake, Smile, Globe2 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -49,7 +50,7 @@ export default function AboutPage() {
           </>
         }
         description="At Buy The Way Journeys, we specialize in providing exceptional travel experiences tailored to your needs. Whether you're looking for a dream vacation, a spiritual journey, or a seamless event, we've got you covered!"
-        image="https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=2000&q=80"
+        image={siteImages.pageHeroes.about}
         crumbs={[{ label: "About Us" }]}
       />
 

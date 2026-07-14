@@ -4,7 +4,7 @@ import Link from "next/link";
 import { PageHero } from "@/components/site/page-hero";
 import { ContactSection } from "@/components/site/contact-section";
 import { Reveal, SectionHeading } from "@/components/site/motion-helpers";
-import { services, type ServiceInfo } from "@/lib/site-config";
+import { services, siteConfig, type ServiceInfo } from "@/lib/site-config";
 import { DynamicIcon } from "@/components/site/icons";
 import {
   Check,
@@ -129,11 +129,11 @@ export default async function ServiceDetailPage({ params }: Params) {
                     <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </Link>
                   <a
-                    href="tel:8921595561"
+                    href={`tel:${siteConfig.phoneTel}`}
                     className="inline-flex h-12 items-center gap-2 rounded-full border border-border bg-white px-6 text-sm font-semibold text-ink transition-colors hover:bg-accent"
                   >
                     <Phone className="size-4 text-brand" />
-                    8921595561
+                    {siteConfig.phone}
                   </a>
                 </div>
               </Reveal>

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Phone, ArrowUpRight, Plane } from "lucide-react";
 import { siteConfig } from "@/lib/site-config";
+import { siteImages } from "@/lib/images";
 
 export function CtaParallax() {
   const ref = React.useRef<HTMLDivElement>(null);
@@ -28,7 +29,7 @@ export function CtaParallax() {
           >
             { }
             <img
-              src="https://images.unsplash.com/photo-1506929562872-bb421503ef21?auto=format&fit=crop&w=2000&q=80"
+              src={siteImages.ctaParallax}
               alt="Scenic travel destination"
               className="h-full w-full object-cover"
             />

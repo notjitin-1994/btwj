@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Phone, Mail, MapPin, ArrowUpRight, Compass } from "lucide-react";
+import { Phone, Mail, MapPin, ArrowUpRight, Compass, Instagram } from "lucide-react";
 import { siteConfig, services, mainNav } from "@/lib/site-config";
 
 const quickLinks = mainNav.filter((n) => n.label !== "Our Services");
@@ -77,6 +77,15 @@ export function Footer() {
                 </span>
               ))}
             </div>
+            <a
+              href={siteConfig.instagram}
+              target="_blank"
+              rel="noreferrer"
+              className="group mt-6 inline-flex h-11 items-center gap-2 rounded-full bg-brand px-5 text-sm font-semibold text-white shadow-glow-blue transition-transform hover:scale-[1.03]"
+            >
+              <Instagram className="size-4" />
+              Follow {siteConfig.instagramHandle}
+            </a>
           </div>
 
           {/* Quick links */}

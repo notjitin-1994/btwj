@@ -3,18 +3,20 @@ import { PageHero } from "@/components/site/page-hero";
 import { ContactSection } from "@/components/site/contact-section";
 import { Reveal } from "@/components/site/motion-helpers";
 import { siteConfig } from "@/lib/site-config";
-import { Phone, Mail, MapPin, Clock, MessageCircle } from "lucide-react";
+import { siteImages } from "@/lib/images";
+import { Phone, Mail, MapPin, Clock, MessageCircle, Instagram } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Contact — Buy The Way Journeys",
   description:
-    "Book your next trip or event today! Call 8921595561 or email info@buythewayjourneys.com. B Block, First floor, Mather Square, Opp Ekm North Railway Station, Pincode- 682018.",
+    "Book your next trip or event today! Call +91 8921595561 or email info@buythewayjourneys.com. B Block, First floor, Mather Square, Opp Ekm North Railway Station, Pincode- 682018.",
 };
 
 export default function ContactPage() {
   const quickFacts = [
     { icon: Phone, label: "Phone", value: siteConfig.phone, href: `tel:${siteConfig.phoneTel}` },
     { icon: Mail, label: "Email", value: siteConfig.email, href: `mailto:${siteConfig.email}` },
+    { icon: Instagram, label: "Instagram", value: siteConfig.instagramHandle, href: siteConfig.instagram },
     { icon: MapPin, label: "Office", value: siteConfig.address.full },
     { icon: Clock, label: "Hours", value: "Mon – Sun · 9:00 AM – 8:00 PM" },
   ];
@@ -32,14 +34,14 @@ export default function ContactPage() {
           </>
         }
         description="Tell us about your dream journey. Our experienced travel experts will craft a stress-free, exciting plan designed just for you."
-        image="https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=2000&q=80"
+        image={siteImages.pageHeroes.contact}
         crumbs={[{ label: "Contact" }]}
       />
 
       {/* Quick facts */}
       <section className="relative -mt-10 z-10">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-4 rounded-3xl border border-border bg-white p-6 shadow-premium-lg sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-4 rounded-3xl border border-border bg-white p-6 shadow-premium-lg sm:grid-cols-2 lg:grid-cols-5">
             {quickFacts.map((f, i) => (
               <Reveal key={f.label} delay={0.06 * i}>
                 <div className="flex items-start gap-3">

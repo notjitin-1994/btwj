@@ -14,7 +14,6 @@ import {
   PartyPopper,
   BadgePercent,
   CalendarCheck2,
-  MapPin as MapPinIcon,
   Search,
   CalendarCheck2 as CalendarIcon,
   Plane,
@@ -27,6 +26,7 @@ import {
   staggerItem,
 } from "@/components/site/motion-helpers";
 import { services, benefitCards, siteConfig } from "@/lib/site-config";
+import { siteImages } from "@/lib/images";
 
 const accentSolid: Record<string, string> = {
   brand: "bg-brand",
@@ -127,7 +127,7 @@ export function HomeAboutTeaser() {
             <div className="relative">
               <div className="overflow-hidden rounded-3xl shadow-premium-lg">
                 <img
-                  src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1200&q=80"
+                  src={siteImages.about.vacation}
                   alt="Travellers enjoying a scenic journey"
                   className="aspect-[4/3] w-full object-cover transition-transform duration-700 hover:scale-105"
                 />
@@ -245,7 +245,7 @@ export function HomeWhyTeaser() {
   const iconMap2: Record<string, typeof BadgePercent> = {
     BadgePercent,
     CalendarCheck2,
-    MapPin: MapPinIcon,
+    Compass: Compass,
   };
   return (
     <section className="relative overflow-hidden py-20 sm:py-28">

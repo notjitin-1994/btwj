@@ -5,6 +5,7 @@ import { ServicesSection } from "@/components/site/services-section";
 import { CtaParallax } from "@/components/site/cta-parallax";
 import { Reveal, SectionHeading } from "@/components/site/motion-helpers";
 import { services } from "@/lib/site-config";
+import { siteImages } from "@/lib/images";
 import { DynamicIcon } from "@/components/site/icons";
 import { ArrowUpRight, Check } from "lucide-react";
 
@@ -35,7 +36,7 @@ export default function ServicesPage() {
           </>
         }
         description="From dream vacations and spiritual journeys to seamless events — one trusted partner for everything travel."
-        image="https://sfile.chatglm.cn/images-ppt/c39865ffa477.jpg"
+        image={siteImages.pageHeroes.services}
         crumbs={[{ label: "Our Services" }]}
       />
 

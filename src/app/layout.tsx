@@ -33,7 +33,11 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Buy The Way Journeys" }],
   icons: {
-    icon: "/buythewaylogo.webp",
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/buythewaylogo.webp", type: "image/webp" },
+    ],
+    apple: "/buythewaylogo.webp",
   },
   openGraph: {
     title: "Buy The Way Journeys — Customized Travel Plans",

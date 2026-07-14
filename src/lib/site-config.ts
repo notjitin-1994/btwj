@@ -1,3 +1,5 @@
+import { siteImages } from "@/lib/images";
+
 export const siteConfig = {
   name: "Buy The Way Journeys",
   shortName: "buytheway",
@@ -6,6 +8,8 @@ export const siteConfig = {
   phone: "+91 8921595561",
   phoneTel: "+918921595561",
   email: "info@buythewayjourneys.com",
+  instagram: "https://www.instagram.com/buytheway_journeys/",
+  instagramHandle: "@buytheway_journeys",
   address: {
     line1: "B Block, First floor,",
     line2: "Mather Square,",
@@ -81,8 +85,7 @@ export const services: ServiceInfo[] = [
       "Perfectly crafted itineraries",
       "Local & international packages",
     ],
-    image:
-      "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=1600&q=80",
+    image: siteImages.services.tourPackages,
     icon: "Compass",
     accent: "brand",
   },
@@ -98,8 +101,7 @@ export const services: ServiceInfo[] = [
       "Best price guarantee",
       "Seamless booking experience",
     ],
-    image:
-      "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1600&q=80",
+    image: siteImages.services.hotelResort,
     icon: "Building2",
     accent: "teal",
   },
@@ -115,8 +117,7 @@ export const services: ServiceInfo[] = [
       "Hassle-free, devotion-first planning",
       "Carefully curated packages",
     ],
-    image:
-      "https://sfile.chatglm.cn/images-ppt/2ce6a80386d3.jpg",
+    image: siteImages.services.umrah,
     icon: "Moon",
     accent: "leaf",
   },
@@ -132,8 +133,7 @@ export const services: ServiceInfo[] = [
       "Expert event planners",
       "Seamless, unforgettable experiences",
     ],
-    image:
-      "https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?auto=format&fit=crop&w=1600&q=80",
+    image: siteImages.services.eventManagement,
     icon: "PartyPopper",
     accent: "brand",
   },
