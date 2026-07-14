@@ -108,10 +108,21 @@ export function Hero() {
     // Frames overlap during crossfade so there's never a grey gap: at any
     // transition point, the outgoing frame and incoming frame are both
     // partially visible and their opacities sum to ~1.
+    // The LAST frame never fades out — it stays fully visible at the end.
     function opacityFor(i: number, p: number, total: number): number {
       const segSize = 1 / total;
       const center = (i + 0.5) / total; // center of this frame's segment
       const halfFade = segSize * (1 + CROSSFADE) / 2; // half-width of visibility
+
+      // Last frame: once it reaches full opacity, it stays (no fade out)
+      if (i === total - 1) {
+        const fadeInEnd = center - halfFade * 0.4;
+        if (p >= center) return 1; // at or past center → full opacity
+        if (p <= center - halfFade) return 0; // before fade range → invisible
+        // Fade in smoothly
+        const t = (p - (center - halfFade)) / (halfFade * 1.4);
+        return t * t * (3 - 2 * t); // smoothstep in
+      }
 
       // Distance from this frame's center, normalized to 0..1 within fade range
       const dist = Math.abs(p - center) / halfFade;
