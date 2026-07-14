@@ -139,6 +139,8 @@ export function Hero() {
       const rect = canvas.getBoundingClientRect();
       canvas.width = rect.width * dpr;
       canvas.height = rect.height * dpr;
+      // Reset transform before scaling (ctx.scale is cumulative)
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.scale(dpr, dpr);
       // Redraw current frame after resize
       drawCurrent();
