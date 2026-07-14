@@ -101,7 +101,7 @@ export default function WhyChooseUsPage() {
                     {["Guaranteed", "Verified", "Trusted"].map((t) => (
                       <span
                         key={t}
-                        className="rounded-full border border-brand/15 bg-brand/5 px-3 py-1 text-xs font-semibold text-brand"
+                        className="text-xs font-semibold text-brand"
                       >
                         {t}
                       </span>

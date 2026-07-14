@@ -167,7 +167,7 @@ export function ContactSection({ compact = false }: { compact?: boolean }) {
                       (t) => (
                         <span
                           key={t}
-                          className="rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-medium"
+                          className="text-xs font-medium text-white/70"
                         >
                           {t}
                         </span>

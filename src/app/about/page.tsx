@@ -63,7 +63,7 @@ export default function AboutPage() {
           <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
             <div>
               <Reveal>
-                <span className="inline-flex items-center gap-2 rounded-full border border-brand/15 bg-brand/5 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-brand">
+                <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-brand">
                   <span className="size-1.5 rounded-full bg-gradient-brand" />
                   Our Story
                 </span>

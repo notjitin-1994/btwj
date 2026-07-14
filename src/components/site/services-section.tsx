@@ -54,7 +54,7 @@ export function ServicesSection() {
                 <span className={`absolute left-4 top-4 flex size-11 items-center justify-center rounded-xl ${accentSolid[service.accent]} text-white shadow-glow-blue`}>
                   <DynamicIcon name={service.icon} className="size-5" />
                 </span>
-                <span className="absolute bottom-3 left-4 rounded-full bg-white/15 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white backdrop-blur">
+                <span className="absolute bottom-3 left-4 text-[10px] font-semibold uppercase tracking-wider text-white/80">
                   0{i + 1} · {service.short}
                 </span>
               </div>

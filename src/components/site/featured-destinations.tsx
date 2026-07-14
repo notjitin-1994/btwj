@@ -40,7 +40,7 @@ export function FeaturedDestinations() {
             className="max-w-2xl"
           />
           <Reveal delay={0.1}>
-            <div className="hidden items-center gap-2 rounded-full border border-brand/20 bg-white px-4 py-2 text-xs font-semibold text-brand shadow-premium sm:flex">
+            <div className="hidden items-center gap-2 text-xs font-semibold text-brand sm:flex">
               <MapPin className="size-3.5 text-leaf" />
               500+ destinations worldwide
             </div>
@@ -68,7 +68,7 @@ export function FeaturedDestinations() {
               {/* Brand accent ring on hover */}
               <div className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-inset ring-white/10 transition-all duration-300 group-hover:ring-2 group-hover:ring-leaf/50" />
               <div className="absolute inset-x-0 bottom-0 p-4">
-                <span className="inline-flex items-center gap-1 rounded-full bg-gradient-brand px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white shadow-glow">
+                <span className="inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wider text-white/80">
                   <MapPin className="size-2.5" />
                   {d.tag}
                 </span>

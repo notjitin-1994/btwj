@@ -81,7 +81,7 @@ export default function ContactPage() {
             <div className="overflow-hidden rounded-3xl border border-border shadow-premium-lg">
               <div className="grid gap-0 lg:grid-cols-[1fr_1.6fr]">
                 <div className="bg-ink p-8 text-white sm:p-10">
-                  <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.14em]">
+                  <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em]">
                     <MessageCircle className="size-3.5 text-leaf" />
                     Visit our office
                   </span>

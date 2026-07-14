@@ -46,7 +46,7 @@ export function CtaParallax() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.16em] text-white backdrop-blur"
+              className="inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.16em] text-white"
             >
               <Plane className="size-3.5 text-leaf" />
               Your journey starts here
