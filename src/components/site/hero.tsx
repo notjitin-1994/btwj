@@ -133,40 +133,44 @@ export function Hero() {
     const ctx = canvas.getContext("2d", { alpha: false });
     if (!ctx) return;
 
+    // Consistent DPR — used for both sizing and drawing
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
     // Size canvas to device pixels for crisp rendering
     const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
       const rect = canvas.getBoundingClientRect();
-      canvas.width = rect.width * dpr;
-      canvas.height = rect.height * dpr;
+      canvas.width = Math.round(rect.width * dpr);
+      canvas.height = Math.round(rect.height * dpr);
       // Reset transform before scaling (ctx.scale is cumulative)
-      ctx.setTransform(1, 0, 0, 1, 0, 0);
-      ctx.scale(dpr, dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       // Redraw current frame after resize
       drawCurrent();
     };
 
     let currentFrame = 0;
 
-    // Draw a frame to the canvas — covers full area with object-fit: cover behavior
+    // Draw a frame to the canvas — object-fit: cover, fills entire canvas
     const drawFrame = (idx: number) => {
       const bitmap = bitmapsRef.current[idx];
       if (!bitmap) return; // not loaded yet — keep showing last frame (no flicker)
 
-      const cw = canvas.width / (window.devicePixelRatio || 1);
-      const ch = canvas.height / (window.devicePixelRatio || 1);
+      // Use CSS pixel dimensions (canvas internal size / dpr)
+      const cw = canvas.width / dpr;
+      const ch = canvas.height / dpr;
       const iw = bitmap.width;
       const ih = bitmap.height;
 
-      // object-fit: cover — scale to fill, crop overflow
+      // object-fit: cover — scale to fill the entire area, crop overflow
       const scale = Math.max(cw / iw, ch / ih);
       const dw = iw * scale;
       const dh = ih * scale;
       const dx = (cw - dw) / 2;
       const dy = (ch - dh) / 2;
 
-      ctx.fillStyle = "#0a2540"; // bg-ink fallback
+      // Fill background first (prevents any edge gaps)
+      ctx.fillStyle = "#0a2540";
       ctx.fillRect(0, 0, cw, ch);
+      // Draw the image to cover the entire canvas
       ctx.drawImage(bitmap, dx, dy, dw, dh);
     };
 
