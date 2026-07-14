@@ -100,71 +100,45 @@ export function Hero() {
       img.src = f.src;
     });
 
-    // Crossfade window: each frame fades out over the last 25% of its segment
-    // while the next fades in over the first 25% of its segment — they overlap,
-    // so there's never a fully-grey frame. Transitions are smooth.
-    const CROSSFADE = 0.25;
+    // smoothstep: 0 at edge, 1 at center, smooth S-curve between
+    function smoothstep(edge0: number, edge1: number, x: number): number {
+      const t = Math.max(0, Math.min(1, (x - edge0) / (edge1 - edge0)));
+      return t * t * (3 - 2 * t);
+    }
 
     // Compute opacity for frame `i` at scroll progress `p` (0..1).
-    // Direct image-to-image crossfade: during a transition between frame A
-    // and frame B, A's opacity goes 1→0 while B's goes 0→1 simultaneously,
-    // so they always sum to ~1 and the dark background never shows through
-    // (no grey frames). First frame stays fully visible until frame 1 takes
-    // over; last frame stays fully visible at the end.
+    // Each frame `i` is centered at c_i = (i + 0.5) / TOTAL.
+    // Its opacity is 1 at c_i and falls off to 0 at the adjacent frame centers,
+    // using smoothstep. This guarantees adjacent frames' opacities sum to ~1
+    // at every boundary (direct image-to-image crossfade, no grey gap).
+    // First frame holds at 1 until the first boundary; last frame holds at 1
+    // after the last boundary (no fade-out at the very end).
     function opacityFor(i: number, p: number, total: number): number {
+      const center = (i + 0.5) / total; // this frame's peak position
       const segSize = 1 / total;
-      // Each frame is the "active" frame during its segment [i/total, (i+1)/total].
-      // Crossfade happens at segment boundaries, centered on the boundary.
-      const segStart = i / total;
-      const segEnd = (i + 1) / total;
-      const fadeWidth = segSize * CROSSFADE; // width of the crossfade zone
 
-      // First frame: fully visible at start, fades out across the 0→1 boundary
-      if (i === 0) {
-        if (p <= segStart) return 1; // before/at start
-        if (p >= segEnd) return 0; // after segment end
-        if (p <= segEnd - fadeWidth) return 1; // hold full opacity
-        // Fade out in the last `fadeWidth` of the segment
-        const t = (p - (segEnd - fadeWidth)) / fadeWidth;
-        return 1 - (t * t * (3 - 2 * t)); // smoothstep out
+      // Distance from this frame's center, in units of one segment
+      const d = (p - center) / segSize; // 0 at center, ±0.5 at adjacent centers
+
+      // Within half a segment of center → fully or partially visible
+      if (Math.abs(d) >= 0.5) {
+        // First frame: clamp to 1 before its segment (start of page)
+        if (i === 0 && p < center) return 1;
+        // Last frame: clamp to 1 after its segment (end of hero)
+        if (i === total - 1 && p > center) return 1;
+        return 0;
       }
 
-      // Last frame: fades in across the (total-1)→total boundary, then holds
-      if (i === total - 1) {
-        if (p >= segStart + fadeWidth) return 1; // hold full opacity
-        if (p <= segStart) {
-          // Fading in during the previous segment's tail
-          const t = (p - (segStart - fadeWidth)) / fadeWidth;
-          return Math.max(0, t * t * (3 - 2 * t)); // smoothstep in
-        }
-        const t = (p - segStart) / fadeWidth;
-        return t * t * (3 - 2 * t); // smoothstep in
-      }
+      // At center → 1; at ±0.5 (adjacent boundary) → 0; smoothstep between
+      // opacity = 1 - smoothstep(0, 0.5, |d|)  → 1 at d=0, 0 at d=0.5
+      const op = 1 - smoothstep(0, 0.5, Math.abs(d));
 
-      // Middle frames: fade in at segment start, hold, fade out at segment end
-      // Fade in: across first `fadeWidth` of segment (overlaps prev frame's fade out)
-      if (p < segStart) {
-        // In previous segment's tail — fading in
-        const t = (p - (segStart - fadeWidth)) / fadeWidth;
-        return Math.max(0, t * t * (3 - 2 * t));
-      }
-      if (p >= segEnd) {
-        // In next segment's head — fading out
-        const t = (p - segEnd) / fadeWidth;
-        return Math.max(0, 1 - (t * t * (3 - 2 * t)));
-      }
-      // Within this segment
-      if (p < segStart + fadeWidth) {
-        // Fading in at segment start
-        const t = (p - segStart) / fadeWidth;
-        return t * t * (3 - 2 * t);
-      }
-      if (p > segEnd - fadeWidth) {
-        // Fading out at segment end
-        const t = (p - (segEnd - fadeWidth)) / fadeWidth;
-        return 1 - (t * t * (3 - 2 * t));
-      }
-      return 1; // hold full opacity in the middle
+      // First frame: hold at 1 until center (no fade-in at page start)
+      if (i === 0 && p <= center) return 1;
+      // Last frame: hold at 1 after center (no fade-out at end)
+      if (i === total - 1 && p >= center) return 1;
+
+      return op;
     }
 
     // Single ScrollTrigger that updates everything in one onUpdate
@@ -190,16 +164,18 @@ export function Hero() {
           img.style.transform = `scale(${scale})`;
         });
 
-        // Update text beat opacities (same crossfade logic)
+        // Update text beat opacities (same crossfade logic, but text fades
+        // out slightly earlier so there's no overlap of two text blocks)
         beats.forEach((_, i) => {
           const el = beatRefs.current[i];
           if (!el) return;
-          el.style.opacity = String(opacityFor(i, p, TOTAL));
-          // Subtle vertical drift
-          const segStart = i / TOTAL;
-          const segEnd = (i + 1) / TOTAL;
-          const localP = Math.max(0, Math.min(1, (p - segStart) / (segEnd - segStart)));
-          const y = (localP - 0.5) * 20; // drift up as it fades out
+          const op = opacityFor(i, p, TOTAL);
+          el.style.opacity = String(op);
+          // Subtle vertical drift: rise as it fades out
+          const center = (i + 0.5) / TOTAL;
+          const segSize = 1 / TOTAL;
+          const d = (p - center) / segSize;
+          const y = Math.max(-0.5, Math.min(0.5, d)) * 24; // drift up to -12px
           el.style.transform = `translateY(${y}px)`;
         });
       },
@@ -236,18 +212,18 @@ export function Hero() {
         <div aria-hidden className="bg-grid-brand absolute inset-0 opacity-20" />
 
         {/* ===== Scrollytelling text beats (centered, crossfading, no CTA here) ===== */}
-        <div className="relative z-10 mx-auto flex h-full max-w-5xl flex-col items-center justify-center px-4 sm:px-6 lg:px-8">
+        <div className="relative z-10 mx-auto flex h-full max-w-5xl flex-col items-center justify-center px-6 sm:px-8 lg:px-12">
           {beats.map((beat, i) => (
             <div
               key={i}
               ref={(el) => { beatRefs.current[i] = el; }}
-              className="absolute max-w-3xl text-center"
+              className="absolute max-w-3xl px-2 text-center sm:px-4"
               style={{ opacity: i === 0 ? 1 : 0 }}
             >
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-leaf">
                 {beat.eyebrow}
               </p>
-              <h1 className="mt-4 font-display text-4xl font-semibold leading-[1.08] tracking-tight text-white sm:text-5xl md:text-6xl">
+              <h1 className="mt-4 font-display text-4xl font-semibold leading-[1.1] tracking-tight text-white sm:text-5xl md:text-6xl">
                 {beat.title}
                 {beat.sub && (
                   <span className="mt-2 block text-2xl font-normal text-white/80 sm:text-3xl md:text-4xl">
