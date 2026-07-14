@@ -14,7 +14,7 @@ import type { NextRequest } from "next/server";
  * - Content-Security-Policy: restricts resource loading
  */
 
-export function middleware(_req: NextRequest) {
+export function proxy(_req: NextRequest) {
   const res = NextResponse.next();
 
   // Prevent MIME type sniffing
