@@ -1,11 +1,11 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowRight, Phone } from "lucide-react";
 import { siteConfig } from "@/lib/site-config";
+import { TripPlannerDialog } from "@/components/site/trip-planner";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -88,6 +88,7 @@ export function Hero() {
   const sectionRef = React.useRef<HTMLDivElement>(null);
   const imgRefs = React.useRef<(HTMLImageElement | null)[]>([]);
   const beatRefs = React.useRef<(HTMLDivElement | null)[]>([]);
+  const [plannerOpen, setPlannerOpen] = React.useState(false);
 
   React.useEffect(() => {
     const section = sectionRef.current;
@@ -108,15 +109,27 @@ export function Hero() {
     // Frames overlap during crossfade so there's never a grey gap: at any
     // transition point, the outgoing frame and incoming frame are both
     // partially visible and their opacities sum to ~1.
-    // The LAST frame never fades out — it stays fully visible at the end.
+    // The FIRST and LAST frames never fade out — first stays visible from
+    // load until the second frame takes over; last stays visible at the end.
     function opacityFor(i: number, p: number, total: number): number {
       const segSize = 1 / total;
       const center = (i + 0.5) / total; // center of this frame's segment
       const halfFade = segSize * (1 + CROSSFADE) / 2; // half-width of visibility
 
+      // First frame: fully visible from load (p=0) until next frame's fade-in
+      // completes, then fades out. Never invisible at the very start.
+      if (i === 0) {
+        // Fade out only as frame 1 takes over (around the 0→1 boundary)
+        const fadeOutStart = center; // = 0.5/total
+        const fadeOutEnd = center + halfFade;
+        if (p <= fadeOutStart) return 1;
+        if (p >= fadeOutEnd) return 0;
+        const t = (p - fadeOutStart) / (fadeOutEnd - fadeOutStart);
+        return 1 - (t * t * (3 - 2 * t)); // smoothstep out
+      }
+
       // Last frame: once it reaches full opacity, it stays (no fade out)
       if (i === total - 1) {
-        const fadeInEnd = center - halfFade * 0.4;
         if (p >= center) return 1; // at or past center → full opacity
         if (p <= center - halfFade) return 0; // before fade range → invisible
         // Fade in smoothly
@@ -225,23 +238,26 @@ export function Hero() {
         </div>
 
         {/* ===== Persistent CTA buttons (always visible on all screens) ===== */}
-        <div className="absolute bottom-12 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center gap-3 sm:flex-row">
-          <Link
-            href="/contact"
-            className="shimmer-sweep group inline-flex h-13 items-center justify-center gap-2 rounded-full bg-brand px-7 py-3.5 text-sm font-semibold text-white shadow-glow-blue transition-transform hover:scale-[1.03]"
+        <div className="absolute bottom-10 left-1/2 z-20 flex w-[92%] max-w-md -translate-x-1/2 flex-col items-center gap-2.5 sm:w-auto sm:max-w-none sm:flex-row sm:gap-3">
+          <button
+            onClick={() => setPlannerOpen(true)}
+            className="shimmer-sweep group inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-brand px-6 text-sm font-semibold text-white shadow-glow-blue transition-transform hover:scale-[1.03] sm:h-13 sm:w-auto sm:px-7"
           >
             Plan my trip
             <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
-          </Link>
+          </button>
           <a
             href={`tel:${siteConfig.phoneTel}`}
-            className="inline-flex h-13 items-center justify-center gap-2 rounded-full border border-white/30 bg-white/5 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur transition-colors hover:bg-white/15"
+            className="inline-flex h-12 w-full items-center justify-center gap-1.5 rounded-full border border-white/30 bg-white/5 px-4 text-xs font-semibold text-white backdrop-blur transition-colors hover:bg-white/15 sm:h-13 sm:w-auto sm:gap-2 sm:px-7 sm:text-sm"
           >
-            <Phone className="size-4 text-leaf" />
-            {siteConfig.phone}
+            <Phone className="size-4 shrink-0 text-leaf" />
+            <span className="truncate">{siteConfig.phone}</span>
           </a>
         </div>
       </div>
+
+      {/* ===== 6-step trip planning questionnaire ===== */}
+      <TripPlannerDialog open={plannerOpen} onOpenChange={setPlannerOpen} />
     </section>
   );
 }

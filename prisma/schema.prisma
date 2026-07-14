@@ -38,3 +38,15 @@ model ContactMessage {
   message   String
   createdAt DateTime @default(now())
 }
+
+model TripPlan {
+  id          String   @id @default(cuid())
+  service     String
+  destination String
+  dates       String
+  travellers  String
+  budget      String
+  phone       String
+  notes       String?
+  createdAt   DateTime @default(now())
+}
