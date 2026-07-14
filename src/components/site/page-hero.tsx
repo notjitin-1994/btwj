@@ -87,9 +87,8 @@ export function PageHero({
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.16em] text-white backdrop-blur"
+            className="text-xs font-semibold uppercase tracking-[0.18em] text-white/90"
           >
-            <span className="size-1.5 rounded-full bg-gradient-brand" />
             {eyebrow}
           </motion.span>
         )}

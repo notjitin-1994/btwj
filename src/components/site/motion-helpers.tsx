@@ -99,11 +99,10 @@ export function SectionHeading({
         <Reveal>
           <span
             className={cn(
-              "inline-flex items-center gap-2 rounded-full border border-brand/15 bg-brand/5 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-brand",
-              align === "center" && "mx-auto"
+              "text-xs font-semibold uppercase tracking-[0.18em] text-brand",
+              align === "center" && "mx-auto block"
             )}
           >
-            <span className="size-1.5 rounded-full bg-gradient-brand" />
             {eyebrow}
           </span>
         </Reveal>

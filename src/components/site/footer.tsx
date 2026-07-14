@@ -20,8 +20,7 @@ export function Footer() {
         {/* CTA banner */}
         <div className="grid gap-6 border-b border-border py-12 md:grid-cols-[1.4fr_1fr] md:py-16">
           <div>
-            <span className="inline-flex items-center gap-2 rounded-full border border-brand/15 bg-brand/5 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-brand">
-              <span className="size-1.5 rounded-full bg-leaf" />
+            <span className="text-xs font-semibold uppercase tracking-[0.18em] text-brand">
               Ready when you are
             </span>
             <h3 className="mt-4 font-display text-3xl font-semibold leading-tight text-ink sm:text-4xl">
@@ -67,16 +66,6 @@ export function Footer() {
             <p className="mt-5 max-w-sm text-sm leading-relaxed text-muted-foreground">
               {siteConfig.description}
             </p>
-            <div className="mt-6 flex flex-wrap gap-2">
-              {["Tour Packages", "Umrah", "Hotels", "Events"].map((t) => (
-                <span
-                  key={t}
-                  className="rounded-full border border-border bg-muted/50 px-3 py-1 text-xs font-medium text-ink/70"
-                >
-                  {t}
-                </span>
-              ))}
-            </div>
             <a
               href={siteConfig.instagram}
               target="_blank"
