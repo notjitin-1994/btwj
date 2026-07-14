@@ -3,8 +3,8 @@ export const siteConfig = {
   shortName: "buytheway",
   tagline: "JOURNEYS",
   logo: "/buythewaylogo.webp",
-  phone: "8921595561",
-  phoneIntl: "+91 89215 95561",
+  phone: "+91 8921595561",
+  phoneTel: "+918921595561",
   email: "info@buythewayjourneys.com",
   address: {
     line1: "B Block, First floor,",
@@ -156,7 +156,7 @@ export const benefitCards = [
     title: "Experienced Guide",
     description:
       "We offer tailor-made tour packages for unforgettable travel experiences",
-    icon: "MapPin",
+    icon: "Compass",
     accent: "leaf" as const,
   },
 ];

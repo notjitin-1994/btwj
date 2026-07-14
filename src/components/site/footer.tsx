@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Phone, Mail, MapPin, ArrowUpRight, Send } from "lucide-react";
+import { Phone, Mail, MapPin, ArrowUpRight, Compass } from "lucide-react";
 import { siteConfig, services, mainNav } from "@/lib/site-config";
 
 const quickLinks = mainNav.filter((n) => n.label !== "Our Services");
@@ -42,7 +42,7 @@ export function Footer() {
               <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </Link>
             <a
-              href={`tel:${siteConfig.phone}`}
+              href={`tel:${siteConfig.phoneTel}`}
               className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-brand/25 bg-white px-6 text-sm font-semibold text-brand transition-colors hover:bg-brand/5"
             >
               <Phone className="size-4" />
@@ -127,7 +127,7 @@ export function Footer() {
             <ul className="mt-4 space-y-3.5 text-sm">
               <li>
                 <a
-                  href={`tel:${siteConfig.phone}`}
+                  href={`tel:${siteConfig.phoneTel}`}
                   className="group flex items-start gap-3 text-muted-foreground transition-colors hover:text-brand"
                 >
                   <span className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-lg bg-brand/10 text-brand transition-colors group-hover:bg-brand group-hover:text-white">
@@ -182,7 +182,7 @@ export function Footer() {
           </p>
           <div className="flex items-center gap-4 text-xs text-muted-foreground">
             <span className="inline-flex items-center gap-1.5">
-              <Send className="size-3.5 text-leaf" />
+              <Compass className="size-3.5 text-leaf" />
               Crafted for travellers, by travellers
             </span>
           </div>

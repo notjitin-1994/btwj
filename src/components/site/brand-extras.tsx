@@ -2,18 +2,18 @@
 
 import * as React from "react";
 import { motion, useInView, useMotionValue, useSpring } from "framer-motion";
-import { Star, Sparkles, Plane, Globe2, ShieldCheck } from "lucide-react";
+import { Plane, Globe2, ShieldCheck, Award, Building2, Moon, PartyPopper, Ruler } from "lucide-react";
 
 /* ===== Magic UI style marquee trust band ===== */
 const marqueeItems = [
   { icon: ShieldCheck, label: "Best Price Guarantee" },
   { icon: Plane, label: "Inbound & Outbound Tours" },
-  { icon: Sparkles, label: "Tailor-made Itineraries" },
-  { icon: ShieldCheck, label: "10+ Years of Experience" },
+  { icon: Ruler, label: "Tailor-made Itineraries" },
+  { icon: Award, label: "10+ Years of Experience" },
   { icon: Globe2, label: "Tour Packages" },
-  { icon: Star, label: "Hotel & Resort Bookings" },
-  { icon: Sparkles, label: "Customized Umrah Packages" },
-  { icon: Globe2, label: "Event Management" },
+  { icon: Building2, label: "Hotel & Resort Bookings" },
+  { icon: Moon, label: "Customized Umrah Packages" },
+  { icon: PartyPopper, label: "Event Management" },
 ];
 
 export function MarqueeBand() {

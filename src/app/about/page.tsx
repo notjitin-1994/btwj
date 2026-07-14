@@ -4,7 +4,7 @@ import { AboutSection } from "@/components/site/about-section";
 import { CtaParallax } from "@/components/site/cta-parallax";
 import { Reveal } from "@/components/site/motion-helpers";
 import { siteConfig, stats } from "@/lib/site-config";
-import { Compass, HeartHandshake, Sparkles, Globe2 } from "lucide-react";
+import { Compass, HeartHandshake, Smile, Globe2 } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "About Us — Buy The Way Journeys",
@@ -19,7 +19,7 @@ const values = [
     text: "Every itinerary is crafted around your dreams, pace and budget.",
   },
   {
-    icon: Sparkles,
+    icon: Smile,
     title: "Stress-Free Planning",
     text: "We handle the details so you can focus on the experience.",
   },

@@ -57,7 +57,7 @@ export function ContactSection({ compact = false }: { compact?: boolean }) {
       icon: Phone,
       label: "Call Us",
       value: siteConfig.phone,
-      href: `tel:${siteConfig.phone}`,
+      href: `tel:${siteConfig.phoneTel}`,
       tint: "bg-brand text-white shadow-glow-blue",
       note: "Mon–Sun · 9am – 8pm",
     },

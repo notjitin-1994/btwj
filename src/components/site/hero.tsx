@@ -5,10 +5,9 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight,
-  Sparkles,
   MapPin,
   Compass,
-  Star,
+  Award,
   ShieldCheck,
   ChevronDown,
 } from "lucide-react";
@@ -33,7 +32,7 @@ const quickDestinations = [
 ];
 
 const trustSignals = [
-  { icon: Star, label: "10+ Years of Experience" },
+  { icon: Award, label: "10+ Years of Experience" },
   { icon: Compass, label: "Best Tour Selection" },
   { icon: ShieldCheck, label: "Best Price Guarantee" },
 ];
@@ -94,7 +93,7 @@ export function Hero() {
           transition={{ duration: 0.6 }}
           className="inline-flex w-fit items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.16em] text-white backdrop-blur-md"
         >
-          <Sparkles className="size-3.5 text-leaf" />
+          <Compass className="size-3.5 text-leaf" />
           Welcome to Buy The Way Journeys
         </motion.div>
 
@@ -165,7 +164,7 @@ export function Hero() {
           <p className="mt-3 text-xs text-white/65">
             Free, no-obligation quote within 24 hours · Call{" "}
             <a
-              href={`tel:${siteConfig.phone}`}
+              href={`tel:${siteConfig.phoneTel}`}
               className="font-semibold text-white underline-offset-2 hover:underline"
             >
               {siteConfig.phone}

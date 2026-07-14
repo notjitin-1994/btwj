@@ -5,7 +5,7 @@ import { CtaParallax } from "@/components/site/cta-parallax";
 import { Reveal, SectionHeading } from "@/components/site/motion-helpers";
 import { benefitCards } from "@/lib/site-config";
 import { DynamicIcon } from "@/components/site/icons";
-import { ShieldCheck, Clock, Star } from "lucide-react";
+import { ShieldCheck, Clock, Heart } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Why Choose Us — Buy The Way Journeys",

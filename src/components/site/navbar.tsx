@@ -186,7 +186,7 @@ export function Navbar() {
               size="sm"
               className="shimmer-sweep hidden h-10 rounded-full bg-brand px-4 text-sm font-semibold text-white shadow-glow-blue transition-transform hover:scale-[1.03] sm:inline-flex"
             >
-              <a href={`tel:${siteConfig.phone}`} className="gap-2">
+              <a href={`tel:${siteConfig.phoneTel}`} className="gap-2">
                 <Phone className="size-4" />
                 {siteConfig.phone}
               </a>
@@ -278,7 +278,7 @@ export function Navbar() {
                       asChild
                       className="h-12 w-full rounded-xl bg-brand text-sm font-semibold shadow-glow-blue"
                     >
-                      <a href={`tel:${siteConfig.phone}`} className="gap-2">
+                      <a href={`tel:${siteConfig.phoneTel}`} className="gap-2">
                         <Phone className="size-4" />
                         Call {siteConfig.phone}
                       </a>

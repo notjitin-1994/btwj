@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   const quickFacts = [
-    { icon: Phone, label: "Phone", value: siteConfig.phone, href: `tel:${siteConfig.phone}` },
+    { icon: Phone, label: "Phone", value: siteConfig.phone, href: `tel:${siteConfig.phoneTel}` },
     { icon: Mail, label: "Email", value: siteConfig.email, href: `mailto:${siteConfig.email}` },
     { icon: MapPin, label: "Office", value: siteConfig.address.full },
     { icon: Clock, label: "Hours", value: "Mon – Sun · 9:00 AM – 8:00 PM" },

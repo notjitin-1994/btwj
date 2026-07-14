@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Phone, ArrowUpRight, Sparkles } from "lucide-react";
+import { Phone, ArrowUpRight, Plane } from "lucide-react";
 import { siteConfig } from "@/lib/site-config";
 
 export function CtaParallax() {
@@ -47,7 +47,7 @@ export function CtaParallax() {
               transition={{ duration: 0.6 }}
               className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.16em] text-white backdrop-blur"
             >
-              <Sparkles className="size-3.5 text-leaf" />
+              <Plane className="size-3.5 text-leaf" />
               Your journey starts here
             </motion.span>
 
@@ -90,7 +90,7 @@ export function CtaParallax() {
                 <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </Link>
               <a
-                href={`tel:${siteConfig.phone}`}
+                href={`tel:${siteConfig.phoneTel}`}
                 className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-white/30 bg-white/5 px-7 text-sm font-semibold text-white backdrop-blur transition-colors hover:bg-white/15"
               >
                 <Phone className="size-4" />

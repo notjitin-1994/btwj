@@ -307,7 +307,7 @@ export function HomeWhyTeaser() {
 /* ===== Home-only: Contact CTA (compact, links to /contact — NOT the full form) ===== */
 export function HomeContactCta() {
   const items = [
-    { icon: Phone, label: "Call", value: siteConfig.phone, href: `tel:${siteConfig.phone}` },
+    { icon: Phone, label: "Call", value: siteConfig.phone, href: `tel:${siteConfig.phoneTel}` },
     { icon: Mail, label: "Email", value: siteConfig.email, href: `mailto:${siteConfig.email}` },
     { icon: MapPin, label: "Visit", value: "Mather Square, 682018", href: "/contact" },
   ];
