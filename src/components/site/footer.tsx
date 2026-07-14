@@ -183,27 +183,45 @@ export function Footer() {
               <Compass className="size-3.5 text-leaf" />
               Crafted for travellers, by travellers
             </span>
-            {/* Powered by GlitchZero Labs — brand-styled with signal orange accent */}
+          </div>
+        </div>
+
+        {/* Powered by GlitchZero Labs — dark section with GlitchZero brand styling.
+            "Glitch" in white, "Zero" in orange (#FF4F00), Manrope heading font,
+            all text/icons white on dark grey background (#1c1c1e). */}
+        <div className="bg-[#1c1c1e] px-4 py-4 sm:px-8">
+          <div className="mx-auto flex max-w-7xl flex-col items-center justify-center gap-2 sm:flex-row sm:gap-4">
             <a
               href="https://www.glitchzerolabs.com"
               target="_blank"
               rel="noreferrer"
-              className="group inline-flex items-center gap-1.5 transition-opacity hover:opacity-80"
+              className="group inline-flex items-baseline gap-1.5 transition-opacity hover:opacity-90"
+              style={{ fontFamily: "var(--font-manrope), Manrope, sans-serif" }}
             >
-              <span className="text-muted-foreground">Powered by</span>
-              <span
-                className="font-semibold tracking-tight"
-                style={{ color: "#FF4F00" }}
-              >
-                GlitchZero
+              <span className="text-xs font-medium text-white/70">
+                Powered by
               </span>
               <span
-                className="font-mono text-[10px] font-medium uppercase tracking-wider"
-                style={{ color: "#8e8e93" }}
+                className="text-sm font-extrabold tracking-tight text-white"
+              >
+                Glitch
+              </span>
+              <span
+                className="text-sm font-extrabold tracking-tight"
+                style={{ color: "#FF4F00" }}
+              >
+                Zero
+              </span>
+              <span
+                className="text-[10px] font-medium uppercase tracking-wider text-white/50"
               >
                 Labs
               </span>
             </a>
+            <span className="hidden text-white/30 sm:inline">·</span>
+            <span className="text-[11px] text-white/50">
+              Zero Glitches. Infinite Possibilities.
+            </span>
           </div>
         </div>
       </div>
