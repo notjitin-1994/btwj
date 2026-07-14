@@ -43,7 +43,7 @@ export default function AboutPage() {
         title={
           <>
             Welcome to{" "}
-            <span className="bg-gradient-to-r from-white to-teal-200 bg-clip-text text-transparent">
+            <span className="text-white">
               Buy The Way Journeys
             </span>
           </>

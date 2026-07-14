@@ -58,7 +58,7 @@ export function ContactSection({ compact = false }: { compact?: boolean }) {
       label: "Call Us",
       value: siteConfig.phone,
       href: `tel:${siteConfig.phone}`,
-      tint: "bg-brand/10 text-brand",
+      tint: "bg-brand text-white shadow-glow-blue",
       note: "Mon–Sun · 9am – 8pm",
     },
     {
@@ -66,7 +66,7 @@ export function ContactSection({ compact = false }: { compact?: boolean }) {
       label: "Email Us",
       value: siteConfig.email,
       href: `mailto:${siteConfig.email}`,
-      tint: "bg-teal/10 text-teal",
+      tint: "bg-teal text-white shadow-glow",
       note: "We reply within 24 hours",
     },
     {
@@ -76,7 +76,7 @@ export function ContactSection({ compact = false }: { compact?: boolean }) {
       href: `https://maps.google.com/?q=${encodeURIComponent(
         siteConfig.address.full
       )}`,
-      tint: "bg-leaf/10 text-leaf",
+      tint: "bg-leaf text-white shadow-glow-green",
       note: "B Block, Mather Square",
     },
   ];
@@ -84,15 +84,16 @@ export function ContactSection({ compact = false }: { compact?: boolean }) {
   return (
     <section
       id="contact"
-      className="relative scroll-mt-24 overflow-hidden py-20 sm:py-28"
+      className="relative scroll-mt-24 overflow-hidden bg-brand-wash py-20 sm:py-28"
     >
+      <div aria-hidden className="bg-dots pointer-events-none absolute inset-0 opacity-25" />
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10"
-        style={{
-          background:
-            "radial-gradient(45% 50% at 10% 10%, rgba(0,91,150,0.08), transparent 60%), radial-gradient(45% 50% at 90% 90%, rgba(76,175,80,0.08), transparent 60%)",
-        }}
+        className="pointer-events-none absolute -left-20 top-20 size-80 rounded-full bg-brand/10 opacity-60 blur-3xl"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -right-20 bottom-20 size-80 rounded-full bg-leaf/10 opacity-60 blur-3xl"
       />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
@@ -144,14 +145,6 @@ export function ContactSection({ compact = false }: { compact?: boolean }) {
 
             <Reveal delay={0.2}>
               <div className="relative overflow-hidden rounded-2xl bg-ink p-6 text-white">
-                <div
-                  aria-hidden
-                  className="pointer-events-none absolute inset-0 opacity-80"
-                  style={{
-                    background:
-                      "radial-gradient(60% 80% at 0% 0%, rgba(0,91,150,0.5), transparent 60%), radial-gradient(50% 70% at 100% 100%, rgba(76,175,80,0.4), transparent 60%)",
-                  }}
-                />
                 <div className="relative">
                   <p className="text-xs font-semibold uppercase tracking-wider text-white/60">
                     Why travellers choose us
@@ -216,7 +209,7 @@ export function ContactSection({ compact = false }: { compact?: boolean }) {
                           setForm((f) => ({ ...f, name: e.target.value }))
                         }
                         placeholder="e.g. Aisha Mohammed"
-                        className="h-12 rounded-xl border-border bg-muted/40 pl-10 text-sm"
+                        className="h-12 rounded-xl border-border bg-muted/40 pl-10 text-sm transition-colors focus:border-brand/50 focus:bg-white focus:ring-brand/15"
                         required
                       />
                     </div>
@@ -236,7 +229,7 @@ export function ContactSection({ compact = false }: { compact?: boolean }) {
                           setForm((f) => ({ ...f, email: e.target.value }))
                         }
                         placeholder="you@example.com"
-                        className="h-12 rounded-xl border-border bg-muted/40 pl-10 text-sm"
+                        className="h-12 rounded-xl border-border bg-muted/40 pl-10 text-sm transition-colors focus:border-brand/50 focus:bg-white focus:ring-brand/15"
                         required
                       />
                     </div>
@@ -258,7 +251,7 @@ export function ContactSection({ compact = false }: { compact?: boolean }) {
                           setForm((f) => ({ ...f, message: e.target.value }))
                         }
                         placeholder="Tell us about your dream trip, dates, number of travellers…"
-                        className="min-h-[140px] rounded-xl border-border bg-muted/40 pl-10 pt-3 text-sm"
+                        className="min-h-[140px] rounded-xl border-border bg-muted/40 pl-10 pt-3 text-sm transition-colors focus:border-brand/50 focus:bg-white focus:ring-brand/15"
                         required
                       />
                     </div>
@@ -267,7 +260,7 @@ export function ContactSection({ compact = false }: { compact?: boolean }) {
                   <Button
                     type="submit"
                     disabled={loading}
-                    className="group h-12 w-full gap-2 rounded-xl bg-gradient-brand text-sm font-semibold text-white shadow-glow transition-transform hover:scale-[1.01] disabled:opacity-70"
+                    className="shimmer-sweep group h-12 w-full gap-2 rounded-xl bg-gradient-brand text-sm font-semibold text-white shadow-glow-blue transition-transform hover:scale-[1.01] disabled:opacity-70"
                   >
                     {loading ? (
                       <>

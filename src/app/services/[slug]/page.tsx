@@ -77,7 +77,7 @@ export default async function ServiceDetailPage({ params }: Params) {
         title={
           <>
             {service.title.split(" ").slice(0, -2).join(" ")}{" "}
-            <span className="bg-gradient-to-r from-white to-teal-200 bg-clip-text text-transparent">
+            <span className="text-white">
               {service.title.split(" ").slice(-2).join(" ")}
             </span>
           </>
@@ -149,7 +149,7 @@ export default async function ServiceDetailPage({ params }: Params) {
                     alt={service.title}
                     className="h-full w-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-ink/80 to-transparent" />
+                  <div className="absolute inset-0 bg-ink/70" />
                   <div className="absolute bottom-4 left-5">
                     <p className="text-xs font-semibold uppercase tracking-wider text-white/70">
                       What's included

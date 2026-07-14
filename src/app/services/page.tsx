@@ -28,14 +28,14 @@ export default function ServicesPage() {
         title={
           <>
             We're with you{" "}
-            <span className="bg-gradient-to-r from-white to-teal-200 bg-clip-text text-transparent">
+            <span className="text-white">
               every step
             </span>{" "}
             of the way!
           </>
         }
         description="From dream vacations and spiritual journeys to seamless events — one trusted partner for everything travel."
-        image="https://images.unsplash.com/photo-1546412414-e1885e51ca18?auto=format&fit=crop&w=2000&q=80"
+        image="https://sfile.chatglm.cn/images-ppt/c39865ffa477.jpg"
         crumbs={[{ label: "Our Services" }]}
       />
 
@@ -71,7 +71,7 @@ export default function ServicesPage() {
                       alt={s.title}
                       className="aspect-[16/10] w-full object-cover transition-transform duration-700 hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-ink/40 to-transparent" />
+                    <div className="absolute inset-0 bg-ink/35" />
                     <span className="absolute left-4 top-4 flex size-11 items-center justify-center rounded-xl glass text-white">
                       <DynamicIcon name={s.icon} className="size-5" />
                     </span>

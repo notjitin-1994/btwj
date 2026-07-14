@@ -27,7 +27,7 @@ const headlines = [
 
 const heroImages = [
   "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=2000&q=80",
-  "https://images.unsplash.com/photo-1546412414-e1885e51ca18?auto=format&fit=crop&w=2000&q=80",
+  "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2000&q=80",
   "https://images.unsplash.com/photo-1530841377377-3ff06c0ca713?auto=format&fit=crop&w=2000&q=80",
 ];
 
@@ -60,8 +60,6 @@ export function Hero() {
             transition={{ duration: 1.6, ease: "easeInOut" }}
             className="absolute inset-0"
           >
-            {/* Using a plain img to avoid remote image config; optimized via w param */}
-            { }
             <img
               src={src}
               alt="Travel destination"
@@ -69,17 +67,10 @@ export function Hero() {
             />
           </motion.div>
         ))}
-        {/* Gradient + ink wash */}
-        <div className="absolute inset-0 bg-gradient-to-br from-ink/85 via-ink/55 to-brand/40" />
-        <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-transparent to-ink/30" />
-        <div
-          aria-hidden
-          className="absolute inset-0 opacity-[0.12] mix-blend-overlay"
-          style={{
-            background:
-              "radial-gradient(40% 60% at 80% 20%, rgba(76,175,80,0.6), transparent 60%), radial-gradient(40% 60% at 15% 80%, rgba(0,136,169,0.6), transparent 60%)",
-          }}
-        />
+        {/* Uniform translucent dark overlay for guaranteed text contrast (no gradient) */}
+        <div className="absolute inset-0 bg-ink/72" />
+        {/* Subtle brand grid texture for premium depth */}
+        <div aria-hidden className="bg-grid-brand absolute inset-0 opacity-40" />
       </div>
 
       {/* Floating decorative chips */}
@@ -143,7 +134,7 @@ export function Hero() {
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
               className="font-display text-4xl font-semibold leading-[1.05] tracking-tight text-white sm:text-5xl md:text-6xl lg:text-[4.2rem]"
             >
-              <span className="bg-gradient-to-r from-white via-white to-teal-100 bg-clip-text text-transparent">
+              <span className="text-white">
                 {headlines[idx].accent}
               </span>
               <span className="mt-2 block text-2xl font-normal text-white/80 sm:text-3xl md:text-4xl">
@@ -195,16 +186,16 @@ export function Hero() {
         >
           <Link
             href="/contact"
-            className="group inline-flex h-13 items-center justify-center gap-2 rounded-full bg-gradient-brand px-7 py-3.5 text-sm font-semibold text-white shadow-glow transition-transform hover:scale-[1.03]"
+            className="shimmer-sweep group inline-flex h-13 items-center justify-center gap-2 rounded-full bg-gradient-brand px-7 py-3.5 text-sm font-semibold text-white shadow-glow-blue transition-transform hover:scale-[1.03]"
           >
             Contact Us
             <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
           </Link>
           <a
             href={`tel:${siteConfig.phone}`}
-            className="inline-flex h-13 items-center justify-center gap-2 rounded-full border border-white/25 bg-white/5 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur-md transition-colors hover:bg-white/12"
+            className="inline-flex h-13 items-center justify-center gap-2 rounded-full border border-leaf/40 bg-leaf/10 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur-md transition-colors hover:bg-leaf/20"
           >
-            <Phone className="size-4" />
+            <Phone className="size-4 text-leaf" />
             {siteConfig.phone}
           </a>
         </motion.div>
@@ -225,7 +216,7 @@ export function Hero() {
               <p className="font-display text-2xl font-semibold text-white sm:text-3xl">
                 {s.value}
               </p>
-              <p className="mt-0.5 text-xs text-white/65 sm:text-sm">
+              <p className="mt-0.5 text-xs text-white/70 sm:text-sm">
                 {s.label}
               </p>
             </div>

@@ -10,15 +10,6 @@ const quickLinks = mainNav.filter((n) => n.label !== "Our Services");
 export function Footer() {
   return (
     <footer className="relative mt-auto overflow-hidden bg-ink text-white">
-      {/* Decorative gradient wash */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-70"
-        style={{
-          background:
-            "radial-gradient(60% 80% at 12% 0%, rgba(0,91,150,0.55) 0%, transparent 60%), radial-gradient(50% 70% at 88% 20%, rgba(0,136,169,0.42) 0%, transparent 55%), radial-gradient(60% 80% at 80% 100%, rgba(76,175,80,0.32) 0%, transparent 60%)",
-        }}
-      />
       <div
         aria-hidden
         className="bg-grid pointer-events-none absolute inset-0 opacity-[0.12]"
@@ -33,7 +24,7 @@ export function Footer() {
               Ready when you are
             </span>
             <h3 className="mt-4 font-display text-3xl font-semibold leading-tight text-white sm:text-4xl">
-              Let's plan your next <span className="text-gradient-brand">unforgettable</span> journey
+              Let's plan your next <span className="text-white">unforgettable</span> journey
             </h3>
             <p className="mt-3 max-w-xl text-sm leading-relaxed text-white/70 sm:text-base">
               Tell us where you want to go. Our experienced travel experts will
@@ -43,7 +34,7 @@ export function Footer() {
           <div className="flex flex-col justify-center gap-3 sm:flex-row md:flex-col lg:flex-row">
             <Link
               href="/contact"
-              className="group inline-flex h-12 items-center justify-center gap-2 rounded-full bg-gradient-brand px-6 text-sm font-semibold text-white shadow-glow transition-transform hover:scale-[1.03]"
+              className="shimmer-sweep group inline-flex h-12 items-center justify-center gap-2 rounded-full bg-gradient-brand px-6 text-sm font-semibold text-white shadow-glow-blue transition-transform hover:scale-[1.03]"
             >
               Start planning
               <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />

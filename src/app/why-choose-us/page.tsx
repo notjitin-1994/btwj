@@ -45,7 +45,7 @@ export default function WhyChooseUsPage() {
         title={
           <>
             Our Benefits List —{" "}
-            <span className="bg-gradient-to-r from-white to-teal-200 bg-clip-text text-transparent">
+            <span className="text-white">
               Why Choose Us?
             </span>
           </>

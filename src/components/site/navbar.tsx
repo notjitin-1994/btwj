@@ -49,23 +49,25 @@ export function Navbar() {
         <div
           className={cn(
             "mx-auto flex max-w-7xl items-center justify-between gap-4 rounded-2xl px-3 transition-all duration-300 sm:px-5",
-            scrolled ? "glass shadow-premium h-16" : "bg-transparent h-[4.75rem]"
+            scrolled
+              ? "glass shadow-premium h-16"
+              : "glass h-[4.75rem]"
           )}
         >
-          {/* Logo */}
+          {/* Logo — on a solid white chip so it stays legible over any background */}
           <Link
             href="/"
             className="group flex items-center gap-2.5"
             aria-label={siteConfig.name}
           >
-            <div className="relative h-10 w-auto shrink-0 transition-transform duration-300 group-hover:scale-[1.04]">
+            <div className="flex h-12 items-center rounded-xl bg-white px-2.5 shadow-premium ring-1 ring-ink/5 transition-transform duration-300 group-hover:scale-[1.03]">
               <Image
                 src={siteConfig.logo}
                 alt="Buy The Way Journeys logo"
-                width={150}
-                height={44}
+                width={140}
+                height={40}
                 priority
-                className="h-10 w-auto object-contain"
+                className="h-9 w-auto object-contain"
               />
             </div>
           </Link>
@@ -168,7 +170,7 @@ export function Navbar() {
             <Button
               asChild
               size="sm"
-              className="hidden h-10 rounded-full bg-gradient-brand px-4 text-sm font-semibold text-white shadow-glow transition-transform hover:scale-[1.03] sm:inline-flex"
+              className="shimmer-sweep hidden h-10 rounded-full bg-gradient-brand px-4 text-sm font-semibold text-white shadow-glow-blue transition-transform hover:scale-[1.03] sm:inline-flex"
             >
               <a href={`tel:${siteConfig.phone}`} className="gap-2">
                 <Phone className="size-4" />

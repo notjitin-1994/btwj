@@ -116,7 +116,7 @@ export const services: ServiceInfo[] = [
       "Carefully curated packages",
     ],
     image:
-      "https://images.unsplash.com/photo-1591456983933-9c1f9f5d8a3e?auto=format&fit=crop&w=1600&q=80",
+      "https://sfile.chatglm.cn/images-ppt/2ce6a80386d3.jpg",
     icon: "Moon",
     accent: "leaf",
   },

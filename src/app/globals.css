@@ -147,19 +147,41 @@
   }
 }
 
-/* ===== Brand utility helpers ===== */
+/* ===== Brand utility helpers (solid brand accent colors, no gradients) ===== */
 @layer utilities {
+  /* Solid brand accent text colors — used on light backgrounds for AA contrast.
+     brand blue (#005B96) on white = 7.4:1 (AAA). */
   .text-gradient-brand {
-    background-image: linear-gradient(100deg, var(--brand) 0%, var(--teal) 55%, var(--leaf) 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    color: var(--brand);
   }
+  .text-gradient-blue-green {
+    color: var(--brand);
+  }
+  /* Solid brand accent backgrounds.
+     blue + white text = 7.4:1 (AAA).
+     teal + white text = ~3.9:1 (AA for large/bold text & graphics).
+     green is used with dark text or as graphics only. */
   .bg-gradient-brand {
-    background-image: linear-gradient(120deg, var(--brand) 0%, var(--teal) 55%, var(--leaf) 100%);
+    background-color: var(--brand);
   }
   .bg-gradient-brand-soft {
-    background-image: linear-gradient(120deg, color-mix(in srgb, var(--brand) 12%, white) 0%, color-mix(in srgb, var(--teal) 14%, white) 50%, color-mix(in srgb, var(--leaf) 14%, white) 100%);
+    background-color: color-mix(in srgb, var(--brand) 8%, white);
+  }
+  .bg-gradient-blue-teal {
+    background-color: var(--brand);
+  }
+  .bg-gradient-teal-leaf {
+    background-color: var(--teal);
+  }
+  /* Solid brand-tinted section backgrounds (very light, non-text) */
+  .bg-brand-wash {
+    background-color: color-mix(in srgb, var(--brand) 5%, white);
+  }
+  .bg-teal-wash {
+    background-color: color-mix(in srgb, var(--teal) 6%, white);
+  }
+  .bg-brand-band {
+    background-color: var(--brand);
   }
   .glass {
     background-color: color-mix(in srgb, white 72%, transparent);
@@ -182,21 +204,80 @@
   .shadow-glow {
     box-shadow: 0 18px 50px -18px rgba(0, 136, 169, 0.55);
   }
+  .shadow-glow-blue {
+    box-shadow: 0 22px 55px -20px rgba(0, 91, 150, 0.6);
+  }
+  .shadow-glow-green {
+    box-shadow: 0 22px 55px -20px rgba(76, 175, 80, 0.55);
+  }
   .ring-soft {
     box-shadow: 0 0 0 1px rgba(10, 37, 64, 0.06);
+  }
+  /* Solid brand accent border that fades in on hover (replaces animated gradient border) */
+  .border-gradient-animate {
+    position: relative;
+    background-clip: padding-box;
+  }
+  .border-gradient-animate::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1.5px;
+    background: var(--brand);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+  .border-gradient-animate:hover::before {
+    opacity: 1;
+  }
+  /* Shimmer sweep used on primary buttons */
+  .shimmer-sweep {
+    position: relative;
+    overflow: hidden;
+  }
+  .shimmer-sweep::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.35) 50%, transparent 70%);
+    background-size: 200% 100%;
+    transform: translateX(-100%);
+    transition: transform 0.7s ease;
+    pointer-events: none;
+  }
+  .shimmer-sweep:hover::after {
+    transform: translateX(100%);
   }
   .bg-grid {
     background-image: linear-gradient(rgba(10, 37, 64, 0.04) 1px, transparent 1px),
       linear-gradient(90deg, rgba(10, 37, 64, 0.04) 1px, transparent 1px);
     background-size: 44px 44px;
   }
+  .bg-grid-brand {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
   .bg-dots {
     background-image: radial-gradient(rgba(10, 37, 64, 0.08) 1px, transparent 1px);
     background-size: 22px 22px;
   }
+  .bg-dots-brand {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
   .mask-fade-b {
     -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
     mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+  }
+  .mask-fade-x {
+    -webkit-mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
   }
 }
 
@@ -232,12 +313,38 @@
   70% { transform: scale(1.6); opacity: 0; }
   100% { opacity: 0; }
 }
+@keyframes gradient-pan {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 300% 50%; }
+}
+@keyframes marquee-x {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes aurora-shift {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+  33% { transform: translate(4%, -6%) scale(1.08); opacity: 0.8; }
+  66% { transform: translate(-4%, 4%) scale(0.96); opacity: 0.55; }
+}
 .animate-float-slow {
   animation: float-slow 7s ease-in-out infinite;
 }
 .animate-shimmer {
   background-size: 200% 100%;
   animation: shimmer 2.4s linear infinite;
+}
+.animate-marquee {
+  animation: marquee-x 38s linear infinite;
+}
+.animate-marquee-fast {
+  animation: marquee-x 22s linear infinite;
+}
+.animate-marquee:hover,
+.animate-marquee-fast:hover {
+  animation-play-state: paused;
+}
+.animate-aurora {
+  animation: aurora-shift 16s ease-in-out infinite;
 }
 
 /* Hide scrollbar utility for horizontal carousels */

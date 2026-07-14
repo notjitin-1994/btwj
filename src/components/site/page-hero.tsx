@@ -36,15 +36,14 @@ export function PageHero({
       className="relative flex min-h-[62vh] items-end overflow-hidden pt-28"
     >
       <motion.div style={{ y }} className="absolute inset-0 -z-10 scale-110">
-        { }
         <img
           src={image}
           alt=""
           className="h-full w-full object-cover"
         />
       </motion.div>
-      <div className="absolute inset-0 -z-10 bg-gradient-to-t from-ink/95 via-ink/65 to-ink/35" />
-      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-ink/70 via-transparent to-transparent" />
+      {/* Uniform translucent dark overlay for guaranteed text contrast (no gradient) */}
+      <div className="absolute inset-0 -z-10 bg-ink/72" />
 
       <motion.div
         style={{ opacity }}

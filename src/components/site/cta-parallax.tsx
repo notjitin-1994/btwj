@@ -33,7 +33,7 @@ export function CtaParallax() {
               className="h-full w-full object-cover"
             />
           </motion.div>
-          <div className="absolute inset-0 -z-10 bg-gradient-to-br from-ink/90 via-brand/80 to-teal/70" />
+          <div className="absolute inset-0 -z-10 bg-brand/88" />
           <div
             aria-hidden
             className="bg-grid pointer-events-none absolute inset-0 -z-10 opacity-[0.12]"
@@ -59,7 +59,7 @@ export function CtaParallax() {
               className="mx-auto mt-5 max-w-3xl font-display text-3xl font-semibold leading-[1.1] text-white sm:text-4xl md:text-5xl"
             >
               Customized travel plans —{" "}
-              <span className="bg-gradient-to-r from-white to-teal-100 bg-clip-text text-transparent">
+              <span className="text-white">
                 designed just for you
               </span>
             </motion.h2>

@@ -26,7 +26,7 @@ export default function ContactPage() {
         title={
           <>
             Book Your Next Trip or{" "}
-            <span className="bg-gradient-to-r from-white to-teal-200 bg-clip-text text-transparent">
+            <span className="text-white">
               Event Today!
             </span>
           </>

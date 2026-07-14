@@ -4,22 +4,21 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Award, Compass, BadgePercent, Quote } from "lucide-react";
 import { Reveal, Float, SectionHeading } from "@/components/site/motion-helpers";
+import { Counter } from "@/components/site/brand-extras";
 import { stats, siteConfig } from "@/lib/site-config";
 
 const statIcons = [Award, Compass, BadgePercent];
+// numeric value + suffix parsed from stats[].value for animated counter
+const statNumeric = [
+  { num: 10, suffix: "+" },
+  { num: 500, suffix: "+" },
+  { num: 100, suffix: "%" },
+];
 
 export function AboutSection() {
   return (
-    <section id="about" className="relative scroll-mt-24 overflow-hidden py-20 sm:py-28">
-      {/* soft backdrop */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10"
-        style={{
-          background:
-            "radial-gradient(50% 50% at 85% 10%, rgba(0,136,169,0.08), transparent 60%), radial-gradient(50% 50% at 5% 90%, rgba(76,175,80,0.08), transparent 60%)",
-        }}
-      />
+    <section id="about" className="relative scroll-mt-24 overflow-hidden bg-brand-wash py-20 sm:py-28">
+      <div aria-hidden className="bg-dots pointer-events-none absolute inset-0 opacity-30" />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           {/* Visual collage */}
@@ -28,7 +27,6 @@ export function AboutSection() {
               <div className="space-y-4">
                 <Reveal>
                   <div className="overflow-hidden rounded-3xl shadow-premium-lg">
-                    { }
                     <img
                       src="https://images.unsplash.com/photo-1530789253388-582c481c54b0?auto=format&fit=crop&w=900&q=80"
                       alt="Travellers exploring a scenic destination"
@@ -60,9 +58,8 @@ export function AboutSection() {
                 </Reveal>
                 <Reveal delay={0.2}>
                   <div className="overflow-hidden rounded-3xl shadow-premium-lg">
-                    { }
                     <img
-                      src="https://images.unsplash.com/photo-1542317648-87c7433d4ec9?auto=format&fit=crop&w=900&q=80"
+                      src="https://sfile.chatglm.cn/images-ppt/37bcde4a870c.jpg"
                       alt="Spiritual Umrah journey"
                       className="aspect-[3/4] w-full object-cover transition-transform duration-700 hover:scale-105"
                     />
@@ -122,14 +119,16 @@ export function AboutSection() {
                   <Reveal key={s.label} delay={0.1 * i}>
                     <motion.div
                       whileHover={{ y: -4 }}
-                      className="group relative h-full overflow-hidden rounded-2xl border border-border bg-white p-5 shadow-premium transition-shadow hover:shadow-premium-lg"
+                      className="border-gradient-animate group relative h-full overflow-hidden rounded-2xl border border-border bg-white p-5 shadow-premium transition-shadow hover:shadow-premium-lg"
                     >
-                      <div className="absolute -right-6 -top-6 size-16 rounded-full bg-gradient-brand-soft opacity-60 transition-transform group-hover:scale-150" />
-                      <span className="relative flex size-10 items-center justify-center rounded-xl bg-brand/10 text-brand">
+                      <div className="absolute -right-6 -top-6 size-16 rounded-full bg-gradient-blue-teal opacity-15 transition-transform group-hover:scale-150" />
+                      <span className="relative flex size-10 items-center justify-center rounded-xl bg-gradient-blue-teal text-white shadow-glow-blue">
                         <Icon className="size-5" />
                       </span>
-                      <p className="relative mt-3 font-display text-3xl font-bold text-ink">
-                        {s.value}
+                      <p className="relative mt-3 font-display text-3xl font-bold">
+                        <span className="text-gradient-blue-green">
+                          <Counter value={statNumeric[i].num} suffix={statNumeric[i].suffix} />
+                        </span>
                       </p>
                       <p className="relative mt-0.5 text-sm font-semibold text-ink">
                         {s.label}
@@ -147,7 +146,7 @@ export function AboutSection() {
               <div className="mt-8 flex flex-wrap items-center gap-3">
                 <Link
                   href="/about"
-                  className="group inline-flex h-12 items-center justify-center gap-2 rounded-full bg-ink px-6 text-sm font-semibold text-white transition-colors hover:bg-brand"
+                  className="shimmer-sweep group inline-flex h-12 items-center justify-center gap-2 rounded-full bg-gradient-brand px-6 text-sm font-semibold text-white shadow-glow-blue transition-transform hover:scale-[1.03]"
                 >
                   Discover our story
                   <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />

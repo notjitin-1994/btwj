@@ -12,16 +12,17 @@ import {
 import { DynamicIcon } from "@/components/site/icons";
 import { services } from "@/lib/site-config";
 
-const accentTint: Record<string, string> = {
-  brand: "from-brand/85 to-teal/70",
-  teal: "from-teal/85 to-leaf/60",
-  leaf: "from-leaf/85 to-teal/60",
+const accentSolid: Record<string, string> = {
+  brand: "bg-brand",
+  teal: "bg-teal",
+  leaf: "bg-leaf",
 };
 
 export function ServicesSection() {
   return (
-    <section id="services" className="relative scroll-mt-24 py-20 sm:py-28">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section id="services" className="relative scroll-mt-24 overflow-hidden bg-brand-wash py-20 sm:py-28">
+      <div aria-hidden className="bg-dots pointer-events-none absolute inset-0 opacity-25" />
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="Our Services"
           title={
@@ -39,21 +40,18 @@ export function ServicesSection() {
               key={service.slug}
               variants={staggerItem}
               whileHover={{ y: -8 }}
-              className="group relative flex flex-col overflow-hidden rounded-3xl border border-border bg-white shadow-premium transition-shadow hover:shadow-premium-lg"
+              className="border-gradient-animate group relative flex flex-col overflow-hidden rounded-3xl border border-border bg-white shadow-premium transition-shadow hover:shadow-premium-lg"
             >
               {/* Image */}
               <div className="relative h-44 overflow-hidden">
-                { }
                 <img
                   src={service.image}
                   alt={service.title}
                   className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
-                <div
-                  className={`absolute inset-0 bg-gradient-to-t ${accentTint[service.accent]} mix-blend-multiply opacity-80`}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/10 to-transparent" />
-                <span className="absolute left-4 top-4 flex size-11 items-center justify-center rounded-xl glass text-white">
+                {/* Solid dark overlay for text contrast */}
+                <div className="absolute inset-0 bg-ink/55" />
+                <span className={`absolute left-4 top-4 flex size-11 items-center justify-center rounded-xl ${accentSolid[service.accent]} text-white shadow-glow-blue`}>
                   <DynamicIcon name={service.icon} className="size-5" />
                 </span>
                 <span className="absolute bottom-3 left-4 rounded-full bg-white/15 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white backdrop-blur">
@@ -107,7 +105,7 @@ export function ServicesSection() {
             </div>
             <Link
               href="/services"
-              className="inline-flex h-12 shrink-0 items-center justify-center gap-2 rounded-full bg-ink px-6 text-sm font-semibold text-white transition-colors hover:bg-brand"
+              className="shimmer-sweep inline-flex h-12 shrink-0 items-center justify-center gap-2 rounded-full bg-gradient-brand px-6 text-sm font-semibold text-white shadow-glow-blue transition-transform hover:scale-[1.03]"
             >
               View all services
               <ArrowUpRight className="size-4" />
