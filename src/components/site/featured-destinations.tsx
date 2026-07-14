@@ -23,7 +23,7 @@ const destinations = [
 
 export function FeaturedDestinations() {
   return (
-    <section className="relative overflow-hidden bg-teal-wash py-20 sm:py-28">
+    <section className="relative overflow-hidden bg-teal-wash py-12 sm:py-17">
       <div aria-hidden className="bg-dots pointer-events-none absolute inset-0 opacity-25" />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">

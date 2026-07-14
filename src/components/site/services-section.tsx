@@ -20,7 +20,7 @@ const accentSolid: Record<string, string> = {
 
 export function ServicesSection() {
   return (
-    <section id="services" className="relative scroll-mt-24 overflow-hidden bg-brand-wash py-20 sm:py-28">
+    <section id="services" className="relative scroll-mt-24 overflow-hidden bg-brand-wash py-12 sm:py-17">
       <div aria-hidden className="bg-dots pointer-events-none absolute inset-0 opacity-25" />
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading

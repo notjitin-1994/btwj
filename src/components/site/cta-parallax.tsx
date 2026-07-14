@@ -18,7 +18,7 @@ export function CtaParallax() {
   return (
     <section
       ref={ref}
-      className="relative overflow-hidden py-20 sm:py-28"
+      className="relative overflow-hidden py-12 sm:py-17"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="relative overflow-hidden rounded-[2rem] shadow-premium-lg">
@@ -40,7 +40,7 @@ export function CtaParallax() {
             className="bg-grid pointer-events-none absolute inset-0 -z-10 opacity-[0.12]"
           />
 
-          <div className="relative px-6 py-16 text-center sm:px-12 sm:py-20">
+          <div className="relative px-6 py-10 text-center sm:px-12 sm:py-12">
             <motion.span
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}

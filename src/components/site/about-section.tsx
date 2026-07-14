@@ -12,7 +12,7 @@ const statIcons = [Award, Compass, BadgePercent];
 
 export function AboutSection() {
   return (
-    <section id="about" className="relative scroll-mt-24 overflow-hidden bg-brand-wash py-20 sm:py-28">
+    <section id="about" className="relative scroll-mt-24 overflow-hidden bg-brand-wash py-12 sm:py-17">
       <div aria-hidden className="bg-dots pointer-events-none absolute inset-0 opacity-30" />
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">

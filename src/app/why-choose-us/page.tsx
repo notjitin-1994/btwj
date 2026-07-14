@@ -59,7 +59,7 @@ export default function WhyChooseUsPage() {
       <WhyChooseUsSection />
 
       {/* Detailed benefits */}
-      <section className="relative overflow-hidden py-20 sm:py-28">
+      <section className="relative overflow-hidden py-12 sm:py-17">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <SectionHeading
             eyebrow="In Detail"

@@ -88,7 +88,7 @@ export default async function ServiceDetailPage({ params }: Params) {
       />
 
       {/* Intro + highlights */}
-      <section className="relative overflow-hidden py-20 sm:py-28">
+      <section className="relative overflow-hidden py-12 sm:py-17">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-12 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
             <div>
@@ -178,7 +178,7 @@ export default async function ServiceDetailPage({ params }: Params) {
       </section>
 
       {/* Process */}
-      <section className="relative overflow-hidden bg-sand py-20 sm:py-28">
+      <section className="relative overflow-hidden bg-sand py-12 sm:py-17">
         <div aria-hidden className="bg-dots absolute inset-0 opacity-40" />
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <SectionHeading
@@ -215,7 +215,7 @@ export default async function ServiceDetailPage({ params }: Params) {
       </section>
 
       {/* Other services */}
-      <section className="py-20 sm:py-28">
+      <section className="py-12 sm:py-17">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <SectionHeading
             eyebrow="Keep Exploring"

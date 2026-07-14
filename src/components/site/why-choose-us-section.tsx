@@ -40,7 +40,7 @@ export function WhyChooseUsSection() {
   return (
     <section
       id="why-choose-us"
-      className="relative scroll-mt-24 overflow-hidden bg-teal-wash py-20 sm:py-28"
+      className="relative scroll-mt-24 overflow-hidden bg-teal-wash py-12 sm:py-17"
     >
       <div
         aria-hidden

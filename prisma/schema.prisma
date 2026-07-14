@@ -50,3 +50,22 @@ model TripPlan {
   notes       String?
   createdAt   DateTime @default(now())
 }
+
+/* Key-value store for settings like the Instagram long-lived token */
+model Setting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
+}
+
+/* Cached Instagram media (refreshed periodically) */
+model InstagramMedia {
+  id          String   @id
+  caption     String?
+  mediaUrl    String?
+  permalink   String
+  mediaType   String
+  thumbnailUrl String?
+  timestamp   DateTime
+  createdAt   DateTime @default(now())
+}

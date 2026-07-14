@@ -44,7 +44,7 @@ const iconMap: Record<string, typeof Compass> = {
 /* ===== Home-only: Services teaser (compact tiles, NOT full descriptions) ===== */
 export function HomeServicesTeaser() {
   return (
-    <section className="relative scroll-mt-24 overflow-hidden bg-brand-wash py-20 sm:py-28">
+    <section className="relative scroll-mt-24 overflow-hidden bg-brand-wash py-12 sm:py-17">
       <div aria-hidden className="bg-dots pointer-events-none absolute inset-0 opacity-25" />
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
@@ -119,7 +119,7 @@ export function HomeServicesTeaser() {
 /* ===== Home-only: About teaser (short intro, NOT the full about) ===== */
 export function HomeAboutTeaser() {
   return (
-    <section className="relative overflow-hidden py-20 sm:py-28">
+    <section className="relative overflow-hidden py-12 sm:py-17">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           {/* Image side */}
@@ -197,7 +197,7 @@ export function HomeHowItWorks() {
     },
   ];
   return (
-    <section className="relative overflow-hidden bg-teal-wash py-20 sm:py-28">
+    <section className="relative overflow-hidden bg-teal-wash py-12 sm:py-17">
       <div aria-hidden className="bg-dots pointer-events-none absolute inset-0 opacity-25" />
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
@@ -248,7 +248,7 @@ export function HomeWhyTeaser() {
     Compass: Compass,
   };
   return (
-    <section className="relative overflow-hidden py-20 sm:py-28">
+    <section className="relative overflow-hidden py-12 sm:py-17">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="Why Choose Us"
@@ -312,7 +312,7 @@ export function HomeContactCta() {
     { icon: MapPin, label: "Visit", value: "Mather Square, 682018", href: "/contact" },
   ];
   return (
-    <section className="relative overflow-hidden bg-brand py-20 sm:py-24">
+    <section className="relative overflow-hidden bg-brand py-12 sm:py-14">
       <div aria-hidden className="bg-grid-brand pointer-events-none absolute inset-0 opacity-30" />
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid items-center gap-10 lg:grid-cols-[1.3fr_1fr]">

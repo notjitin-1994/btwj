@@ -57,7 +57,7 @@ export default function AboutPage() {
       <AboutSection />
 
       {/* Story / values */}
-      <section className="relative overflow-hidden bg-sand py-20 sm:py-28">
+      <section className="relative overflow-hidden bg-sand py-12 sm:py-17">
         <div aria-hidden className="bg-dots absolute inset-0 opacity-40" />
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">

@@ -118,7 +118,7 @@ export function BrandAccentBand() {
   ];
 
   return (
-    <section className="relative overflow-hidden bg-brand-band py-20 sm:py-24">
+    <section className="relative overflow-hidden bg-brand-band py-12 sm:py-14">
       <div aria-hidden className="bg-grid-brand pointer-events-none absolute inset-0 opacity-40" />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

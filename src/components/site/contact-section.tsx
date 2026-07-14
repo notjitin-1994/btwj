@@ -93,7 +93,7 @@ export function ContactSection({ compact = false }: { compact?: boolean }) {
   return (
     <section
       id="contact"
-      className="relative scroll-mt-24 overflow-hidden bg-brand-wash py-20 sm:py-28"
+      className="relative scroll-mt-24 overflow-hidden bg-brand-wash py-12 sm:py-17"
     >
       <div aria-hidden className="bg-dots pointer-events-none absolute inset-0 opacity-25" />
       <div
