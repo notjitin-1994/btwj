@@ -173,24 +173,23 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Bottom bar */}
-        <div className="flex flex-col items-center justify-between gap-3 border-t border-border py-6 sm:flex-row">
-          <p className="text-xs text-muted-foreground">
-            © {siteConfig.copyrightYear} {siteConfig.name}. All rights reserved.
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs text-muted-foreground">
-            <span className="inline-flex items-center gap-1.5">
-              <Compass className="size-3.5 text-leaf" />
-              Crafted for travellers, by travellers
-            </span>
-          </div>
-        </div>
+        {/* Combined bottom bar + GlitchZero attribution on dark background.
+            "Glitch" in white, "Zero" in orange (#FF4F00) as one word "GlitchZero",
+            Manrope heading font, all text/icons white on dark grey (#1c1c1e). */}
+        <div className="bg-[#1c1c1e] px-4 py-5 sm:px-8">
+          <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 sm:flex-row sm:gap-6">
+            {/* Copyright + crafted line */}
+            <div className="flex flex-col items-center gap-1.5 text-center sm:items-start sm:text-left">
+              <p className="text-xs text-white/70">
+                © {siteConfig.copyrightYear} {siteConfig.name}. All rights reserved.
+              </p>
+              <span className="inline-flex items-center gap-1.5 text-xs text-white/60">
+                <Compass className="size-3.5 text-white/60" />
+                Crafted for travellers, by travellers
+              </span>
+            </div>
 
-        {/* Powered by GlitchZero Labs — dark section with GlitchZero brand styling.
-            "Glitch" in white, "Zero" in orange (#FF4F00), Manrope heading font,
-            all text/icons white on dark grey background (#1c1c1e). */}
-        <div className="bg-[#1c1c1e] px-4 py-4 sm:px-8">
-          <div className="mx-auto flex max-w-7xl flex-col items-center justify-center gap-2 sm:flex-row sm:gap-4">
+            {/* Powered by GlitchZero Labs */}
             <a
               href="https://www.glitchzerolabs.com"
               target="_blank"
@@ -201,9 +200,7 @@ export function Footer() {
               <span className="text-xs font-medium text-white/70">
                 Powered by
               </span>
-              <span
-                className="text-sm font-extrabold tracking-tight text-white"
-              >
+              <span className="text-sm font-extrabold tracking-tight text-white">
                 Glitch
               </span>
               <span
@@ -212,16 +209,10 @@ export function Footer() {
               >
                 Zero
               </span>
-              <span
-                className="text-[10px] font-medium uppercase tracking-wider text-white/50"
-              >
+              <span className="text-[10px] font-medium uppercase tracking-wider text-white/50">
                 Labs
               </span>
             </a>
-            <span className="hidden text-white/30 sm:inline">·</span>
-            <span className="text-[11px] text-white/50">
-              Zero Glitches. Infinite Possibilities.
-            </span>
           </div>
         </div>
       </div>
