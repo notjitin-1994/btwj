@@ -86,7 +86,7 @@ export const siteImages = {
 
   // ===== Page heroes (desktop — each page gets a distinct image) =====
   pageHeroes: {
-    about: U("1522202176988-66273c2fd55f", 2000), // diverse travel team
+    about: U("1530789253388-582c481c54b0", 2000), // travellers exploring scenic destination
     whyChooseUs: U("1543465077-db45d34b88a5", 2000), // mountain adventure
     services: U("1559128010-7c1ad6e1b6a5", 2000), // luxury travel
     contact: U("1519046904884-53103b34b206", 2000), // world map / travel planning
@@ -99,7 +99,7 @@ export const siteImages = {
   // ===== Mobile hero images (all pages including landing) =====
   mobileHeroes: {
     landing: U("1507525428034-b723cf961d3e", 1200), // tropical beach
-    about: U("1547954575-855750c57bd3", 1200), // travel backpack/adventure
+    about: U("1488646953014-85cb44e25828", 1200), // couple on dream vacation
     whyChooseUs: U("1469474968028-56623f02e42e", 1200), // mountain landscape
     services: U("1539635278303-d4002c07eae3", 1200), // travel essentials
     contact: U("1519046904884-53103b34b206", 1200), // world map
