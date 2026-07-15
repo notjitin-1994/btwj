@@ -25,18 +25,9 @@ export function Navbar() {
 
   React.useEffect(() => {
     const onScroll = () => {
-      // Stay transparent while the hero section is in view.
-      // The hero (home page scrollytelling, or inner page-hero) is the first
-      // major section. Once the user scrolls past it (its bottom reaches the
-      // top of the viewport), the navbar becomes solid white.
-      const hero = document.querySelector("section") as HTMLElement | null;
-      let threshold = window.innerHeight * 0.85; // default: ~85% of viewport
-      if (hero) {
-        // Use the hero's height as the threshold (so navbar stays transparent
-        // through the entire hero, then turns solid when hero is scrolled past)
-        threshold = hero.offsetHeight - 80;
-      }
-      setScrolled(window.scrollY > threshold);
+      // Navbar gets its background as soon as the user starts scrolling
+      // (moves out of the fixed top position). Transparent only at scrollY=0.
+      setScrolled(window.scrollY > 10);
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
