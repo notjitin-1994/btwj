@@ -202,12 +202,12 @@ export function EventSection() {
                   trade.
                 </p>
                 <a
-                  href="https://riyazhakkim.com"
+                  href="https://riyashakkim.com"
                   target="_blank"
                   rel="noreferrer"
                   className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-leaf transition-colors hover:text-white"
                 >
-                  riyazhakkim.com
+                  riyashakkim.com
                   <ArrowRight className="size-3.5" />
                 </a>
               </div>
@@ -216,7 +216,7 @@ export function EventSection() {
               <div className="flex flex-col items-center gap-2 lg:items-end">
                 <span className="text-xs text-white/50">@riyasbinhakkim</span>
                 <a
-                  href="https://riyazhakkim.com"
+                  href="https://riyashakkim.com"
                   target="_blank"
                   rel="noreferrer"
                   className="inline-flex h-10 items-center gap-2 rounded-full border border-white/20 bg-white/5 px-5 text-sm font-semibold text-white transition-colors hover:bg-white/15"
