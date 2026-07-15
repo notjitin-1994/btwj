@@ -101,8 +101,8 @@ export function Navbar() {
                       "flex items-center gap-1 rounded-full px-4 py-2 text-sm font-medium transition-colors",
                       isActive(item.href)
                         ? transparent
-                          ? "text-white"
-                          : "text-brand"
+                          ? "text-leaf"
+                          : "text-leaf"
                         : transparent
                         ? "text-white/85 hover:text-white"
                         : "text-ink/70 hover:text-brand"
@@ -167,8 +167,8 @@ export function Navbar() {
                     "relative rounded-full px-4 py-2 text-sm font-medium transition-colors",
                     isActive(item.href)
                       ? transparent
-                        ? "text-white"
-                        : "text-brand"
+                        ? "text-leaf"
+                        : "text-leaf"
                       : transparent
                       ? "text-white/85 hover:text-white"
                       : "text-ink/70 hover:text-brand"
@@ -178,7 +178,7 @@ export function Navbar() {
                   {isActive(item.href) && (
                     <motion.span
                       layoutId="nav-active"
-                      className="absolute inset-x-3 -bottom-0.5 h-0.5 rounded-full bg-brand"
+                      className="absolute inset-x-3 -bottom-0.5 h-0.5 rounded-full bg-leaf"
                       transition={{ type: "spring", stiffness: 380, damping: 30 }}
                     />
                   )}
@@ -267,7 +267,7 @@ export function Navbar() {
                             className={cn(
                               "flex items-center justify-between rounded-xl px-4 py-3 text-base font-medium transition-colors",
                               isActive(item.href)
-                                ? "bg-brand/8 text-brand"
+                                ? "bg-leaf/8 text-leaf"
                                 : "text-ink/80 hover:bg-accent"
                             )}
                           >
