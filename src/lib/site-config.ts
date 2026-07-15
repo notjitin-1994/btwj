@@ -83,6 +83,7 @@ export const mainNav: NavItem[] = [
     ],
   },
   { label: "Contact", href: "/contact" },
+  { label: "Canton Fair", href: "/canton-fair-china" },
 ];
 
 export type ServiceInfo = {
