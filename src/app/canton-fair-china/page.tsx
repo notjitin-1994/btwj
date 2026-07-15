@@ -84,7 +84,7 @@ export default function CantonFairPage() {
           </>
         }
         description="Connect. Learn. Grow your business at the world's largest B2B trade show — with exclusive training by business influencer Riyas Hakkim."
-        image="/event/flyer.jpg"
+        image="/event/china-hero.jpg"
         crumbs={[{ label: "Canton Fair China" }]}
       />
 

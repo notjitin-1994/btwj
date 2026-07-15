@@ -171,6 +171,64 @@ export function EventSection() {
           </Reveal>
         </div>
 
+        {/* Riyas Hakkim profile section */}
+        <Reveal delay={0.1}>
+          <div className="mt-10 overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md">
+            <div className="grid items-center gap-6 p-6 sm:p-8 lg:grid-cols-[auto_1fr_auto]">
+              {/* Portrait */}
+              <div className="mx-auto overflow-hidden rounded-2xl">
+                <img
+                  src="/event/riyas.jpg"
+                  alt="Riyas Hakkim — Business Influencer & Entrepreneur"
+                  className="size-24 rounded-2xl object-cover sm:size-28"
+                />
+              </div>
+
+              {/* Bio */}
+              <div className="text-center lg:text-left">
+                <p className="text-[11px] font-semibold uppercase tracking-wider text-leaf">
+                  Exclusive Training By
+                </p>
+                <h3 className="mt-1 font-display text-xl font-semibold text-white sm:text-2xl">
+                  Riyas Hakkim
+                </h3>
+                <p className="mt-1 text-sm text-white/70">
+                  Business Influencer & Entrepreneur
+                </p>
+                <p className="mt-2 text-xs leading-relaxed text-white/60">
+                  Gain practical insights and proven business strategies from
+                  Riyas Hakkim — a recognized business influencer who helps
+                  entrepreneurs source, scale, and succeed in international
+                  trade.
+                </p>
+                <a
+                  href="https://riyazhakkim.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-leaf transition-colors hover:text-white"
+                >
+                  riyazhakkim.com
+                  <ArrowRight className="size-3.5" />
+                </a>
+              </div>
+
+              {/* CTA */}
+              <div className="flex flex-col items-center gap-2 lg:items-end">
+                <span className="text-xs text-white/50">@riyasbinhakkim</span>
+                <a
+                  href="https://riyazhakkim.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex h-10 items-center gap-2 rounded-full border border-white/20 bg-white/5 px-5 text-sm font-semibold text-white transition-colors hover:bg-white/15"
+                >
+                  Visit website
+                  <ArrowRight className="size-3.5" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </Reveal>
+
         {/* Itinerary preview (3 days) */}
         <div className="mt-10">
           <Reveal>
