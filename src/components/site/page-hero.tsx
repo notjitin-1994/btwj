@@ -12,6 +12,7 @@ export function PageHero({
   title,
   description,
   image,
+  mobileImage,
   crumbs = [],
   align = "left",
 }: {
@@ -19,6 +20,7 @@ export function PageHero({
   title: React.ReactNode;
   description?: React.ReactNode;
   image: string;
+  mobileImage?: string;
   crumbs?: Crumb[];
   align?: "left" | "center";
 }) {
@@ -30,16 +32,28 @@ export function PageHero({
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "22%"]);
   const opacity = useTransform(scrollYProgress, [0, 1], [1, 0.4]);
 
+  // Use mobile image on small screens, desktop image on larger screens
+  const bgImage = mobileImage ?? image;
+
   return (
     <section
       ref={ref}
       className="relative flex min-h-[62vh] items-end overflow-hidden pt-28"
     >
       <motion.div style={{ y }} className="absolute inset-0 -z-10 scale-110">
+        {/* Mobile image (hidden on desktop) */}
+        {mobileImage && (
+          <img
+            src={mobileImage}
+            alt=""
+            className="h-full w-full object-cover md:hidden"
+          />
+        )}
+        {/* Desktop image (hidden on mobile if mobileImage is provided) */}
         <img
-          src={image}
+          src={bgImage}
           alt=""
-          className="h-full w-full object-cover"
+          className={`h-full w-full object-cover ${mobileImage ? "hidden md:block" : ""}`}
         />
       </motion.div>
       {/* Uniform translucent dark overlay for guaranteed text contrast (no gradient) */}

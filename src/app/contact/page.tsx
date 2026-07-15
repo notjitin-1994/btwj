@@ -35,6 +35,7 @@ export default function ContactPage() {
         }
         description="Tell us about your dream journey. Our experienced travel experts will craft a stress-free, exciting plan designed just for you."
         image={siteImages.pageHeroes.contact}
+        mobileImage={siteImages.mobileHeroes.contact}
         crumbs={[{ label: "Contact" }]}
       />
 

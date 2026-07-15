@@ -51,6 +51,7 @@ export default function AboutPage() {
         }
         description="At Buy The Way Journeys, we specialize in providing exceptional travel experiences tailored to your needs. Whether you're looking for a dream vacation, a spiritual journey, or a seamless event, we've got you covered!"
         image={siteImages.pageHeroes.about}
+        mobileImage={siteImages.mobileHeroes.about}
         crumbs={[{ label: "About Us" }]}
       />
 

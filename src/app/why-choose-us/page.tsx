@@ -53,6 +53,7 @@ export default function WhyChooseUsPage() {
         }
         description="Whether you're exploring local gems or international wonders, we ensure a seamless and exciting journey."
         image={siteImages.pageHeroes.whyChooseUs}
+        mobileImage={siteImages.mobileHeroes.whyChooseUs}
         crumbs={[{ label: "Why Choose Us" }]}
       />
 

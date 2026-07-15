@@ -5,6 +5,7 @@ import { PageHero } from "@/components/site/page-hero";
 import { ContactSection } from "@/components/site/contact-section";
 import { Reveal, SectionHeading } from "@/components/site/motion-helpers";
 import { services, siteConfig, type ServiceInfo } from "@/lib/site-config";
+import { siteImages } from "@/lib/images";
 import { DynamicIcon } from "@/components/site/icons";
 import {
   Check,
@@ -84,6 +85,14 @@ export default async function ServiceDetailPage({ params }: Params) {
         }
         description={service.description}
         image={service.image}
+        mobileImage={
+          siteImages.mobileHeroes[
+            service.slug === "tour-packages" ? "tourPackages"
+            : service.slug === "hotel-resort" ? "hotelResort"
+            : service.slug === "umrah" ? "umrah"
+            : "eventManagement"
+          ]
+        }
         crumbs={[{ label: "Our Services", href: "/services" }, { label: service.title }]}
       />
 

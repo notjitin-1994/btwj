@@ -37,6 +37,7 @@ export default function ServicesPage() {
         }
         description="From dream vacations and spiritual journeys to seamless events — one trusted partner for everything travel."
         image={siteImages.pageHeroes.services}
+        mobileImage={siteImages.mobileHeroes.services}
         crumbs={[{ label: "Our Services" }]}
       />
 

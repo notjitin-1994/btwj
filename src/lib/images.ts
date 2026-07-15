@@ -84,16 +84,29 @@ export const siteImages = {
     U("1438761681033-6461ffad8d80", 120),
   ],
 
-  // ===== Page heroes =====
+  // ===== Page heroes (desktop — each page gets a distinct image) =====
   pageHeroes: {
-    about: U("1488646953014-85cb44e25828", 2000),
-    whyChooseUs: U("1530789253388-582c481c54b0", 2000),
-    services: "https://sfile.chatglm.cn/images-ppt/c39865ffa477.jpg", // resort (verified clean)
-    contact: U("1488646953014-85cb44e25828", 2000),
+    about: U("1522202176988-66273c2fd55f", 2000), // diverse travel team
+    whyChooseUs: U("1543465077-db45d34b88a5", 2000), // mountain adventure
+    services: U("1559128010-7c1ad6e1b6a5", 2000), // luxury travel
+    contact: U("1519046904884-53103b34b206", 2000), // world map / travel planning
     umrah: "https://sfile.chatglm.cn/images-ppt/2ce6a80386d3.jpg", // Kaaba (verified clean)
-    tourPackages: U("1469854523086-cc02fe5d8800", 2000),
-    hotelResort: U("1582719478250-c89cae4dc85b", 2000),
-    eventManagement: U("1519671482749-fd09be7ccebf", 2000),
+    tourPackages: U("1499856871958-5b9627545d1a", 2000), // scenic destination
+    hotelResort: U("1520250497591-112f2f40a3f4", 2000), // luxury resort pool
+    eventManagement: U("1513475382585-d06e58bcb0e0", 2000), // event/conference
+  },
+
+  // ===== Mobile hero images (all pages including landing) =====
+  mobileHeroes: {
+    landing: U("1507525428034-b723cf961d3e", 1200), // tropical beach
+    about: U("1547954575-855750c57bd3", 1200), // travel backpack/adventure
+    whyChooseUs: U("1469474968028-56623f02e42e", 1200), // mountain landscape
+    services: U("1539635278303-d4002c07eae3", 1200), // travel essentials
+    contact: U("1519046904884-53103b34b206", 1200), // world map
+    umrah: "https://sfile.chatglm.cn/images-ppt/2ce6a80386d3.jpg", // Kaaba
+    tourPackages: U("1499856871958-5b9627545d1a", 1200), // scenic
+    hotelResort: U("1520250497591-112f2f40a3f4", 1200), // resort
+    eventManagement: U("1513475382585-d06e58bcb0e0", 1200), // event
   },
 
   // ===== CTA parallax =====

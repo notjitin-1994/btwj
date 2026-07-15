@@ -5,6 +5,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowRight, Phone } from "lucide-react";
 import { siteConfig } from "@/lib/site-config";
+import { siteImages } from "@/lib/images";
 import { usePlanner } from "@/lib/planner-store";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -74,8 +75,7 @@ const beats = [
 const TOTAL_BEATS = beats.length;
 
 // Static hero image for mobile (no animation, no transitions)
-const MOBILE_HERO_IMAGE =
-  "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1200&q=80";
+const MOBILE_HERO_IMAGE = siteImages.mobileHeroes.landing;
 
 export function Hero() {
   const sectionRef = React.useRef<HTMLDivElement>(null);
