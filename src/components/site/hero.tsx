@@ -73,11 +73,24 @@ const beats = [
 
 const TOTAL_BEATS = beats.length;
 
+// Static hero image for mobile (no animation, no transitions)
+const MOBILE_HERO_IMAGE =
+  "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1200&q=80";
+
 export function Hero() {
   const sectionRef = React.useRef<HTMLDivElement>(null);
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
   const beatRefs = React.useRef<(HTMLDivElement | null)[]>([]);
   const { openPlanner } = usePlanner();
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  // Detect mobile on mount
+  React.useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   // --- Preload all frames as ImageBitmap (GPU-decoded, instant draw) ---
   const bitmapsRef = React.useRef<(ImageBitmap | null)[]>([]);
@@ -283,6 +296,66 @@ export function Hero() {
     };
   }, [loadedCount]);
 
+  // --- Mobile: static hero with first beat text, no animation ---
+  if (isMobile) {
+    const beat = beats[0];
+    return (
+      <section className="relative w-full overflow-hidden bg-ink" style={{ height: "100dvh" }}>
+        {/* Static royalty-free background image */}
+        <div className="absolute inset-0 bg-ink">
+          <img
+            src={MOBILE_HERO_IMAGE}
+            alt="Travel journey"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        </div>
+        <div className="absolute inset-0 bg-ink/55" />
+
+        {/* First beat text only */}
+        <div className="relative z-10 mx-auto flex h-full max-w-5xl flex-col items-center justify-center px-6">
+          <div className="max-w-3xl px-2 text-center">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-leaf">
+              {beat.eyebrow}
+            </p>
+            <h1
+              className="mt-4 font-display text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl"
+              style={{ color: beat.anim.titleColor }}
+            >
+              {beat.title}
+              {beat.sub && (
+                <span className="mt-2 block text-2xl font-normal text-white/80 sm:text-3xl">
+                  {beat.sub}
+                </span>
+              )}
+            </h1>
+            <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-white/85 sm:text-lg">
+              {beat.text}
+            </p>
+          </div>
+        </div>
+
+        {/* CTA buttons */}
+        <div className="absolute bottom-10 left-1/2 z-20 flex w-[92%] max-w-md -translate-x-1/2 flex-col items-center gap-2.5">
+          <button
+            onClick={openPlanner}
+            className="shimmer-sweep group inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-brand px-6 text-sm font-semibold text-white shadow-glow-blue transition-transform hover:scale-[1.03]"
+          >
+            Plan my trip
+            <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
+          </button>
+          <a
+            href={`tel:${siteConfig.phoneTel}`}
+            className="inline-flex h-12 w-full items-center justify-center gap-1.5 rounded-full border border-white/30 bg-white/5 px-4 text-xs font-semibold text-white backdrop-blur transition-colors hover:bg-white/15"
+          >
+            <Phone className="size-4 shrink-0 text-leaf" />
+            <span className="truncate">{siteConfig.phone}</span>
+          </a>
+        </div>
+      </section>
+    );
+  }
+
+  // --- Desktop: canvas-based scrollytelling animation ---
   return (
     <section
       ref={sectionRef}

@@ -133,9 +133,25 @@ export function Footer() {
                   </span>
                   <span>
                     <span className="block text-[11px] uppercase tracking-wider text-muted-foreground/70">
-                      Phone
+                      India Phone
                     </span>
                     <span className="font-medium text-ink">{siteConfig.phone}</span>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href={`tel:${siteConfig.phoneUaeTel}`}
+                  className="group flex items-start gap-3 text-muted-foreground transition-colors hover:text-brand"
+                >
+                  <span className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-lg bg-brand/10 text-brand transition-colors group-hover:bg-brand group-hover:text-white">
+                    <Phone className="size-4" />
+                  </span>
+                  <span>
+                    <span className="block text-[11px] uppercase tracking-wider text-muted-foreground/70">
+                      UAE Phone
+                    </span>
+                    <span className="font-medium text-ink">{siteConfig.phoneUae}</span>
                   </span>
                 </a>
               </li>
@@ -155,20 +171,27 @@ export function Footer() {
                   </span>
                 </a>
               </li>
-              <li className="flex items-start gap-3 text-muted-foreground">
-                <span className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-lg bg-leaf/10 text-leaf">
-                  <MapPin className="size-4" />
-                </span>
-                <span>
-                  <span className="block text-[11px] uppercase tracking-wider text-muted-foreground/70">
-                    Location
+              {/* All offices */}
+              {siteConfig.offices.map((office) => (
+                <li key={office.city} className="flex items-start gap-3 text-muted-foreground">
+                  <span className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-lg bg-leaf/10 text-leaf">
+                    <MapPin className="size-4" />
                   </span>
-                  <span className="font-medium text-ink">
-                    {siteConfig.address.line1} {siteConfig.address.line2}{" "}
-                    {siteConfig.address.line3}, {siteConfig.address.pincode}
+                  <span>
+                    <span className="block text-[11px] uppercase tracking-wider text-muted-foreground/70">
+                      {office.city}
+                    </span>
+                    <span className="font-medium text-ink">
+                      {office.lines.join(" ")}
+                    </span>
+                    <span className="mt-0.5 block text-xs text-muted-foreground">
+                      <a href={`tel:${office.phoneTel}`} className="hover:text-brand">
+                        {office.phone}
+                      </a>
+                    </span>
                   </span>
-                </span>
-              </li>
+                </li>
+              ))}
             </ul>
           </div>
         </div>

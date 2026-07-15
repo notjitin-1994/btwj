@@ -56,18 +56,26 @@ export function ContactSection({ compact = false }: { compact?: boolean }) {
   const contactCards = [
     {
       icon: Phone,
-      label: "Call Us",
+      label: "Call India",
       value: siteConfig.phone,
       href: `tel:${siteConfig.phoneTel}`,
       tint: "bg-brand text-white shadow-glow-blue",
       note: "Mon–Sun · 9am – 8pm",
     },
     {
+      icon: Phone,
+      label: "Call UAE",
+      value: siteConfig.phoneUae,
+      href: `tel:${siteConfig.phoneUaeTel}`,
+      tint: "bg-teal text-white shadow-glow",
+      note: "Sun–Thu · 9am – 6pm",
+    },
+    {
       icon: Mail,
       label: "Email Us",
       value: siteConfig.email,
       href: `mailto:${siteConfig.email}`,
-      tint: "bg-teal text-white shadow-glow",
+      tint: "bg-leaf text-white shadow-glow-green",
       note: "We reply within 24 hours",
     },
     {
@@ -75,18 +83,8 @@ export function ContactSection({ compact = false }: { compact?: boolean }) {
       label: "Follow Us",
       value: siteConfig.instagramHandle,
       href: siteConfig.instagram,
-      tint: "bg-leaf text-white shadow-glow-green",
-      note: "Daily travel inspiration",
-    },
-    {
-      icon: MapPin,
-      label: "Visit Us",
-      value: siteConfig.address.full,
-      href: `https://maps.google.com/?q=${encodeURIComponent(
-        siteConfig.address.full
-      )}`,
       tint: "bg-brand text-white shadow-glow-blue",
-      note: "B Block, Mather Square",
+      note: "Daily travel inspiration",
     },
   ];
 

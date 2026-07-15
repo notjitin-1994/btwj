@@ -14,10 +14,10 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   const quickFacts = [
-    { icon: Phone, label: "Phone", value: siteConfig.phone, href: `tel:${siteConfig.phoneTel}` },
+    { icon: Phone, label: "India Phone", value: siteConfig.phone, href: `tel:${siteConfig.phoneTel}` },
+    { icon: Phone, label: "UAE Phone", value: siteConfig.phoneUae, href: `tel:${siteConfig.phoneUaeTel}` },
     { icon: Mail, label: "Email", value: siteConfig.email, href: `mailto:${siteConfig.email}` },
     { icon: Instagram, label: "Instagram", value: siteConfig.instagramHandle, href: siteConfig.instagram },
-    { icon: MapPin, label: "Office", value: siteConfig.address.full },
     { icon: Clock, label: "Hours", value: "Mon – Sun · 9:00 AM – 8:00 PM" },
   ];
 
@@ -83,24 +83,33 @@ export default function ContactPage() {
                 <div className="bg-ink p-8 text-white sm:p-10">
                   <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em]">
                     <MessageCircle className="size-3.5 text-leaf" />
-                    Visit our office
+                    Visit our offices
                   </span>
                   <h3 className="mt-4 font-display text-2xl font-semibold sm:text-3xl">
                     Come say hello
                   </h3>
                   <p className="mt-3 text-sm leading-relaxed text-white/70">
-                    Prefer to plan in person? Drop by our office — our travel
-                    experts would love to hear about your next adventure.
+                    Prefer to plan in person? Drop by any of our offices — our
+                    travel experts would love to hear about your next adventure.
                   </p>
-                  <div className="mt-6 space-y-3 text-sm">
-                    <p className="flex items-start gap-3 text-white/85">
-                      <MapPin className="mt-0.5 size-4 shrink-0 text-leaf" />
-                      {siteConfig.address.full}
-                    </p>
-                    <p className="flex items-center gap-3 text-white/85">
-                      <Phone className="size-4 shrink-0 text-leaf" />
-                      {siteConfig.phone}
-                    </p>
+                  <div className="mt-6 space-y-4 text-sm">
+                    {siteConfig.offices.map((office) => (
+                      <div key={office.city} className="space-y-1">
+                        <p className="text-xs font-semibold uppercase tracking-wider text-leaf">
+                          {office.city}
+                        </p>
+                        <p className="flex items-start gap-3 text-white/85">
+                          <MapPin className="mt-0.5 size-4 shrink-0 text-leaf" />
+                          {office.lines.join(" ")}
+                        </p>
+                        <p className="flex items-center gap-3 text-white/85">
+                          <Phone className="size-4 shrink-0 text-leaf" />
+                          <a href={`tel:${office.phoneTel}`} className="hover:text-white">
+                            {office.phone}
+                          </a>
+                        </p>
+                      </div>
+                    ))}
                     <p className="flex items-center gap-3 text-white/85">
                       <Mail className="size-4 shrink-0 text-leaf" />
                       {siteConfig.email}

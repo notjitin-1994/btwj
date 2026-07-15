@@ -7,6 +7,8 @@ export const siteConfig = {
   logo: "/buythewaylogo.webp",
   phone: "+91 8921595561",
   phoneTel: "+918921595561",
+  phoneUae: "+971 54 533 9563",
+  phoneUaeTel: "+971545339563",
   email: "info@buythewayjourneys.com",
   instagram: "https://www.instagram.com/buytheway_journeys/",
   instagramHandle: "@buytheway_journeys",
@@ -19,6 +21,26 @@ export const siteConfig = {
     pincode: "Pincode- 682018",
     full: "B Block, First floor, Mather Square, Opp Ekm North Railway Station, Pincode- 682018",
   },
+  offices: [
+    {
+      city: "Kochi, India",
+      lines: ["B Block, First floor, Mather Square,", "Opp Ekm North Railway Station, Pincode- 682018"],
+      phone: "+91 8921595561",
+      phoneTel: "+918921595561",
+    },
+    {
+      city: "Mumbai, India",
+      lines: ["A202, Trade Square, Sakinaka,", "Mumbai 400072, India"],
+      phone: "+91 8921595561",
+      phoneTel: "+918921595561",
+    },
+    {
+      city: "Ajman, UAE",
+      lines: ["M04, B&M Building, Muwaihat 1,", "Ajman, UAE"],
+      phone: "+971 54 533 9563",
+      phoneTel: "+971545339563",
+    },
+  ],
   copyrightYear: 2026,
   description:
     "At Buy The Way Journeys, we specialize in providing exceptional travel experiences tailored to your needs. Whether you're looking for a dream vacation, a spiritual journey, or a seamless event, we've got you covered!",
