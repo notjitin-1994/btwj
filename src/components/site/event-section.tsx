@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { Reveal, StaggerGroup, staggerItem } from "@/components/site/motion-helpers";
 import { usePlanner } from "@/lib/planner-store";
+import { CantonInteractiveFlyer } from "@/components/site/canton-interactive-flyer";
 
 /* Canton Fair China event section for the landing page.
    Brand-compliant, modern, premium, animated. */
@@ -121,13 +122,7 @@ export function EventSection() {
         {/* Flyer + CTA */}
         <div className="mt-10 grid items-center gap-8 lg:grid-cols-[1.2fr_1fr]">
           <Reveal>
-            <div className="relative overflow-hidden rounded-3xl border border-white/10 shadow-premium-lg">
-              <img
-                src="/event/flyer.jpg"
-                alt="Canton Fair China event flyer"
-                className="w-full object-cover"
-              />
-            </div>
+            <CantonInteractiveFlyer />
           </Reveal>
 
           <Reveal delay={0.1}>

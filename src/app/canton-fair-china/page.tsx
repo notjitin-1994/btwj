@@ -14,6 +14,8 @@ import {
   Check,
   ArrowRight,
 } from "lucide-react";
+import { CantonInteractiveFlyer } from "@/components/site/canton-interactive-flyer";
+import { CantonStickyItinerary } from "@/components/site/canton-sticky-itinerary";
 
 export const metadata: Metadata = {
   title: "Canton Fair China — Buy The Way Journeys",
@@ -163,13 +165,7 @@ export default function CantonFairPage() {
             </div>
 
             <Reveal delay={0.1}>
-              <div className="overflow-hidden rounded-3xl shadow-premium-lg">
-                <img
-                  src="/event/itinerary.jpg"
-                  alt="Canton Fair 7-day itinerary"
-                  className="w-full object-cover"
-                />
-              </div>
+              <CantonInteractiveFlyer />
             </Reveal>
           </div>
         </div>
@@ -189,36 +185,8 @@ export default function CantonFairPage() {
             A day-by-day breakdown of your Canton Fair & Business Solution journey.
           </p>
 
-          <div className="mt-10 space-y-4">
-            {itinerary.map((item, i) => (
-              <Reveal key={item.day} delay={0.06 * i}>
-                <div className="flex items-start gap-4 rounded-2xl border border-border bg-white p-5 shadow-premium transition-shadow hover:shadow-premium-lg sm:p-6">
-                  <span className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-brand text-white shadow-glow-blue">
-                    <item.icon className="size-6" />
-                  </span>
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between gap-2">
-                      <div>
-                        <p className="text-[11px] font-semibold uppercase tracking-wider text-brand">
-                          {item.day}
-                        </p>
-                        <h3 className="font-display text-lg font-semibold text-ink">
-                          {item.title}
-                        </h3>
-                      </div>
-                      {item.meals && (
-                        <span className="shrink-0 rounded-full bg-brand/5 px-2.5 py-1 text-[10px] font-semibold text-brand">
-                          Meals: {item.meals}
-                        </span>
-                      )}
-                    </div>
-                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                      {item.desc}
-                    </p>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
+          <div className="mt-10">
+            <CantonStickyItinerary />
           </div>
         </div>
       </section>
