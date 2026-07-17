@@ -79,7 +79,7 @@ export function CantonInteractiveFlyer() {
               <MapPin className="size-4 text-[#D4AF37]" /> Guangzhou & Guilin
             </p>
           </div>
-          <div className="flex items-center gap-2 rounded-full border border-[#D4AF37]/30 bg-black/40 p-1 backdrop-blur-md">
+          <div className="flex w-full overflow-x-auto no-scrollbar sm:w-auto items-center gap-2 rounded-full border border-[#D4AF37]/30 bg-black/40 p-1 backdrop-blur-md">
             {tabs.map((tab) => (
               <button
                 key={tab}

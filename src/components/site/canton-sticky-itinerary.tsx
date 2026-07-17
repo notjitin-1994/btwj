@@ -26,32 +26,40 @@ export function CantonStickyItinerary() {
 
   useEffect(() => {
     if (reduce || !ref.current) return;
-    const ctx = gsap.context(() => {
-      const cardEls = gsap.utils.toArray<HTMLElement>(".stack-card");
-      cardEls.forEach((card, i) => {
-        if (i === cardEls.length - 1) return;
-        ScrollTrigger.create({
-          trigger: card,
-          start: "top top",
-          endTrigger: cardEls[cardEls.length - 1],
-          end: "top top",
-          pin: true,
-          pinSpacing: false,
-        });
-        gsap.to(card, {
-          scale: 0.92,
-          opacity: 0.2,
-          ease: "none",
-          scrollTrigger: {
-            trigger: cardEls[i + 1],
-            start: "top bottom",
+    
+    let ctx = gsap.context(() => {}); // create an empty context
+    const mm = gsap.matchMedia();
+
+    mm.add("(min-width: 768px)", () => {
+      ctx.add(() => {
+        const cardEls = gsap.utils.toArray<HTMLElement>(".stack-card");
+        cardEls.forEach((card, i) => {
+          if (i === cardEls.length - 1) return;
+          ScrollTrigger.create({
+            trigger: card,
+            start: "top top",
+            endTrigger: cardEls[cardEls.length - 1],
             end: "top top",
-            scrub: true,
-          },
+            pin: true,
+            pinSpacing: false,
+          });
+          gsap.to(card, {
+            scale: 0.92,
+            opacity: 0.2,
+            ease: "none",
+            scrollTrigger: {
+              trigger: cardEls[i + 1],
+              start: "top bottom",
+              end: "top top",
+              scrub: true,
+            },
+          });
         });
       });
-    }, ref);
-    return () => ctx.revert();
+      return () => ctx.revert();
+    });
+
+    return () => mm.revert();
   }, [reduce]);
 
   return (
@@ -59,7 +67,7 @@ export function CantonStickyItinerary() {
       {itinerary.map((item, i) => (
         <div
           key={item.day}
-          className="stack-card sticky top-0 flex min-h-dvh flex-col items-center justify-center pt-20"
+          className="stack-card md:sticky md:top-0 flex min-h-[80vh] md:min-h-dvh flex-col items-center justify-center py-10 md:pt-20 md:pb-0"
         >
           <div className="relative w-full overflow-hidden rounded-3xl border border-[#D4AF37]/30 bg-[#1A1A1A] shadow-premium-lg">
             
