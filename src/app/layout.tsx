@@ -28,6 +28,7 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://btwj.vercel.app"),
   title: "Buy The Way Journeys — Customized Travel Plans Designed Just For You",
   description:
     "Buy The Way Journeys crafts exceptional travel experiences — dream vacations, spiritual Umrah journeys, hotel & resort bookings, and seamless event management. Experienced travel experts making travel stress-free and exciting.",
