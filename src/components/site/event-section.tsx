@@ -17,7 +17,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { Reveal, StaggerGroup, staggerItem } from "@/components/site/motion-helpers";
-import { usePlanner } from "@/lib/planner-store";
+import { useContact } from "@/lib/contact-store";
 import { CantonInteractiveFlyer } from "@/components/site/canton-interactive-flyer";
 
 /* Canton Fair China event section for the landing page.
@@ -49,7 +49,7 @@ const inclusions = [
 ];
 
 export function EventSection() {
-  const { openPlanner } = usePlanner();
+  const { openContact } = useContact();
 
   return (
     <section className="relative overflow-hidden bg-ink py-12 sm:py-17">
@@ -156,7 +156,7 @@ export function EventSection() {
                   <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
                 </Link>
                 <button
-                  onClick={openPlanner}
+                  onClick={openContact}
                   className="inline-flex h-12 items-center gap-2 rounded-full border border-white/25 bg-white/5 px-6 text-sm font-semibold text-white backdrop-blur transition-colors hover:bg-white/15"
                 >
                   Enquire now

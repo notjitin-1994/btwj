@@ -6,6 +6,7 @@ import { Toaster as SonnerToaster } from "@/components/ui/sonner";
 import { Navbar } from "@/components/site/navbar";
 import { Footer } from "@/components/site/footer";
 import { TripPlannerDialog } from "@/components/site/trip-planner";
+import { ContactModal } from "@/components/site/contact-modal";
 
 const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta",
@@ -74,6 +75,7 @@ export default function RootLayout({
         <Toaster />
         <SonnerToaster position="top-center" richColors />
         <TripPlannerDialog />
+        <ContactModal />
       </body>
     </html>
   );

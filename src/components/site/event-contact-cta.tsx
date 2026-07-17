@@ -4,10 +4,10 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Phone, MessageCircle, Sparkles } from "lucide-react";
 import { siteConfig } from "@/lib/site-config";
-import { usePlanner } from "@/lib/planner-store";
+import { useContact } from "@/lib/contact-store";
 
 export function EventContactCta() {
-  const { openPlanner } = usePlanner();
+  const { openContact } = useContact();
 
   return (
     <section className="relative overflow-hidden bg-brand py-12 sm:py-17">
@@ -50,7 +50,7 @@ export function EventContactCta() {
           className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row"
         >
           <button
-            onClick={openPlanner}
+            onClick={openContact}
             className="shimmer-sweep group inline-flex h-12 items-center gap-2 rounded-full bg-white px-7 text-sm font-semibold text-brand shadow-lg transition-transform hover:scale-[1.03]"
           >
             Enquire now
