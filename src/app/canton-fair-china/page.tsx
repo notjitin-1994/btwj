@@ -173,6 +173,11 @@ export default function CantonFairPage() {
 
       {/* Full Itinerary */}
       <section className="relative overflow-hidden bg-sand py-12 sm:py-17">
+        <div 
+          className="absolute inset-0 bg-cover bg-fixed bg-center opacity-15 mix-blend-luminosity"
+          style={{ backgroundImage: 'url(/event/china-hero.jpg)' }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-sand/80 via-transparent to-sand/80" />
         <div aria-hidden className="bg-dots absolute inset-0 opacity-30" />
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <Reveal>
