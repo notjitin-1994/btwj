@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { setSetting, syncMedia } from "@/lib/instagram";
+import { setSetting } from "@/lib/settings";
+import { syncMedia } from "@/lib/instagram";
 
 /**
  * POST /api/instagram/setup
