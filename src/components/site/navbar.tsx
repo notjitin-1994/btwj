@@ -89,7 +89,15 @@ export function Navbar() {
           {/* Desktop nav */}
           <nav className="hidden items-center gap-1 lg:flex">
             {mainNav.map((item) =>
-              item.children ? (
+              item.spotlight ? (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  className="relative rounded-full px-4 py-2 text-sm font-semibold text-[var(--china-red)] transition-colors hover:text-[var(--china-red)]"
+                >
+                  {item.label}
+                </Link>
+              ) : item.children ? (
                 <div
                   key={item.label}
                   className="relative"
@@ -266,9 +274,11 @@ export function Navbar() {
                             href={item.href}
                             className={cn(
                               "flex items-center justify-between rounded-xl px-4 py-3 text-base font-medium transition-colors",
-                              isActive(item.href)
-                                ? "bg-leaf/8 text-leaf"
-                                : "text-ink/80 hover:bg-accent"
+                              item.spotlight
+                                ? "text-[var(--china-red)] font-semibold"
+                                : isActive(item.href)
+                                  ? "bg-leaf/8 text-leaf"
+                                  : "text-ink/80 hover:bg-accent"
                             )}
                           >
                             {item.label}

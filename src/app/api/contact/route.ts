@@ -8,7 +8,7 @@ import {
 } from "@/lib/rate-limit";
 import {
   sanitizeText,
-  validateEmail,
+  validatePhone,
   isSpam,
 } from "@/lib/validation";
 
@@ -21,10 +21,10 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
     const name = sanitizeText(body.name, 200);
-    const email = validateEmail(body.email);
+    const phone = validatePhone(body.phone);
     const message = sanitizeText(body.message, 5000);
 
-    if (!name || !email || !message) {
+    if (!name || !phone || !message) {
       return NextResponse.json(
         { ok: false, error: "Missing or invalid required fields." },
         { status: 400 }
@@ -40,7 +40,7 @@ export async function POST(req: Request) {
     }
 
     await db.contactMessage.create({
-      data: { name, email, message },
+      data: { name, phone, message },
     });
 
     return NextResponse.json({

@@ -49,13 +49,14 @@ export const siteConfig = {
 export type NavItem = {
   label: string;
   href: string;
+  spotlight?: boolean;
   children?: { label: string; href: string; description: string }[];
 };
 
 export const mainNav: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "About Us", href: "/about" },
-  { label: "Why Choose Us", href: "/why-choose-us" },
+  { label: "Spotlight Event: Canton Fair", href: "/canton-fair-china", spotlight: true },
   {
     label: "Our Services",
     href: "/services",
@@ -82,8 +83,8 @@ export const mainNav: NavItem[] = [
       },
     ],
   },
+  { label: "Why Choose Us", href: "/why-choose-us" },
   { label: "Contact", href: "/contact" },
-  { label: "Canton Fair", href: "/canton-fair-china" },
 ];
 
 export type ServiceInfo = {

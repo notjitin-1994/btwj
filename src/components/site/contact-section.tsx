@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { toast } from "sonner";
 import {
   Phone,
-  Mail,
+  MessageCircle,
   MapPin,
   Send,
   Loader2,
@@ -26,14 +26,14 @@ export function ContactSection({ compact = false }: { compact?: boolean }) {
   const [loading, setLoading] = React.useState(false);
   const [form, setForm] = React.useState({
     name: "",
-    email: "",
+    phone: "",
     message: "",
   });
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!form.name || !form.email || !form.message) {
-      toast.error("Please fill in your name, email and message.");
+    if (!form.name || !form.phone || !form.message) {
+      toast.error("Please fill in your name, WhatsApp number and message.");
       return;
     }
     setLoading(true);
@@ -45,7 +45,7 @@ export function ContactSection({ compact = false }: { compact?: boolean }) {
       });
       if (!res.ok) throw new Error("Request failed");
       toast.success("Message sent! Our travel experts will reach out shortly.");
-      setForm({ name: "", email: "", message: "" });
+      setForm({ name: "", phone: "", message: "" });
     } catch {
       toast.error("Something went wrong. Please call us directly.");
     } finally {
@@ -71,12 +71,12 @@ export function ContactSection({ compact = false }: { compact?: boolean }) {
       note: "Sun–Thu · 9am – 6pm",
     },
     {
-      icon: Mail,
-      label: "Email Us",
-      value: siteConfig.email,
-      href: `mailto:${siteConfig.email}`,
+      icon: MessageCircle,
+      label: "WhatsApp Us",
+      value: siteConfig.whatsappDisplay,
+      href: `https://wa.me/${siteConfig.whatsapp}`,
       tint: "bg-leaf text-white shadow-glow-green",
-      note: "We reply within 24 hours",
+      note: "Chat with us instantly",
     },
     {
       icon: Instagram,
@@ -223,19 +223,19 @@ export function ContactSection({ compact = false }: { compact?: boolean }) {
                   </div>
 
                   <div className="space-y-1.5">
-                    <Label htmlFor="email" className="text-sm font-medium text-ink">
-                      Email Address
+                    <Label htmlFor="phone" className="text-sm font-medium text-ink">
+                      WhatsApp Number
                     </Label>
                     <div className="relative">
-                      <Mail className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+                      <Phone className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
                       <Input
-                        id="email"
-                        type="email"
-                        value={form.email}
+                        id="phone"
+                        type="tel"
+                        value={form.phone}
                         onChange={(e) =>
-                          setForm((f) => ({ ...f, email: e.target.value }))
+                          setForm((f) => ({ ...f, phone: e.target.value }))
                         }
-                        placeholder="you@example.com"
+                        placeholder="+91 98765 43210"
                         className="h-12 rounded-xl border-border bg-muted/40 pl-10 text-sm transition-colors focus:border-brand/50 focus:bg-white focus:ring-brand/15"
                         required
                       />

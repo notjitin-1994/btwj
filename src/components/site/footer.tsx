@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Phone, Mail, MapPin, ArrowUpRight, Compass, Instagram } from "lucide-react";
+import { Phone, MessageCircle, MapPin, ArrowUpRight, Compass, Instagram } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { siteConfig, services, mainNav } from "@/lib/site-config";
 
 const quickLinks = mainNav.filter((n) => n.label !== "Our Services");
@@ -87,9 +88,16 @@ export function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="group inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-brand"
+                    className={cn(
+                      "group inline-flex items-center gap-1.5 text-sm transition-colors hover:text-brand",
+                      link.spotlight ? "text-[var(--china-red)] font-semibold" : "text-muted-foreground"
+                    )}
                   >
-                    <span className="size-1 rounded-full bg-leaf/60 transition-colors group-hover:bg-leaf" />
+                    {link.spotlight ? (
+                      <span className="size-1 rounded-full bg-[var(--china-red)]" />
+                    ) : (
+                      <span className="size-1 rounded-full bg-leaf/60 transition-colors group-hover:bg-leaf" />
+                    )}
                     {link.label}
                   </Link>
                 </li>
@@ -157,17 +165,19 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href={`mailto:${siteConfig.email}`}
+                  href={`https://wa.me/${siteConfig.whatsapp}`}
+                  target="_blank"
+                  rel="noreferrer"
                   className="group flex items-start gap-3 text-muted-foreground transition-colors hover:text-teal"
                 >
                   <span className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-lg bg-teal/10 text-teal transition-colors group-hover:bg-teal group-hover:text-white">
-                    <Mail className="size-4" />
+                    <MessageCircle className="size-4" />
                   </span>
                   <span>
                     <span className="block text-[11px] uppercase tracking-wider text-muted-foreground/70">
-                      Email
+                      WhatsApp
                     </span>
-                    <span className="font-medium text-ink">{siteConfig.email}</span>
+                    <span className="font-medium text-ink">{siteConfig.whatsappDisplay}</span>
                   </span>
                 </a>
               </li>

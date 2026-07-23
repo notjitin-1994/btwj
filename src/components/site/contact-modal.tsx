@@ -8,7 +8,7 @@ import {
   Send,
   Loader2,
   User,
-  Mail,
+  Phone,
   MessageSquare,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -22,7 +22,7 @@ export function ContactModal() {
   const [loading, setLoading] = React.useState(false);
   const [form, setForm] = React.useState({
     name: "",
-    email: "",
+    phone: "",
     message: "",
   });
 
@@ -32,7 +32,7 @@ export function ContactModal() {
       const t = setTimeout(() => {
         setForm({
           name: "",
-          email: "",
+          phone: "",
           message: "",
         });
       }, 300);
@@ -42,8 +42,8 @@ export function ContactModal() {
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!form.name || !form.email || !form.message) {
-      toast.error("Please fill in your name, email and message.");
+    if (!form.name || !form.phone || !form.message) {
+      toast.error("Please fill in your name, WhatsApp number and message.");
       return;
     }
     setLoading(true);
@@ -129,19 +129,19 @@ export function ContactModal() {
                   </div>
 
                   <div className="space-y-1.5">
-                    <Label htmlFor="modal-email" className="text-sm font-medium text-ink">
-                      Email Address
+                    <Label htmlFor="modal-phone" className="text-sm font-medium text-ink">
+                      WhatsApp Number
                     </Label>
                     <div className="relative">
-                      <Mail className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+                      <Phone className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
                       <Input
-                        id="modal-email"
-                        type="email"
-                        value={form.email}
+                        id="modal-phone"
+                        type="tel"
+                        value={form.phone}
                         onChange={(e) =>
-                          setForm((f) => ({ ...f, email: e.target.value }))
+                          setForm((f) => ({ ...f, phone: e.target.value }))
                         }
-                        placeholder="you@example.com"
+                        placeholder="+91 98765 43210"
                         className="h-12 rounded-xl border-border bg-muted/40 pl-10 text-sm transition-colors focus:border-brand/50 focus:bg-white focus:ring-brand/15"
                         required
                       />
